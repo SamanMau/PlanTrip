@@ -13,7 +13,7 @@
   
   header {
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
   }
   
   header h1 {
@@ -31,7 +31,7 @@
     background: rgba(255, 255, 255, 0.1);
     padding: 30px;
     border-radius: 20px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
   }
   
   .form-section h2, .results-section h2 {
@@ -41,7 +41,7 @@
   
   label {
     display: block;
-    margin: 15px 0 5px;
+    margin: 10px 0 5px;
   }
   
   input {
