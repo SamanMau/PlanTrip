@@ -5,48 +5,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PlanTrip – Smart Travel Planner</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css\frontpage.css" />
+  <link rel="stylesheet" href="css/frontpage.css" />
 </head>
 <body>
-  <header>
-    <h1>PlanTrip – Your Smart Travel Planner</h1>
-    <p>Plan your dream journey without booking – get flight info, entertainment suggestions, currency exchange and more.</p>
-  </header>
+  <div class="page">
+    <header>
+      <h1>✈️ PlanTrip – Your Smart Travel Planner</h1>
+      <p>Plan your perfect trip without booking – get flight details, recommendations, and entertainment tailored to your journey.</p>
+    </header>
 
-  <section class="form-section">
-    <h2>Travel Preferences</h2>
-    <label>From:</label>
-    <input type="text" value="Malmö" readonly />
+    <section class="form-section">
+      <h2>📝 Travel Preferences</h2>
+      <div class="inputs">
+        <div>
+          <label>From:</label>
+          <input type="text" value="Malmö" readonly />
+        </div>
+        <div>
+          <label>To:</label>
+          <input type="text" value="Barcelona" readonly />
+        </div>
+        <div>
+          <label>Departure Date:</label>
+          <input type="text" value="2025-07-14" readonly />
+        </div>
+        <div>
+          <label>Budget (EUR):</label>
+          <input type="text" value="250" readonly />
+        </div>
+      </div>
+    </section>
 
-    <label>To:</label>
-    <input type="text" value="Barcelona" readonly />
+    <section class="results-section">
+      <h2>✈️ Flight Information</h2>
+      <p><strong>From:</strong> Malmö (MMX)</p>
+      <p><strong>To:</strong> Barcelona El Prat Airport (BCN)</p>
+      <p><strong>Date:</strong> July 14, 2025</p>
+      <p><strong>Departure Time:</strong> 10:20 AM</p>
+      <p><strong>Arrival Time:</strong> 1:35 PM</p>
+      <p><strong>Flight Duration:</strong> 3 hours 15 minutes</p>
+      <p><strong>Airline:</strong> Scandinavian Airlines</p>
+      <p><strong>Layovers:</strong> Non-stop</p>
+      <p><strong>Price:</strong> 230 EUR</p>
+    </section>
 
-    <label>Date:</label>
-    <input type="text" value="2025-07-14" readonly />
+    <section class="results-section">
+      <h2>🎬 Entertainment Recommendations</h2>
+      <p><strong>🎥 Movie 1:</strong> <em>The Secret Life of Walter Mitty</em> – A visually stunning film about adventure and dreams.</p>
+      <p><strong>🎥 Movie 2:</strong> <em>Midnight in Paris</em> – A charming escape through time in a romantic European city.</p>
+    </section>
 
-    <label>Flight Budget (EUR):</label>
-    <input type="text" value="250" readonly />
-
-    <button>Plan My Trip</button>
-  </section>
-
-  <section class="results-section">
-    <h2>Flight Information</h2>
-    <p><strong>From:</strong> Malmö (MMX)</p>
-    <p><strong>To:</strong> Barcelona El Prat Airport (BCN)</p>
-    <p><strong>Date:</strong> July 14, 2025</p>
-    <p><strong>Departure Time:</strong> 10:20 AM</p>
-    <p><strong>Arrival Time:</strong> 1:35 PM</p>
-    <p><strong>Flight Duration:</strong> 3 hours 15 minutes</p>
-    <p><strong>Airline:</strong> Scandinavian Airlines</p>
-    <p><strong>Number of Layovers:</strong> Non-stop</p>
-    <p><strong>Estimated Price:</strong> 230 EUR</p>
-  </section>
-
-  <section class="results-section">
-    <h2>Recommended Movies for Your Flight</h2>
-    <p>🎬 <strong>Movie 1:</strong> The Secret Life of Walter Mitty – A visually stunning film about travel and adventure.</p>
-    <p>🎬 <strong>Movie 2:</strong> Midnight in Paris – A charming story set in one of Europe’s most iconic cities.</p>
-  </section>
+    <section class="results-section">
+      <h2>💱 Currency Exchange</h2>
+      <p>1 EUR = 11.25 SEK</p>
+      <p>Exchange rate provided by Free Currency API</p>
+    </section>
+  </div>
 </body>
 </html>
