@@ -16,24 +16,27 @@
 
     <section class="form-section">
       <h2>📝 Travel Preferences</h2>
-      <div class="inputs">
-        <div>
-          <label>From:</label>
-          <input type="text" value="Malmö" readonly />
+      <form id="tripForm">
+        <div class="inputs">
+          <div>
+            <label for="fromCity">From:</label>
+            <input type="text" id="fromCity" name="fromCity" required />
+          </div>
+          <div>
+            <label for="toCity">To:</label>
+            <input type="text" id="toCity" name="toCity" required />
+          </div>
+          <div>
+            <label for="departureDate">Departure Date:</label>
+            <input type="date" id="departureDate" name="departureDate" required />
+          </div>
+          <div>
+            <label for="budget">Budget (EUR):</label>
+            <input type="number" id="budget" name="budget" min="0" required />
+          </div>
         </div>
-        <div>
-          <label>To:</label>
-          <input type="text" value="Barcelona" readonly />
-        </div>
-        <div>
-          <label>Departure Date:</label>
-          <input type="text" value="2025-07-14" readonly />
-        </div>
-        <div>
-          <label>Budget (EUR):</label>
-          <input type="text" value="250" readonly />
-        </div>
-      </div>
+        <button type="submit">Submit</button>
+      </form>
     </section>
 
     <section class="results-section">
@@ -60,6 +63,11 @@
       <p>1 EUR = 11.25 SEK</p>
       <p>Exchange rate provided by Free Currency API</p>
     </section>
+
+    <script src="script.js"></script>
+
   </div>
+
+  
 </body>
 </html>
