@@ -21,6 +21,7 @@ import okhttp3.Response;
 public class APIController {
 
     public Map<String, String> getFlightInformation(String from, String to, String date, String budget, String apiKey, String apiSecret, String adults, String children, String infants, String travelClass, String currency) {
+        System.out.println("befinner mig här");
         OkHttpClient client = new OkHttpClient(); //This object is used to send HTTP requests and receive responses.
         ObjectMapper mapper = new ObjectMapper(); //This object is used to convert Java objects to JSON and vice versa.
         Map<String, String> result = null; //This variable will hold the result of the API call
@@ -28,6 +29,8 @@ public class APIController {
         String accessToken = getAccessToken(apiKey, apiSecret);
         String from_Code_IATA = getIATA(from, accessToken);
         String to_Code_IATA = getIATA(to, accessToken);
+        System.out.println("FROM: " + from_Code_IATA);
+        System.out.println("TO: " + to_Code_IATA);
 
         String URL = "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=" + from_Code_IATA + "&destinationLocationCode=" + to_Code_IATA + "&departureDate=" + date + "&adults=" + adults + "&children=" + children + "&infants=" + infants + "&travelClass=" + travelClass + "&nonStop=false&currencyCode=" + currency + "&maxPrice=" + budget;
     
@@ -75,6 +78,7 @@ public class APIController {
 
 
 
+                /* 
 
                 Map<String, Object> departure2 = (Map<String, Object>) segments.get(1).get("departure"); //Get the first segment from the segments list
                 String departureAt2 = departure2.get("at").toString(); //Get the departure date from the first segment
@@ -88,8 +92,10 @@ public class APIController {
 
                 String carrierCode2 = segments.get(1).get("carrierCode").toString(); //Get the carrier code from the first segment
                 String flightNumber2 = segments.get(1).get("number").toString(); //Get the flight number from the first segment
+                */
 
 
+                
                 System.out.println("DEPARTURE AT: " + departureAt);
                 System.out.println("DEPARTURE TERMINAL: " + departureTerminal);
                 System.out.println("DEPARTURE IATA: " + departureIATA);
@@ -99,6 +105,8 @@ public class APIController {
                 System.out.println("CARRIER CODE: " + carrierCode);
                 System.out.println("FLIGHT NUMBER: " + flightNumber);
                 System.out.println("DURATION: " + duration);
+
+                /*
                 System.out.println("DEPARTURE AT 2: " + departureAt2);
                 System.out.println("DEPARTURE TERMINAL 2: " + departureTerminal2);
                 System.out.println("DEPARTURE IATA 2: " + departureIATA2);
@@ -108,6 +116,7 @@ public class APIController {
                 System.out.println("CARRIER CODE 2: " + carrierCode2);
                 System.out.println("FLIGHT NUMBER 2: " + flightNumber2);
                 System.out.println("DURATION 2: " + duration);
+                */
 
                 return result;
 
@@ -120,14 +129,21 @@ public class APIController {
     return null;
     }
 
+    public String getFirst3Letters(String input){
+        if (input.length() <= 3) {
+            return input;
+        }
+
+        return input.substring(0, 3);
+    }
+
     public String getIATA(String from, String accessToken) {
         OkHttpClient client = new OkHttpClient(); //This object is used to send HTTP requests and receive responses.
         ObjectMapper mapper = new ObjectMapper(); //This object is used to convert Java objects to JSON and vice versa.
        
-        //If the city contains special charachters, such as space in "New York", we need to encode the value before putting it in the URL.
-        String encodedFromCity = URLEncoder.encode(from, StandardCharsets.UTF_8);
+        String inputName = getFirst3Letters(from);
 
-        String url = "https://test.api.amadeus.com/v1/reference-data/locations?keyword=" + encodedFromCity + "&subType=AIRPORT,CITY";
+        String url = "https://test.api.amadeus.com/v1/reference-data/locations?keyword=" + inputName + "&subType=AIRPORT,CITY";
    
         //Create a request body with the JSON data
         okhttp3.Request request = new okhttp3.Request.Builder()
@@ -154,6 +170,7 @@ public class APIController {
                
 
                 return result;
+            } else{
             }
            
     } catch (IOException e) {
