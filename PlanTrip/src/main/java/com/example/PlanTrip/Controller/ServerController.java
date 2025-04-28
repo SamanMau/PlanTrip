@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/api")
@@ -19,6 +21,24 @@ public class ServerController {
         String to = map.get("to");
         String date = map.get("date");
         String budget = map.get("budget");
+
+        String apiKey = getInfoFromENV("AMADEUS_API_KEY");
+        String apiSecret = getInfoFromENV("AMADEUS_API_SECRET");
+
+        Map<String, String> result = apiController.getFlightInformation(from, to, date, budget, apiKey, apiSecret);
+   
+        return result;
+    }
+
+
+    public String getInfoFromENV(String input){
+        Dotenv dotenv = Dotenv.configure()
+        .directory(System.getProperty("user.dir"))
+        .filename("PlanTrip\\.env")
+        .load();
+
+    String info = dotenv.get(input);
+    return info;
     }
     
 }
