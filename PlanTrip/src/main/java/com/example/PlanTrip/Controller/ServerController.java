@@ -3,6 +3,7 @@ package com.example.PlanTrip.Controller;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,8 +16,9 @@ import io.github.cdimascio.dotenv.Dotenv;
 public class ServerController {
     private APIController apiController = new APIController();
 
-    @RequestMapping("/trip")
+    @GetMapping("/trip")
     public Map<String, String> getFlightInformation(@RequestParam Map<String, String> map) {
+        System.out.println("helloooo");
         String from = map.get("from");
         String to = map.get("to");
         String date = map.get("date");
