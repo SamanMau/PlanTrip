@@ -1,5 +1,6 @@
 package com.example.PlanTrip.Controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,7 +40,7 @@ public class ServerController {
         String fromIATA = iataCodesList.get("from");
         String toIATA = iataCodesList.get("to");
 
-        Map<String, String> result = amadeusController.getFlightInformation(fromIATA, toIATA, date, maxPrice, amadeusApiKey, amadeusApiSecret, adults, children, infants, travelClass, currency);
+        ArrayList<HashMap<String, Object>> result = amadeusController.getFlightInformation(fromIATA, toIATA, date, maxPrice, amadeusApiKey, amadeusApiSecret, adults, children, infants, travelClass, currency);
    
         return result;
     }
