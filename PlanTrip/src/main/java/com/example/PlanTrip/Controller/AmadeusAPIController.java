@@ -18,7 +18,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 @Service
-public class APIController {
+public class AmadeusAPIController {
 
     public Map<String, String> getFlightInformation(String from, String to, String date, String budget, String apiKey, String apiSecret, String adults, String children, String infants, String travelClass, String currency) {
         System.out.println("befinner mig här");
@@ -27,12 +27,10 @@ public class APIController {
         Map<String, String> result = null; //This variable will hold the result of the API call
 
         String accessToken = getAccessToken(apiKey, apiSecret);
-        String from_Code_IATA = getIATA(from, accessToken);
-        String to_Code_IATA = getIATA(to, accessToken);
-        System.out.println("FROM: " + from_Code_IATA);
-        System.out.println("TO: " + to_Code_IATA);
+        System.out.println("FROM: " + from);
+        System.out.println("TO: " + to);
 
-        String URL = "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=" + from_Code_IATA + "&destinationLocationCode=" + to_Code_IATA + "&departureDate=" + date + "&adults=" + adults + "&children=" + children + "&infants=" + infants + "&travelClass=" + travelClass + "&nonStop=false&currencyCode=" + currency + "&maxPrice=" + budget;
+        String URL = "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=" + from + "&destinationLocationCode=" + to + "&departureDate=" + date + "&adults=" + adults + "&children=" + children + "&infants=" + infants + "&travelClass=" + travelClass + "&nonStop=false&currencyCode=" + currency + "&maxPrice=" + budget;
     
         okhttp3.Request request = new okhttp3.Request.Builder()
         .url(URL)
@@ -136,50 +134,6 @@ public class APIController {
 
         return input.substring(0, 3);
     }
-
-    public String getIATA(String from, String accessToken) {
-        OkHttpClient client = new OkHttpClient(); //This object is used to send HTTP requests and receive responses.
-        ObjectMapper mapper = new ObjectMapper(); //This object is used to convert Java objects to JSON and vice versa.
-       
-        String inputName = getFirst3Letters(from);
-
-        String url = "https://test.api.amadeus.com/v1/reference-data/locations?keyword=" + inputName + "&subType=AIRPORT,CITY";
-   
-        //Create a request body with the JSON data
-        okhttp3.Request request = new okhttp3.Request.Builder()
-        .url(url)
-        .addHeader("Authorization", "Bearer " + accessToken) // Lägg till access token här
-        .get()
-        .build();
-
-       
-        Response response = null; //Initialize the response variable        
-       
-        try {
-            response = client.newCall(request).execute();
-
-            if(response.isSuccessful()) {
-                String responseBody = response.body().string(); //Get the response body as a string
-               
-                //This line converts the JSON response to a Map object
-                //The Map object contains the key-value pairs of the JSON response
-                Map<String, Object> responseMap = mapper.readValue(responseBody, Map.class);
-               
-                List<Map<String, Object>> dataList = (List<Map<String, Object>>) responseMap.get("data"); //Get the data list from the Map object
-                String result = dataList.get(0).get("iataCode").toString(); //Get the IATA code from the first element of the data list
-               
-
-                return result;
-            } else{
-            }
-           
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-
-    return null;
-    }
-
 
     public String getAccessToken(String apiKey, String apiSecret) {
         OkHttpClient client = new OkHttpClient();

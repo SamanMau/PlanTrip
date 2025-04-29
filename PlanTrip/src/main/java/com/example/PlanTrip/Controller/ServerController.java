@@ -1,5 +1,6 @@
 package com.example.PlanTrip.Controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,11 +15,11 @@ import io.github.cdimascio.dotenv.Dotenv;
 @CrossOrigin(origins = "*")
 @RequestMapping("/api")
 public class ServerController {
-    private APIController apiController = new APIController();
+    private AmadeusAPIController amadeusController = new AmadeusAPIController();
+    private ChatGPTAPIController chatGPTController = new ChatGPTAPIController();
 
     @GetMapping("/trip")
     public Map<String, String> getFlightInformation(@RequestParam Map<String, String> map) {
-        System.out.println("helloooo");
         String from = map.get("from");
         String to = map.get("to");
         String date = map.get("date");
@@ -28,11 +29,17 @@ public class ServerController {
         String travelClass = map.get("travelClass");
         String maxPrice = map.get("maxPrice");
         String currency = map.get("currency");
+        
+        String amadeusApiKey = getInfoFromENV("AMADEUS_API_KEY");
+        String amadeusApiSecret = getInfoFromENV("AMADEUS_API_SECRET");
+        String chatGptApiKey = getInfoFromENV("CHAT_KEY");
 
-        String apiKey = getInfoFromENV("AMADEUS_API_KEY");
-        String apiSecret = getInfoFromENV("AMADEUS_API_SECRET");
+        System.out.println("CHAT KEY: " + chatGptApiKey);
+        HashMap<String, String> iataCodesList = chatGPTController.getIATACode(from, to, chatGptApiKey);
+        String fromIATA = iataCodesList.get("from");
+        String toIATA = iataCodesList.get("to");
 
-        Map<String, String> result = apiController.getFlightInformation(from, to, date, maxPrice, apiKey, apiSecret, adults, children, infants, travelClass, currency);
+        Map<String, String> result = amadeusController.getFlightInformation(fromIATA, toIATA, date, maxPrice, amadeusApiKey, amadeusApiSecret, adults, children, infants, travelClass, currency);
    
         return result;
     }
