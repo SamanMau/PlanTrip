@@ -29,7 +29,7 @@ public class AmadeusAPIController {
 
         String accessToken = getAccessToken(apiKey, apiSecret);
 
-        String URL = "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=" + from + "&destinationLocationCode=" + to + "&departureDate=" + date + "&adults=" + adults + "&children=" + children + "&infants=" + infants + "&travelClass=" + travelClass + "&nonStop=false&currencyCode=" + currency + "&maxPrice=" + budget;
+        String URL = "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=" + from + "&destinationLocationCode=" + to + "&departureDate=" + date + "&adults=" + adults + "&children=" + children + "&infants=" + infants + "&travelClass=" + travelClass + "&nonStop=false&currencyCode=" + currency + "&maxPrice=" + budget + "&max=4";
     
         okhttp3.Request request = new okhttp3.Request.Builder()
         .url(URL)
@@ -57,18 +57,20 @@ public class AmadeusAPIController {
                 }
 
                 int convertedCount = Integer.parseInt(count); //Convert the count to an integer
+                System.out.println("COUNT " + convertedCount); //Print the count
 
                 List<Map<String, Object>> dataList = (List<Map<String, Object>>) responseMap.get("data");
 
+                int index = 1;
                 for(int i = 0; i < convertedCount; i++) {
-                    int index = 1;
                     HashMap<String, Object> flight = extractFlightFromJSON(i, dataList, index);
                     flightList.add(flight);
+                    index++; 
                 }
-
             }
            
     } catch (IOException e) {
+        System.out.println("blev fel");
         e.printStackTrace();
     }
 
@@ -76,44 +78,58 @@ public class AmadeusAPIController {
     }
 
     public HashMap<String, Object> extractFlightFromJSON(int index, List<Map<String, Object>> dataList, int counter) {
+        System.out.println("jag befinner mig i extract metoden");
         HashMap<String, Object> flight = new HashMap<>(); //Create a new HashMap to store the flight information
 
         List<Map<String, Object>> itineraries = (List<Map<String, Object>>) dataList.get(index).get("itineraries"); 
                 
         String duration = itineraries.get(index).get("duration").toString();
+        System.out.println("duration: " + duration); //Print the duration
 
         List<Map<String, Object>> segments = (List<Map<String, Object>>) itineraries.get(index).get("segments"); //Get the segments from the first element of the itineraries list
         
         
         Map<String, Object> departure = (Map<String, Object>) segments.get(index).get("departure"); //Get the first segment from the segments list
+        
         String departureAt = departure.get("at").toString(); //Get the departure date from the first segment
+        System.out.println("departureAt: " + departureAt); //Print the departure date
+        
         String departureTerminal = departure.get("terminal").toString(); //Get the departure terminal from the first segment
+        System.out.println("departureTerminal: " + departureTerminal); //Print the departure terminal
+        
         String departureIATA = departure.get("iataCode").toString(); //Get the departure IATA code from the first segment
+        System.out.println("departureIATA: " + departureIATA); //Print the departure IATA code
 
         Map<String, Object> arrival = (Map<String, Object>) segments.get(index).get("arrival"); //Get the first segment from the segments list
+        
         String arrivalAt = arrival.get("at").toString(); //Get the arrival date from the first segment
+        System.out.println("arrivalAt: " + arrivalAt); //Print the arrival date
         
         String arrivalTerminal = "Unknown";
 
         if(arrival.containsKey("terminal")){
             arrivalTerminal = arrival.get("terminal").toString(); //Get the arrival terminal from the first segment
         }
+        System.out.println("arrivalTerminal: " + arrivalTerminal); //Print the arrival terminal
         
         String arrivalIATA = arrival.get("iataCode").toString(); //Get the arrival IATA code from the first segment
+        System.out.println("arrivalIATA: " + arrivalIATA); //Print the arrival IATA code
        
         String carrierCode = segments.get(index).get("carrierCode").toString(); //Get the carrier code from the first segment
+        System.out.println("carrierCode: " + carrierCode); //Print the carrier code
         
         String flightNumber = segments.get(index).get("number").toString(); //Get the flight number from the first segment
+        System.out.println("flightNumber: " + flightNumber); //Print the flight number
 
-        flight.put("duration" + counter, duration); //Add the duration to the flight HashMap
-        flight.put("departureAt" + counter, departureAt); //Add the departure date to the flight HashMap
-        flight.put("departureTerminal" + counter, departureTerminal); //Add the departure terminal to the flight HashMap
-        flight.put("departureIATA" + counter, departureIATA); //Add the departure IATA code to the flight HashMap
-        flight.put("arrivalAt" + counter, arrivalAt); //Add the arrival date to the flight HashMap
-        flight.put("arrivalTerminal" + counter, arrivalTerminal); //Add the arrival terminal to the flight HashMap
-        flight.put("arrivalIATA" + counter, arrivalIATA); //Add the arrival IATA code to the flight HashMap
-        flight.put("carrierCode" + counter, carrierCode); //Add the carrier code to the flight HashMap
-        flight.put("flightNumber" + counter, flightNumber); //Add the flight number to the flight HashMap
+        flight.put("duration" + counter, duration); 
+        flight.put("departureAt" + counter, departureAt);
+        flight.put("departureTerminal" + counter, departureTerminal);
+        flight.put("departureIATA" + counter, departureIATA);
+        flight.put("arrivalAt" + counter, arrivalAt);
+        flight.put("arrivalTerminal" + counter, arrivalTerminal);
+        flight.put("arrivalIATA" + counter, arrivalIATA);
+        flight.put("carrierCode" + counter, carrierCode);
+        flight.put("flightNumber" + counter, flightNumber);
 
         return flight; //Return the flight HashMap
 
