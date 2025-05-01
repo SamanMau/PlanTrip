@@ -43,6 +43,7 @@ public class AmadeusAPIController {
             response = client.newCall(request).execute();
 
             if(response.isSuccessful()) {
+                System.out.println("HEEEJ JAG BEFINNER MIG HÄR");
                 String responseBody = response.body().string(); //Get the response body as a string
                
                 //This line converts the JSON response to a Map object
@@ -81,26 +82,38 @@ public class AmadeusAPIController {
         System.out.println("jag befinner mig i extract metoden");
         HashMap<String, Object> flight = new HashMap<>(); //Create a new HashMap to store the flight information
 
+      
+        
+   
         List<Map<String, Object>> itineraries = (List<Map<String, Object>>) dataList.get(index).get("itineraries"); 
-                
-        String duration = itineraries.get(index).get("duration").toString();
+        String duration = itineraries.get(0).get("duration").toString();
+
         System.out.println("duration: " + duration); //Print the duration
 
-        List<Map<String, Object>> segments = (List<Map<String, Object>>) itineraries.get(index).get("segments"); //Get the segments from the first element of the itineraries list
+        List<Map<String, Object>> segments = (List<Map<String, Object>>) itineraries.get(0).get("segments"); //Get the segments from the first element of the itineraries list
         
-        
-        Map<String, Object> departure = (Map<String, Object>) segments.get(index).get("departure"); //Get the first segment from the segments list
+                                                                //var index innan.
+        Map<String, Object> departure = (Map<String, Object>) segments.get(0).get("departure"); //Get the first segment from the segments list
         
         String departureAt = departure.get("at").toString(); //Get the departure date from the first segment
         System.out.println("departureAt: " + departureAt); //Print the departure date
-        
-        String departureTerminal = departure.get("terminal").toString(); //Get the departure terminal from the first segment
+
+        String departureTerminal = "Unknown"; //Initialize the departure terminal variable
+
+        try{
+            departureTerminal = departure.get("terminal").toString(); //Get the departure terminal from the first segment
         System.out.println("departureTerminal: " + departureTerminal); //Print the departure terminal
+        } catch (Exception e) {
+            System.out.println("No terminal information available for departure.");
+        }
+        
+     //   String departureTerminal = departure.get("terminal").toString(); //Get the departure terminal from the first segment
+     //   System.out.println("departureTerminal: " + departureTerminal); //Print the departure terminal
         
         String departureIATA = departure.get("iataCode").toString(); //Get the departure IATA code from the first segment
         System.out.println("departureIATA: " + departureIATA); //Print the departure IATA code
 
-        Map<String, Object> arrival = (Map<String, Object>) segments.get(index).get("arrival"); //Get the first segment from the segments list
+        Map<String, Object> arrival = (Map<String, Object>) segments.get(1).get("arrival"); //Get the first segment from the segments list
         
         String arrivalAt = arrival.get("at").toString(); //Get the arrival date from the first segment
         System.out.println("arrivalAt: " + arrivalAt); //Print the arrival date
