@@ -51,18 +51,20 @@ public class AmadeusAPIController {
                 Map<String, Object> responseMap = mapper.readValue(responseBody, Map.class);
 
                 Map<String, Object> meta = (Map<String, Object>) responseMap.get("meta");
-                String count = meta.get("count").toString(); //Get the count from the meta object
+                String count = meta.get("count").toString();
 
                 if(count.equals("0")) {
                     return null; //Return null if no flights are found
                 }
 
-                int convertedCount = Integer.parseInt(count); //Convert the count to an integer
-                System.out.println("COUNT " + convertedCount); //Print the count
+                int convertedCount = Integer.parseInt(count);
+                System.out.println("COUNT " + convertedCount);
 
                 List<Map<String, Object>> dataList = (List<Map<String, Object>>) responseMap.get("data");
 
                 int index = 1;
+
+                //iteration for each itineraries
                 for(int i = 0; i < convertedCount; i++) {
                     HashMap<String, Object> flight = extractFlightFromJSON(i, dataList, index);
                     flightList.add(flight);
@@ -83,72 +85,109 @@ public class AmadeusAPIController {
         HashMap<String, Object> flight = new HashMap<>();
 
         List<Map<String, Object>> itineraries = (List<Map<String, Object>>) dataList.get(index).get("itineraries"); 
+        
+        //duration, this is outside the segments map. 
         String duration = itineraries.get(0).get("duration").toString();
 
-        System.out.println("duration: " + duration); //Print the duration
+        System.out.println("duration: " + duration);
 
-        List<Map<String, Object>> segments = (List<Map<String, Object>>) itineraries.get(0).get("segments"); //Get the segments from the first element of the itineraries list
+        //always fetch index 0, since each itinerary has one segment, which is located at index 0.
+        List<Map<String, Object>> segments = (List<Map<String, Object>>) itineraries.get(0).get("segments");
         
+        //Each departure list shows where one should depart from. Important info to know how many departures (and arrivals) a customer has to make.
         int  amountOfDepartures = 0;
 
+        // Unique ID for each departure and its related information.
+        // Used with another ID called "ID_Arrival" to match departures with their corresponding arrivals.
+        int ID_Departure = 0;
+        String idSuffix_Departure = "_ID" + ID_Departure;
+
+
+        //for each departure in the segments list, we will get the departure information.
         for(int i = 0; i < segments.size(); i++) {
             try{
                 Map<String, Object> departure = (Map<String, Object>) segments.get(i).get("departure");
-                amountOfDepartures++;
+
+                if(departure != null){
+                    String departureIATA = departure.get("iataCode") + idSuffix_Departure;
+                    System.out.println("departureIATA: " + departureIATA);
+
+                    String departureAt = departure.get("at")+ idSuffix_Departure;
+                    System.out.println("departureAt: " + departureAt);
+
+                    String departureTerminal = "Unknown";
+
+                    if(departure.containsKey("terminal")){
+                        departureTerminal = departure.get("terminal").toString() + idSuffix_Departure;
+                    } else {
+                        departureTerminal = "Unknown_ID" + ID_Departure;
+                    }
+
+                    System.out.println("departureTerminal: " + departureTerminal);
+
+                    ID_Departure++;
+                }
+
             } catch (Exception e) {
                 //System.out.println("Kunde inte läsa departure för segment " + i + ": " + e.getMessage());
             }
         }
 
-        for(int i = 0; i < amountOfDepartures; i++){
+        // Unique ID for each arrival and its related information.
+        // Used with "ID_Departure" to match departure-arrival pairs
+        int ID_Arrival = 0;
+        String idSuffix_Arrival = "_ID" + ID_Arrival;
+
+        //for each arrival in the segments list, we will get the arrival information.
+        for(int i = 0; i < segments.size(); i++){
             try{
-                Map<String, Object> departure = (Map<String, Object>) segments.get(i).get("departure");
+                Map<String, Object> arrival = (Map<String, Object>) segments.get(i).get("arrival");
                 
-                String departureIATA = departure.get("iataCode").toString(); //Get the departure IATA code from the first segment
-                System.out.println("departureIATA: " + departureIATA); //Print the departure IATA code
-                
-                
-                String departureAt = departure.get("at").toString(); //Get the departure date from the first segment
-                System.out.println("departureAt: " + departureAt); //Print the departure date
+                if(arrival != null){
+                    String arrivalIATA = arrival.get("iataCode") + idSuffix_Arrival;
+                    System.out.println("arrivalIATA: " + arrivalIATA);
 
-                String departureTerminal = "Unknown"; //Initialize the departure terminal variable
+                    String arrivalTerminal = "Unknown";
 
-                try{
-                    departureTerminal = departure.get("terminal").toString(); //Get the departure terminal from the first segment
-                System.out.println("departureTerminal: " + departureTerminal); //Print the departure terminal
-                } catch (Exception e) {
-                    System.out.println("No terminal information available for departure.");
+                    if(arrival.containsKey("terminal")){
+                        arrivalTerminal = arrival.get("terminal") + idSuffix_Arrival;
+                    } else {
+                        arrivalTerminal = "Unknown_ID" + idSuffix_Arrival;
+                    }
+                    System.out.println("arrivalTerminal: " + arrivalTerminal);
+    
+                    String arrivalAt = arrival.get("at") + idSuffix_Arrival;
+                    System.out.println("arrivalAt: " + arrivalAt);
+                        
+                    String flightNumber = "Unknown";
+                    try {
+                        flightNumber = segments.get(0).get("number").toString();
+                        System.out.println("flightNumber: " + flightNumber);
+                    } catch (Exception e) {
+                        System.out.println("No flight number information available.");
+                    }
+
+                    ID_Arrival++;
                 }
+            } catch (Exception e) {
+                System.out.println("Kunde inte läsa departure för segment " + i + ": " + e.getMessage());
+            }
+        }
 
-                Map<String, Object> arrival = (Map<String, Object>) segments.get(i).get("arrival"); //Get the first segment from the segments list
+        // Unique ID for each flight number
+        int ID_FlightNumber = 0;
+        String idSuffix_FlightNumber = "_ID" + ID_FlightNumber;
 
-                String arrivalIATA = arrival.get("iataCode").toString(); //Get the arrival IATA code from the first segment
-                System.out.println("arrivalIATA: " + arrivalIATA); //Print the arrival IATA code
-
-                String arrivalTerminal = "Unknown";
-
-                if(arrival.containsKey("terminal")){
-                    arrivalTerminal = arrival.get("terminal").toString(); //Get the arrival terminal from the first segment
-                }
-                System.out.println("arrivalTerminal: " + arrivalTerminal); //Print the arrival terminal
-
-                String arrivalAt = arrival.get("at").toString(); //Get the arrival date from the first segment
-                System.out.println("arrivalAt: " + arrivalAt); //Print the arrival date
-
-                String carrierCode = "Unknown";
-                try {
-                    carrierCode = segments.get(0).get("carrierCode").toString();
-                    System.out.println("carrierCode: " + carrierCode);
-                } catch (Exception e) {
-                    System.out.println("No carrier code information available.");
-                }
+        //Get all flight numbers
+        for(int i = 0; i < segments.size(); i++){
+            try{
+                String carrierCode = segments.get(i).get("number").toString();
                 
-                String flightNumber = "Unknown";
-                try {
-                    flightNumber = segments.get(0).get("number").toString();
-                    System.out.println("flightNumber: " + flightNumber);
-                } catch (Exception e) {
-                    System.out.println("No flight number information available.");
+                if(carrierCode != null){
+                    carrierCode = carrierCode + idSuffix_FlightNumber;
+                    ID_FlightNumber++;
+                } else {
+                    carrierCode = "Unknown_ID" + ID_FlightNumber;
                 }
 
             } catch (Exception e) {
@@ -156,16 +195,25 @@ public class AmadeusAPIController {
             }
         }
 
+        // Unique ID for each carrier code
+        int ID_CarrierCode = 0;
+        String idSuffix_CarrierCode = "_ID" + ID_CarrierCode;
 
-        flight.put("duration" + counter, duration); 
-        flight.put("departureAt" + counter, departureAt);
-        flight.put("departureTerminal" + counter, departureTerminal);
-        flight.put("departureIATA" + counter, departureIATA);
-        flight.put("arrivalAt" + counter, arrivalAt);
-        flight.put("arrivalTerminal" + counter, arrivalTerminal);
-        flight.put("arrivalIATA" + counter, arrivalIATA);
-        flight.put("carrierCode" + counter, carrierCode);
-        flight.put("flightNumber" + counter, flightNumber);
+        //Get all carrier codes
+        for(int i = 0; i < segments.size(); i++){
+            try{
+                String carrierCode = segments.get(i).get("carrierCode").toString();
+
+                if(carrierCode != null){
+                    carrierCode = carrierCode + idSuffix_CarrierCode;
+                    ID_CarrierCode++;
+                } else {
+                    carrierCode = "Unknown_ID" + ID_CarrierCode;
+                } 
+            } catch (Exception e) {
+                System.out.println("Kunde inte läsa departure för segment " + i + ": " + e.getMessage());
+            }
+        }
 
         return flight; //Return the flight HashMap
 
