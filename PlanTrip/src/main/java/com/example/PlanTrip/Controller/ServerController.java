@@ -35,7 +35,6 @@ public class ServerController {
         String amadeusApiSecret = getInfoFromENV("AMADEUS_API_SECRET");
         String chatGptApiKey = getInfoFromENV("CHAT_KEY");
 
-        System.out.println("CHAT KEY: " + chatGptApiKey);
         HashMap<String, String> iataCodesList = chatGPTController.getIATACode(from, to, chatGptApiKey);
         String fromIATA = iataCodesList.get("from");
         String toIATA = iataCodesList.get("to");
