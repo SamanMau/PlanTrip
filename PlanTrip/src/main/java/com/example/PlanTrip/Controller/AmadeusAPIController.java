@@ -155,14 +155,14 @@ public class AmadeusAPIController {
 
             if(flightDurationList.size() > 1) {
                 String duration = flightDurationList.get(0);
-                flightHeader_sb.append("Flight number: " + flight).append("\n").append("⏳ Flight duration: ").append(duration).append("\n").append("\n");
+                flightHeader_sb.append("📄Flight number: " + flight).append("\n").append("⏳ Flight duration: ").append(duration).append("\n").append("\n");
                 flightDurationList.remove(0);
                 flight++;
                 result.add(flightHeader_sb.toString()); //Add the flight header to the result list
 
             } else if(flightDurationList.size() == 1){
                 String duration = flightDurationList.get(0);
-                flightHeader_sb.append("Flight number: " + flight).append("⏳ Flight duration: ").append(duration).append("\n").append("\n");
+                flightHeader_sb.append("📄Flight number: " + flight).append("\n").append("⏳ Flight duration: ").append(duration).append("\n").append("\n");
                 flight++;
                 result.add(flightHeader_sb.toString()); //Add the flight header to the result list
             }
