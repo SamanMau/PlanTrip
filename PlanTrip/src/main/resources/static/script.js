@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", function () {
   form.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    // Hämta värden från formuläret
     const from = document.getElementById("fromCity").value;
     const to = document.getElementById("toCity").value;
     const date = document.getElementById("departureDate").value;
@@ -15,13 +14,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const maxPrice = document.getElementById("maxPrice").value;
     const currency = document.getElementById("currency").value;
 
-    // Bygg URL med alla parametrar
     const url = `http://localhost:8080/api/trip?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}&date=${encodeURIComponent(date)}&adults=${encodeURIComponent(adults)}&children=${encodeURIComponent(children)}&infants=${encodeURIComponent(infants)}&travelClass=${encodeURIComponent(travelClass)}&maxPrice=${encodeURIComponent(maxPrice)}&currency=${encodeURIComponent(currency)}`;
 
     fetch(url)
       .then(response => {
         if (!response.ok) throw new Error("Något gick fel vid hämtning av data");
-        return response.json(); // Backend skickar en ArrayList<String>
+        return response.json();
       })
       .then(data => {
         const resultsSection = document.getElementById("results");
@@ -35,9 +33,11 @@ document.addEventListener("DOMContentLoaded", function () {
           flightCard.className = "flight-card";
 
           const lines = flightInfo.split("\n");
-          lines.forEach(line => {
+
+          lines.forEach((line) => {
             const p = document.createElement("p");
-            p.textContent = line.trim();
+            p.textContent = line.trim(); // raden har redan emoji
+            p.style.marginBottom = "8px";
             flightCard.appendChild(p);
           });
 

@@ -61,8 +61,6 @@ public class AmadeusAPIController {
 
                 List<Map<String, Object>> dataList = (List<Map<String, Object>>) responseMap.get("data");
 
-                int index = 1;
-
                 //iteration for each itineraries
                 for(int i = 0; i < convertedCount; i++) {
                     List<Map<String, Object>> departureList = getDepartureOrArrivalList(i, dataList, "departure");
@@ -118,16 +116,15 @@ public class AmadeusAPIController {
                 fn = (String) flightNumber.get("flightNumber");
                 cc = (String) carrier.get("carrierCode");
 
-                sb.append("Departure IATA: ").append(departureIATA).append("\n")
-                .append(" | Arrival IATA: ").append(arrivalIATA).append("\n")
-                .append(" | Flight number: ").append(fn).append("\n")
-                .append(" | Carrier code: ").append(cc).append("\n")
-                .append(" | Departure: ").append(departureIATA).append("\n")
-                .append(" | Arrival: ").append(arrivalIATA).append("\n")
-                .append(" | Departure time: ").append(departureTime).append("\n")
-                .append(" | Arrival time: ").append(arrivalTime).append("\n")
-                .append(" | Departure terminal: ").append(departureTerminal).append("\n")
-                .append(" | Arrival terminal: ").append(arrivalTerminal);
+                sb.append("\n")
+                .append("📍Departure: ").append(departureIATA).append("\n")
+                .append("🗓️ Departure time: ").append(departureTime).append("\n")
+                .append("🛂Departure terminal: ").append(departureTerminal).append("\n").append("\n")
+                .append("✈️").append("Flight number: ").append(fn).append("\n")
+                .append("🏢 Airline: ").append(cc).append("\n").append("\n")
+                .append("📍Arrival: ").append(arrivalIATA).append("\n")
+                .append("🗓️ Arrival time: ").append(arrivalTime).append("\n")
+                .append("🛂Arrival terminal: ").append(arrivalTerminal).append("\n");
                 
             }
 
@@ -248,6 +245,7 @@ public class AmadeusAPIController {
 
         return list;
     }
+
 
     public ArrayList<String> getFlightNumber(int index, List<Map<String, Object>> dataList) {
         ArrayList<String> flightNumberList = new ArrayList<>(); //Create an ArrayList to store the flight information
