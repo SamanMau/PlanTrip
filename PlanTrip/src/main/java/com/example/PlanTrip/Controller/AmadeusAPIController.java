@@ -90,74 +90,42 @@ public class AmadeusAPIController {
 
     //This method organizes the flight list into a more readable format to be displayed on the frontend.
     public ArrayList<String> organizeFlightList(ArrayList<HashMap<String, Object>> flightList) {
-        
-        for (HashMap<String, Object> flight : flightList) {
-            System.out.println(flight);
-        }
-
-        System.out.println("\n \n \n \n \n");
-        
-        
-        ArrayList<String> organizedFlightList = new ArrayList<>(); //Create an ArrayList to store the flight information
-        String departureIATA = " ";
-        String departureAt = " ";
-        String departureTerminal = " ";
-        String arrivalIATA = " ";
-        String arrivalAt = " ";
-        String arrivalTerminal = " ";
-        String flightNumber = " ";
-        String carrierCode = " ";
-
-        for(int i = 0; i < flightList.size(); i++){
-            HashMap<String, Object> flight = flightList.get(i); //Get the flight information from the flight list
-            
-            departureIATA = (String) flight.get("departureIATA"); 
-            departureAt = (String) flight.get("departureAt"); 
-            departureTerminal = (String) flight.get("departureTerminal");
-            
-            flightList.remove(i); //Remove the flight information from the list after it has been processed
-
-            
-            for(int j = 0; j< flightList.size(); j++){
-                HashMap<String, Object> flight2 = flightList.get(j);
-                
-                if(flight2.containsKey("arrivalIATA")) { 
-                    arrivalIATA = (String) flight2.get("arrivalIATA");
-                    arrivalAt = (String) flight2.get("arrivalAt"); 
-                    arrivalTerminal = (String) flight2.get("arrivalTerminal");
-                    flightList.remove(j); //Remove the flight information from the list after it has been processed
-
-                    for(int k = 0; k < flightList.size(); k++){
-                        HashMap<String, Object> flight3 = flightList.get(k); 
-                       
-                        if(flight3.containsKey("flightNumber")) { 
-                            flightNumber = (String) flight3.get("flightNumber");
-                            flightList.remove(k);
-
-                            for(int l = 0; l < flightList.size(); l++){
-                                HashMap<String, Object> flight4 = flightList.get(l);
-                                
-                                if(flight4.containsKey("carrierCode")) {
-                                    carrierCode = (String) flight4.get("carrierCode");
-                                    flightList.remove(l);
-                                    break;
-                                }
-                        }
-
-                        break;
-                    }
-                }
-
-                break;
+        ArrayList<String> result = new ArrayList<>();
+    
+        for (int i = 0; i < flightList.size(); i += 12) {
+            StringBuilder sb = new StringBuilder();
+    
+            for (int j = 0; j < 3; j++) {
+                HashMap<String, Object> departure = flightList.get(i + j);
+                HashMap<String, Object> arrival = flightList.get(i + 3 + j);
+                HashMap<String, Object> flightNumber = flightList.get(i + 6 + j);
+                HashMap<String, Object> carrier = flightList.get(i + 9 + j);
+    
+                String departureIATA = (String) departure.get("departureIATA");
+                String departureTime = (String) departure.get("departureAt");
+                String departureTerminal = (String) departure.get("departureTerminal");
+    
+                String arrivalIATA = (String) arrival.get("arrivalIATA");
+                String arrivalTime = (String) arrival.get("arrivalAt");
+                String arrivalTerminal = (String) arrival.get("arrivalTerminal");
+    
+                String fn = (String) flightNumber.get("flightNumber");
+                String cc = (String) carrier.get("carrierCode");
+    
+                sb.append(departureIATA).append(" ➝ ").append(arrivalIATA)
+                  .append(" | Departure: ").append(departureTime)
+                  .append(" | Arrival: ").append(arrivalTime)
+                  .append(" | Terminal: ").append(departureTerminal).append(" ➝ ").append(arrivalTerminal)
+                  .append(" | Flight number: ").append(fn)
+                  .append(" | Airline: ").append(cc)
+                  .append("\n");
             }
+    
+            result.add(sb.toString());
         }
-
-        String flightString = "Departure IATA: " + departureIATA + " Arrival IATA: " + arrivalIATA + " Departure time: " + departureAt + " Arrival time: " + arrivalAt + " Departure terminal: " + departureTerminal + " Arrival terminal: " + arrivalTerminal + " Flight number: " + flightNumber + " Carrier code: " + carrierCode; //Create a string to store the flight information
-        organizedFlightList.add(flightString); //Add the flight information to the organized flight list
+    
+        return result;
     }
-
-    return organizedFlightList; //Return the organized flight list
-}
 
     public ArrayList<HashMap<String, Object>> manageFlightList(List<Map<String, Object>> departureList, List<Map<String, Object>> arrivalList, ArrayList<String> flightNumberList, ArrayList<String> carrierCodeList) {
         ArrayList<HashMap<String, Object>> flightList = new ArrayList<>(); //Create an ArrayList to store the flight information
