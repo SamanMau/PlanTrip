@@ -21,19 +21,26 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch(url)
       .then(response => {
         if (!response.ok) throw new Error("Något gick fel vid hämtning av data");
-        return response.json(); // Förväntar sig en ArrayList av HashMaps som konverteras till array av objekt i JS
+        return response.json(); // Backend skickar en ArrayList<String>
       })
       .then(data => {
         const resultsSection = document.getElementById("results");
-        resultsSection.innerHTML = "<h2>✈️ Flight Results</h2>"; // Töm och sätt rubrik
-      
+        resultsSection.innerHTML = "<h2>✈️ Flight Results</h2>";
+
         const maxFlights = 4;
         const displayedFlights = data.slice(0, maxFlights);
-      
+
         displayedFlights.forEach(flightInfo => {
           const flightCard = document.createElement("div");
           flightCard.className = "flight-card";
-          flightCard.textContent = flightInfo;
+
+          const lines = flightInfo.split("\n");
+          lines.forEach(line => {
+            const p = document.createElement("p");
+            p.textContent = line.trim();
+            flightCard.appendChild(p);
+          });
+
           resultsSection.appendChild(flightCard);
         });
       })

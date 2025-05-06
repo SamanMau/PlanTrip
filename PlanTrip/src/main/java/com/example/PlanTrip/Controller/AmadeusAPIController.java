@@ -117,15 +117,17 @@ public class AmadeusAPIController {
     
                 fn = (String) flightNumber.get("flightNumber");
                 cc = (String) carrier.get("carrierCode");
-    
-                
-                sb.append(departureIATA).append(" ➝ ").append(arrivalIATA)
-                  .append(" | Departure: ").append(departureTime)
-                  .append(" | Arrival: ").append(arrivalTime)
-                  .append(" | Terminal: ").append(departureTerminal).append(" ➝ ").append(arrivalTerminal)
-                  .append(" | Flight number: ").append(fn)
-                  .append(" | Airline: ").append(cc)
-                  .append("\n");
+
+                sb.append("Departure IATA: ").append(departureIATA).append("\n")
+                .append(" | Arrival IATA: ").append(arrivalIATA).append("\n")
+                .append(" | Flight number: ").append(fn).append("\n")
+                .append(" | Carrier code: ").append(cc).append("\n")
+                .append(" | Departure: ").append(departureIATA).append("\n")
+                .append(" | Arrival: ").append(arrivalIATA).append("\n")
+                .append(" | Departure time: ").append(departureTime).append("\n")
+                .append(" | Arrival time: ").append(arrivalTime).append("\n")
+                .append(" | Departure terminal: ").append(departureTerminal).append("\n")
+                .append(" | Arrival terminal: ").append(arrivalTerminal);
                 
             }
 

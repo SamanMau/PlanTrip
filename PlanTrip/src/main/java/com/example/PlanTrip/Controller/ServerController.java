@@ -42,10 +42,10 @@ public class ServerController {
         System.out.println("To IATA: " + toIATA);
 
         ArrayList<String> result = amadeusController.getFlightInformation(fromIATA, toIATA, date, maxPrice, amadeusApiKey, amadeusApiSecret, adults, children, infants, travelClass, currency);
-        ArrayList<String> filterRes
 
         for(int i = 0; i < result.size(); i++){
             System.out.println(result.get(i));
+            System.out.println("\n");
         }
    
         return result;

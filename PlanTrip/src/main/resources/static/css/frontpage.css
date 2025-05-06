@@ -107,16 +107,33 @@ button[type="submit"]:hover {
   color: #aedcff;
 }
 
-.flight-card {
-  background-color: #f0f8ff;
-  padding: 1em;
-  margin: 1em 0;
-  border-left: 4px solid #1e90ff;
-  font-family: "Poppins", sans-serif;
-  white-space: pre-line; /* så att \n syns som radbrytning */
-}
-
 .trip-card p {
   margin: 5px 0;
   color: #ffffff;
+}
+
+.flight-card {
+  background-color: #0d1b2a;
+  border: 1px solid #1b263b;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.flight-card strong {
+  font-size: 18px;
+  color: #145374;
+}
+
+.flight-card h3 {
+  margin-bottom: 8px;
+  font-size: 1.2rem;
+  color: #00b4d8;
+}
+
+.flight-card p {
+  margin: 4px 0;
 }
