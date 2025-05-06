@@ -20,7 +20,7 @@ public class ServerController {
     private ChatGPTAPIController chatGPTController = new ChatGPTAPIController();
 
     @GetMapping("/trip")
-    public ArrayList<HashMap<String, Object>> getFlightInformation(@RequestParam Map<String, String> map) {
+    public ArrayList<String> getFlightInformation(@RequestParam Map<String, String> map) {
         String from = map.get("from");
         String to = map.get("to");
         String date = map.get("date");
@@ -39,10 +39,8 @@ public class ServerController {
         String fromIATA = iataCodesList.get("from");
         String toIATA = iataCodesList.get("to");
 
-        ArrayList<HashMap<String, Object>> result = amadeusController.getFlightInformation(fromIATA, toIATA, date, maxPrice, amadeusApiKey, amadeusApiSecret, adults, children, infants, travelClass, currency);
+        ArrayList<String> result = amadeusController.getFlightInformation(fromIATA, toIATA, date, maxPrice, amadeusApiKey, amadeusApiSecret, adults, children, infants, travelClass, currency);
    
-
-
         return result;
     }
 

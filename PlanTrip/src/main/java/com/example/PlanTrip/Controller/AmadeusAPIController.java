@@ -21,10 +21,11 @@ import okhttp3.Response;
 @Service
 public class AmadeusAPIController {
 
-    public ArrayList<HashMap<String, Object>> getFlightInformation(String from, String to, String date, String budget, String apiKey, String apiSecret, String adults, String children, String infants, String travelClass, String currency) {
+    public ArrayList<String> getFlightInformation(String from, String to, String date, String budget, String apiKey, String apiSecret, String adults, String children, String infants, String travelClass, String currency) {
         OkHttpClient client = new OkHttpClient(); //This object is used to send HTTP requests and receive responses.
         ObjectMapper mapper = new ObjectMapper(); //This object is used to convert Java objects to JSON and vice versa.
         ArrayList<HashMap<String, Object>> flightList = new ArrayList<>(); //Create an ArrayList to store the flight information
+        ArrayList<String> displayedList = new ArrayList<>(); //Create an ArrayList to store the flight information
 
 
         String accessToken = getAccessToken(apiKey, apiSecret);
@@ -43,7 +44,6 @@ public class AmadeusAPIController {
             response = client.newCall(request).execute();
 
             if(response.isSuccessful()) {
-                System.out.println("HEEEJ JAG BEFINNER MIG HÄR");
                 String responseBody = response.body().string(); //Get the response body as a string
                
                 //This line converts the JSON response to a Map object
@@ -58,7 +58,6 @@ public class AmadeusAPIController {
                 }
 
                 int convertedCount = Integer.parseInt(count);
-                System.out.println("COUNT " + convertedCount);
 
                 List<Map<String, Object>> dataList = (List<Map<String, Object>>) responseMap.get("data");
 
@@ -66,166 +65,259 @@ public class AmadeusAPIController {
 
                 //iteration for each itineraries
                 for(int i = 0; i < convertedCount; i++) {
-                    HashMap<String, Object> flight = extractFlightFromJSON(i, dataList, index);
-                    flightList.add(flight);
-                    index++; 
+                    List<Map<String, Object>> departureList = getDepartureOrArrivalList(i, dataList, "departure");
+                    List<Map<String, Object>> arrivalList = getDepartureOrArrivalList(i, dataList, "arrival");
+                    ArrayList<String> flightNumberList = getFlightNumber(i, dataList);
+                    ArrayList<String> carrierCodeList = getCarrierCode(i, dataList);
+                    ArrayList<HashMap<String, Object>> tempFlightList = manageFlightList(departureList, arrivalList, flightNumberList, carrierCodeList);
+                    flightList.addAll(tempFlightList);
                 }
+                
+                displayedList = organizeFlightList(flightList);
+                for (String flight : displayedList) {
+                    System.out.println(flight); //Print the organized flight information
+                }
+
+
             }
            
     } catch (IOException e) {
-        System.out.println("blev fel");
         e.printStackTrace();
     }
 
-    return flightList;
+    return displayedList;
     }
 
-    public HashMap<String, Object> extractFlightFromJSON(int index, List<Map<String, Object>> dataList, int counter) {
-        System.out.println("jag befinner mig i extract metoden");
-        HashMap<String, Object> flight = new HashMap<>();
+    //This method organizes the flight list into a more readable format to be displayed on the frontend.
+    public ArrayList<String> organizeFlightList(ArrayList<HashMap<String, Object>> flightList) {
+        
+        for (HashMap<String, Object> flight : flightList) {
+            System.out.println(flight);
+        }
+
+        System.out.println("\n \n \n \n \n");
+        
+        
+        ArrayList<String> organizedFlightList = new ArrayList<>(); //Create an ArrayList to store the flight information
+        String departureIATA = " ";
+        String departureAt = " ";
+        String departureTerminal = " ";
+        String arrivalIATA = " ";
+        String arrivalAt = " ";
+        String arrivalTerminal = " ";
+        String flightNumber = " ";
+        String carrierCode = " ";
+
+        for(int i = 0; i < flightList.size(); i++){
+            HashMap<String, Object> flight = flightList.get(i); //Get the flight information from the flight list
+            
+            departureIATA = (String) flight.get("departureIATA"); 
+            departureAt = (String) flight.get("departureAt"); 
+            departureTerminal = (String) flight.get("departureTerminal");
+            
+            flightList.remove(i); //Remove the flight information from the list after it has been processed
+
+            
+            for(int j = 0; j< flightList.size(); j++){
+                HashMap<String, Object> flight2 = flightList.get(j);
+                
+                if(flight2.containsKey("arrivalIATA")) { 
+                    arrivalIATA = (String) flight2.get("arrivalIATA");
+                    arrivalAt = (String) flight2.get("arrivalAt"); 
+                    arrivalTerminal = (String) flight2.get("arrivalTerminal");
+                    flightList.remove(j); //Remove the flight information from the list after it has been processed
+
+                    for(int k = 0; k < flightList.size(); k++){
+                        HashMap<String, Object> flight3 = flightList.get(k); 
+                       
+                        if(flight3.containsKey("flightNumber")) { 
+                            flightNumber = (String) flight3.get("flightNumber");
+                            flightList.remove(k);
+
+                            for(int l = 0; l < flightList.size(); l++){
+                                HashMap<String, Object> flight4 = flightList.get(l);
+                                
+                                if(flight4.containsKey("carrierCode")) {
+                                    carrierCode = (String) flight4.get("carrierCode");
+                                    flightList.remove(l);
+                                    break;
+                                }
+                        }
+
+                        break;
+                    }
+                }
+
+                break;
+            }
+        }
+
+        String flightString = "Departure IATA: " + departureIATA + " Arrival IATA: " + arrivalIATA + " Departure time: " + departureAt + " Arrival time: " + arrivalAt + " Departure terminal: " + departureTerminal + " Arrival terminal: " + arrivalTerminal + " Flight number: " + flightNumber + " Carrier code: " + carrierCode; //Create a string to store the flight information
+        organizedFlightList.add(flightString); //Add the flight information to the organized flight list
+    }
+
+    return organizedFlightList; //Return the organized flight list
+}
+
+    public ArrayList<HashMap<String, Object>> manageFlightList(List<Map<String, Object>> departureList, List<Map<String, Object>> arrivalList, ArrayList<String> flightNumberList, ArrayList<String> carrierCodeList) {
+        ArrayList<HashMap<String, Object>> flightList = new ArrayList<>(); //Create an ArrayList to store the flight information
+
+        for(int i = 0; i < departureList.size(); i++) {
+            HashMap<String, Object> flight = new HashMap<>(); //Create a HashMap to store the flight information
+
+            try{
+                Map<String, Object> departure = (Map<String, Object>) departureList.get(i);
+
+                String departureIATA = (String) departure.get("iataCode"); //Get the IATA code for the departure airport
+                
+                String departureAt = (String) departure.get("at"); //Get the departure time
+                
+                String departureTerminal = "Unknown"; //Initialize the departure terminal
+                if(departure.containsKey("terminal")) { //Check if the terminal information is available
+                    departureTerminal = (String) departure.get("terminal"); //Get the departure terminal
+                } else {
+                    departureTerminal = departureTerminal; //Set the terminal to unknown if not available
+                }
+    
+                flight.put("departureIATA", departureIATA); //Add the departure IATA code to the flight HashMap
+                flight.put("departureAt", departureAt); //Add the departure time to the flight HashMap
+                flight.put("departureTerminal", departureTerminal); //Add the departure terminal to the flight HashMap
+                flightList.add(flight); //Add the flight HashMap to the flight list
+
+            } catch (Exception e) {
+                e.getMessage(); //Print the error message
+            }
+            
+        }
+
+        for(int i = 0; i < arrivalList.size(); i++){
+            HashMap<String, Object> flight = new HashMap<>(); //Create a HashMap to store the flight information
+            try{
+                Map<String, Object> arrival = (Map<String, Object>) arrivalList.get(i);
+
+                String arrivalIATA = (String) arrival.get("iataCode"); //Get the IATA code for the arrival airport
+                String arrivalTerminal = "Unknown"; //Initialize the arrival terminal
+
+                if(arrival.containsKey("terminal")) { //Check if the terminal information is available
+                    arrivalTerminal = (String) arrival.get("terminal"); //Get the arrival terminal
+                } else {
+                    arrivalTerminal = arrivalTerminal; //Set the terminal to unknown if not available
+                }
+                String arrivalAt = (String) arrival.get("at"); //Get the arrival time
+
+                flight.put("arrivalIATA", arrivalIATA); //Add the arrival IATA code to the flight HashMap
+                flight.put("arrivalAt", arrivalAt); //Add the arrival time to the flight HashMap
+                flight.put("arrivalTerminal", arrivalTerminal); //Add the arrival terminal to the flight HashMap
+                flightList.add(flight); //Add the flight HashMap to the flight list
+
+                
+            } catch (Exception e) {
+                e.getMessage();
+            }
+        }
+
+        for(int i = 0; i < flightNumberList.size(); i++){
+            HashMap<String, Object> flight = new HashMap<>(); //Create a HashMap to store the flight information
+            String flightNumber = "Unknown"; //Initialize the flight number
+            try {
+                flightNumber = flightNumberList.get(i);
+                flight.put("flightNumber", flightNumber); //Add the flight number to the flight HashMap
+                flightList.add(flight); //Add the flight HashMap to the flight list
+            } catch (Exception e) {
+                System.out.println("No flight number information available.");
+            }
+        }
+
+        for(int i = 0; i < carrierCodeList.size(); i++){
+            HashMap<String, Object> flight = new HashMap<>(); //Create a HashMap to store the flight information
+            try{
+                String carrierCode = carrierCodeList.get(i);
+                carrierCode = carrierCode; //Add the ID suffix to the carrier code
+                flight.put("carrierCode", carrierCode); //Add the carrier code to the flight HashMap
+                flightList.add(flight); //Add the flight HashMap to the flight list
+
+
+            } catch (Exception e) {
+                e.getMessage();
+            }
+        }
+
+        return flightList; //Return the list of flights
+    }
+
+    public List<Map<String, Object>> getDepartureOrArrivalList(int index, List<Map<String, Object>> dataList, String key) {
+        List<Map<String, Object>> list = new ArrayList<>(); //Create an ArrayList to store the flight information
 
         List<Map<String, Object>> itineraries = (List<Map<String, Object>>) dataList.get(index).get("itineraries"); 
         
-        //duration, this is outside the segments map. 
-        String duration = itineraries.get(0).get("duration").toString();
-
-        System.out.println("duration: " + duration);
-
-        //always fetch index 0, since each itinerary has one segment, which is located at index 0.
         List<Map<String, Object>> segments = (List<Map<String, Object>>) itineraries.get(0).get("segments");
         
-        //Each departure list shows where one should depart from. Important info to know how many departures (and arrivals) a customer has to make.
-        int  amountOfDepartures = 0;
-
-        // Unique ID for each departure and its related information.
-        // Used with another ID called "ID_Arrival" to match departures with their corresponding arrivals.
-        int ID_Departure = 0;
-        String idSuffix_Departure = "_ID" + ID_Departure;
-
-
         //for each departure in the segments list, we will get the departure information.
         for(int i = 0; i < segments.size(); i++) {
             try{
-                Map<String, Object> departure = (Map<String, Object>) segments.get(i).get("departure");
+                Map<String, Object> currentList = (Map<String, Object>) segments.get(i).get(key);
 
-                if(departure != null){
-                    String departureIATA = departure.get("iataCode") + idSuffix_Departure;
-                    System.out.println("departureIATA: " + departureIATA);
-
-                    String departureAt = departure.get("at")+ idSuffix_Departure;
-                    System.out.println("departureAt: " + departureAt);
-
-                    String departureTerminal = "Unknown";
-
-                    if(departure.containsKey("terminal")){
-                        departureTerminal = departure.get("terminal").toString() + idSuffix_Departure;
-                    } else {
-                        departureTerminal = "Unknown_ID" + ID_Departure;
-                    }
-
-                    System.out.println("departureTerminal: " + departureTerminal);
-
-                    ID_Departure++;
+                if(currentList != null){
+                    list.add(currentList);
                 }
 
             } catch (Exception e) {
-                //System.out.println("Kunde inte läsa departure för segment " + i + ": " + e.getMessage());
+                e.getMessage();
+
             }
         }
 
-        // Unique ID for each arrival and its related information.
-        // Used with "ID_Departure" to match departure-arrival pairs
-        int ID_Arrival = 0;
-        String idSuffix_Arrival = "_ID" + ID_Arrival;
+        return list;
+    }
 
-        //for each arrival in the segments list, we will get the arrival information.
+    public ArrayList<String> getFlightNumber(int index, List<Map<String, Object>> dataList) {
+        ArrayList<String> flightNumberList = new ArrayList<>(); //Create an ArrayList to store the flight information
+
+        List<Map<String, Object>> itineraries = (List<Map<String, Object>>) dataList.get(index).get("itineraries"); 
+        
+        //always fetch index 0, since each itinerary has one segment, which is located at index 0.
+        List<Map<String, Object>> segments = (List<Map<String, Object>>) itineraries.get(0).get("segments");
+        
+        //for each departure in the segments list, we will get the departure information.
         for(int i = 0; i < segments.size(); i++){
             try{
-                Map<String, Object> arrival = (Map<String, Object>) segments.get(i).get("arrival");
+                String flightNumber = segments.get(i).get("number").toString();
                 
-                if(arrival != null){
-                    String arrivalIATA = arrival.get("iataCode") + idSuffix_Arrival;
-                    System.out.println("arrivalIATA: " + arrivalIATA);
-
-                    String arrivalTerminal = "Unknown";
-
-                    if(arrival.containsKey("terminal")){
-                        arrivalTerminal = arrival.get("terminal") + idSuffix_Arrival;
-                    } else {
-                        arrivalTerminal = "Unknown_ID" + idSuffix_Arrival;
-                    }
-                    System.out.println("arrivalTerminal: " + arrivalTerminal);
-    
-                    String arrivalAt = arrival.get("at") + idSuffix_Arrival;
-                    System.out.println("arrivalAt: " + arrivalAt);
-                        
-                    String flightNumber = "Unknown";
-                    try {
-                        flightNumber = segments.get(0).get("number").toString();
-                        System.out.println("flightNumber: " + flightNumber);
-                    } catch (Exception e) {
-                        System.out.println("No flight number information available.");
-                    }
-
-                    ID_Arrival++;
-                }
-            } catch (Exception e) {
-                System.out.println("Kunde inte läsa departure för segment " + i + ": " + e.getMessage());
-            }
-        }
-
-        // Unique ID for each flight number
-        int ID_FlightNumber = 0;
-        String idSuffix_FlightNumber = "_ID" + ID_FlightNumber;
-
-        //Get all flight numbers
-        for(int i = 0; i < segments.size(); i++){
-            try{
-                String carrierCode = segments.get(i).get("number").toString();
-                
-                if(carrierCode != null){
-                    carrierCode = carrierCode + idSuffix_FlightNumber;
-                    ID_FlightNumber++;
-                } else {
-                    carrierCode = "Unknown_ID" + ID_FlightNumber;
+                if(flightNumberList != null){
+                    flightNumberList.add(flightNumber);
                 }
 
             } catch (Exception e) {
-                System.out.println("Kunde inte läsa departure för segment " + i + ": " + e.getMessage());
+                e.getMessage();
             }
         }
 
-        // Unique ID for each carrier code
-        int ID_CarrierCode = 0;
-        String idSuffix_CarrierCode = "_ID" + ID_CarrierCode;
+        return flightNumberList;
+    }
 
-        //Get all carrier codes
+    public ArrayList<String> getCarrierCode(int index, List<Map<String, Object>> dataList) {
+        ArrayList<String> carrierCodeList = new ArrayList<>(); //Create an ArrayList to store the flight information
+
+        List<Map<String, Object>> itineraries = (List<Map<String, Object>>) dataList.get(index).get("itineraries"); 
+        
+        //always fetch index 0, since each itinerary has one segment, which is located at index 0.
+        List<Map<String, Object>> segments = (List<Map<String, Object>>) itineraries.get(0).get("segments");
+        
+        //for each departure in the segments list, we will get the departure information.
         for(int i = 0; i < segments.size(); i++){
             try{
                 String carrierCode = segments.get(i).get("carrierCode").toString();
-
+                
                 if(carrierCode != null){
-                    carrierCode = carrierCode + idSuffix_CarrierCode;
-                    ID_CarrierCode++;
-                } else {
-                    carrierCode = "Unknown_ID" + ID_CarrierCode;
-                } 
+                    carrierCodeList.add(carrierCode);
+                }
+
             } catch (Exception e) {
-                System.out.println("Kunde inte läsa departure för segment " + i + ": " + e.getMessage());
+                e.getMessage();
             }
         }
 
-        return flight; //Return the flight HashMap
-
-
-    }
-
-    public String getFirst3Letters(String input){
-        if (input.length() <= 3) {
-            return input;
-        }
-
-        return input.substring(0, 3);
+        return carrierCodeList;
     }
 
     public String getAccessToken(String apiKey, String apiSecret) {

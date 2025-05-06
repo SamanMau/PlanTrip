@@ -25,31 +25,24 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .then(data => {
         console.log("Svar från servern:", data);
-
+      
         const resultsSection = document.getElementById("results");
         resultsSection.innerHTML = ""; // Töm tidigare resultat
-
+      
         if (data.length === 0) {
           resultsSection.innerHTML = "<p>Inga flygresor hittades för dina kriterier.</p>";
           return;
         }
-
-        data.forEach((trip, index) => {
+      
+        data.forEach((flightString, index) => {
           const tripCard = document.createElement("div");
           tripCard.className = "trip-card";
-
+      
           tripCard.innerHTML = `
-            <h3>Trip ${index + 1}</h3>
-            <p><strong>From:</strong> ${trip.fromCity || 'N/A'}</p>
-            <p><strong>To:</strong> ${trip.toCity || 'N/A'}</p>
-            <p><strong>Departure Time:</strong> ${trip.departureTime || 'N/A'}</p>
-            <p><strong>Arrival Time:</strong> ${trip.arrivalTime || 'N/A'}</p>
-            <p><strong>Travel Time:</strong> ${trip.travelTime || 'N/A'}</p>
-            <p><strong>Price:</strong> ${trip.price ? trip.price + " " + (trip.currency || '') : 'N/A'}</p>
-            <p><strong>Airline:</strong> ${trip.airline || 'N/A'}</p>
-            <p><strong>Number of Stops:</strong> ${trip.nrOfStops != null ? trip.nrOfStops : 'N/A'}</p>
+            <h3>Flyg ${index + 1}</h3>
+            <p>${flightString}</p>
           `;
-
+      
           resultsSection.appendChild(tripCard);
         });
       })
