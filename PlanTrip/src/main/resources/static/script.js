@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const resultsSection = document.getElementById("results");
         resultsSection.innerHTML = "<h2>✈️ Flight Results</h2>";
 
-        const maxFlights = 4;
+        const maxFlights = 8;
         const displayedFlights = data.slice(0, maxFlights);
 
         displayedFlights.forEach(flightInfo => {

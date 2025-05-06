@@ -1,5 +1,6 @@
 package com.example.PlanTrip.Controller;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -26,7 +27,7 @@ public class AmadeusAPIController {
         ObjectMapper mapper = new ObjectMapper(); //This object is used to convert Java objects to JSON and vice versa.
         ArrayList<HashMap<String, Object>> flightList = new ArrayList<>(); //Create an ArrayList to store the flight information
         ArrayList<String> displayedList = new ArrayList<>(); //Create an ArrayList to store the flight information
-
+        ArrayList<String> finaList = new ArrayList<>(); //Create an ArrayList to store the flight information
 
         String accessToken = getAccessToken(apiKey, apiSecret);
 
@@ -60,6 +61,7 @@ public class AmadeusAPIController {
                 int convertedCount = Integer.parseInt(count);
 
                 List<Map<String, Object>> dataList = (List<Map<String, Object>>) responseMap.get("data");
+                ArrayList<String> flightDurationList = getFlightDurations(dataList);
 
                 //iteration for each itineraries
                 for(int i = 0; i < convertedCount; i++) {
@@ -70,23 +72,75 @@ public class AmadeusAPIController {
                     ArrayList<HashMap<String, Object>> tempFlightList = manageFlightList(departureList, arrivalList, flightNumberList, carrierCodeList);
                     flightList.addAll(tempFlightList);
                 }
+
+                displayedList = organizeFlightList(flightList, flightDurationList);
+              //  finaList = filterOutDuplicateDurationTimes(displayedList); //Remove duplicate flight durations from the list
                 
-                displayedList = organizeFlightList(flightList);
+
+
             }
            
     } catch (IOException e) {
+        System.out.println("blev fel här mannen");
         e.printStackTrace();
     }
 
     return displayedList;
     }
 
+    public ArrayList<String> filterOutDuplicateDurationTimes(ArrayList<String> displayedList) {
+        ArrayList<String> filteredFlightDurationList = new ArrayList<>(); //Create an ArrayList to store the flight information
+        ArrayList<String> finalFlightList = displayedList;
+
+        for(int i = 0; i < finalFlightList.size(); i++){
+            String number = finalFlightList.get(i);
+
+            if(number.contains("Flight number:")){
+                for(int j = i + 1; j < finalFlightList.size() - i; j++){
+                    String nextNumber = finalFlightList.get(j);
+                    if(nextNumber.contains("Flight number:")){
+                        if(number.equals(nextNumber)){
+                            finalFlightList.remove(j);
+                        }
+
+                    }
+                }
+            }
+        }
+
+        return finalFlightList; //Return the list of flight durations
+    }
+
+    public ArrayList<String> getFlightDurations(List<Map<String, Object>> dataList) {
+        ArrayList<String> flightDurationList = new ArrayList<>();
+
+        for(int i = 0; i < dataList.size(); i++){
+            try{
+                List<Map<String, Object>> itineraries = (List<Map<String, Object>>) dataList.get(i).get("itineraries");
+                
+                if(itineraries != null) {
+                    String duration = itineraries.get(0).get("duration").toString();
+                    flightDurationList.add(duration);
+                }
+
+            } catch (Exception e) {
+                e.getMessage();
+            }
+        }
+
+
+        return flightDurationList;
+    }
+
     //This method organizes the flight list into a more readable format to be displayed on the frontend.
-    public ArrayList<String> organizeFlightList(ArrayList<HashMap<String, Object>> flightList) {
+    public ArrayList<String> organizeFlightList(ArrayList<HashMap<String, Object>> flightList, ArrayList<String> flightDurationList) {
+        int flight = 1;
         ArrayList<String> result = new ArrayList<>();
         System.out.println("\n");
-    
+      //  StringBuilder flightHeader_sb = new StringBuilder();
+
         for (int i = 0; i < flightList.size(); i += 12) {
+            StringBuilder flightHeader_sb = new StringBuilder();
             StringBuilder sb = new StringBuilder();
             String departureIATA = "";
             String departureTime = "";
@@ -98,6 +152,20 @@ public class AmadeusAPIController {
 
             String fn = "";
             String cc = "";
+
+            if(flightDurationList.size() > 1) {
+                String duration = flightDurationList.get(0);
+                flightHeader_sb.append("Flight number: " + flight).append("\n").append("⏳ Flight duration: ").append(duration).append("\n").append("\n");
+                flightDurationList.remove(0);
+                flight++;
+                result.add(flightHeader_sb.toString()); //Add the flight header to the result list
+
+            } else if(flightDurationList.size() == 1){
+                String duration = flightDurationList.get(0);
+                flightHeader_sb.append("Flight number: " + flight).append("⏳ Flight duration: ").append(duration).append("\n").append("\n");
+                flight++;
+                result.add(flightHeader_sb.toString()); //Add the flight header to the result list
+            }
     
             for (int j = 0; j < 3; j++) {
                 HashMap<String, Object> departure = flightList.get(i + j);
@@ -124,11 +192,11 @@ public class AmadeusAPIController {
                 .append("🏢 Airline: ").append(cc).append("\n").append("\n")
                 .append("📍Arrival: ").append(arrivalIATA).append("\n")
                 .append("🗓️ Arrival time: ").append(arrivalTime).append("\n")
-                .append("🛂Arrival terminal: ").append(arrivalTerminal).append("\n");
-                
+                .append("🛂Arrival terminal: ").append(arrivalTerminal).append("\n");                
             }
 
     
+        //    result.add(flightHeader_sb.toString()); //Add the flight header to the result list
             result.add(sb.toString());
         }
     
