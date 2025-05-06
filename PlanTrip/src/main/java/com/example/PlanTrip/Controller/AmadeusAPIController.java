@@ -74,11 +74,6 @@ public class AmadeusAPIController {
                 }
                 
                 displayedList = organizeFlightList(flightList);
-                for (String flight : displayedList) {
-                    System.out.println(flight); //Print the organized flight information
-                }
-
-
             }
            
     } catch (IOException e) {
@@ -91,9 +86,20 @@ public class AmadeusAPIController {
     //This method organizes the flight list into a more readable format to be displayed on the frontend.
     public ArrayList<String> organizeFlightList(ArrayList<HashMap<String, Object>> flightList) {
         ArrayList<String> result = new ArrayList<>();
+        System.out.println("\n");
     
         for (int i = 0; i < flightList.size(); i += 12) {
             StringBuilder sb = new StringBuilder();
+            String departureIATA = "";
+            String departureTime = "";
+            String departureTerminal = "";
+
+            String arrivalIATA = "";
+            String arrivalTime = "";
+            String arrivalTerminal = "";
+
+            String fn = "";
+            String cc = "";
     
             for (int j = 0; j < 3; j++) {
                 HashMap<String, Object> departure = flightList.get(i + j);
@@ -101,17 +107,18 @@ public class AmadeusAPIController {
                 HashMap<String, Object> flightNumber = flightList.get(i + 6 + j);
                 HashMap<String, Object> carrier = flightList.get(i + 9 + j);
     
-                String departureIATA = (String) departure.get("departureIATA");
-                String departureTime = (String) departure.get("departureAt");
-                String departureTerminal = (String) departure.get("departureTerminal");
+                departureIATA = (String) departure.get("departureIATA");
+                departureTime = (String) departure.get("departureAt");
+                departureTerminal = (String) departure.get("departureTerminal");
     
-                String arrivalIATA = (String) arrival.get("arrivalIATA");
-                String arrivalTime = (String) arrival.get("arrivalAt");
-                String arrivalTerminal = (String) arrival.get("arrivalTerminal");
+                arrivalIATA = (String) arrival.get("arrivalIATA");
+                arrivalTime = (String) arrival.get("arrivalAt");
+                arrivalTerminal = (String) arrival.get("arrivalTerminal");
     
-                String fn = (String) flightNumber.get("flightNumber");
-                String cc = (String) carrier.get("carrierCode");
+                fn = (String) flightNumber.get("flightNumber");
+                cc = (String) carrier.get("carrierCode");
     
+                
                 sb.append(departureIATA).append(" ➝ ").append(arrivalIATA)
                   .append(" | Departure: ").append(departureTime)
                   .append(" | Arrival: ").append(arrivalTime)
@@ -119,7 +126,9 @@ public class AmadeusAPIController {
                   .append(" | Flight number: ").append(fn)
                   .append(" | Airline: ").append(cc)
                   .append("\n");
+                
             }
+
     
             result.add(sb.toString());
         }

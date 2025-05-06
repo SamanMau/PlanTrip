@@ -24,26 +24,17 @@ document.addEventListener("DOMContentLoaded", function () {
         return response.json(); // Förväntar sig en ArrayList av HashMaps som konverteras till array av objekt i JS
       })
       .then(data => {
-        console.log("Svar från servern:", data);
-      
         const resultsSection = document.getElementById("results");
-        resultsSection.innerHTML = ""; // Töm tidigare resultat
+        resultsSection.innerHTML = "<h2>✈️ Flight Results</h2>"; // Töm och sätt rubrik
       
-        if (data.length === 0) {
-          resultsSection.innerHTML = "<p>Inga flygresor hittades för dina kriterier.</p>";
-          return;
-        }
+        const maxFlights = 4;
+        const displayedFlights = data.slice(0, maxFlights);
       
-        data.forEach((flightString, index) => {
-          const tripCard = document.createElement("div");
-          tripCard.className = "trip-card";
-      
-          tripCard.innerHTML = `
-            <h3>Flyg ${index + 1}</h3>
-            <p>${flightString}</p>
-          `;
-      
-          resultsSection.appendChild(tripCard);
+        displayedFlights.forEach(flightInfo => {
+          const flightCard = document.createElement("div");
+          flightCard.className = "flight-card";
+          flightCard.textContent = flightInfo;
+          resultsSection.appendChild(flightCard);
         });
       })
       .catch(error => {
