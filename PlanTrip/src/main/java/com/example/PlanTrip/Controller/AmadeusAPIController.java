@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +28,6 @@ public class AmadeusAPIController {
         ObjectMapper mapper = new ObjectMapper(); //This object is used to convert Java objects to JSON and vice versa.
         ArrayList<HashMap<String, Object>> flightList = new ArrayList<>(); //Create an ArrayList to store the flight information
         ArrayList<String> displayedList = new ArrayList<>(); //Create an ArrayList to store the flight information
-        ArrayList<String> finaList = new ArrayList<>(); //Create an ArrayList to store the flight information
 
         String accessToken = getAccessToken(apiKey, apiSecret);
 
@@ -62,6 +62,7 @@ public class AmadeusAPIController {
 
                 List<Map<String, Object>> dataList = (List<Map<String, Object>>) responseMap.get("data");
                 ArrayList<String> flightDurationList = getFlightDurations(dataList);
+                ArrayList<String> travelerPricingList = getTravelerPricings(dataList, adults, children, infants, currency);
 
                 //iteration for each itineraries
                 for(int i = 0; i < convertedCount; i++) {
@@ -73,43 +74,109 @@ public class AmadeusAPIController {
                     flightList.addAll(tempFlightList);
                 }
 
-                displayedList = organizeFlightList(flightList, flightDurationList);
-              //  finaList = filterOutDuplicateDurationTimes(displayedList); //Remove duplicate flight durations from the list
-                
-
-
+                displayedList = organizeFlightList(flightList, flightDurationList, travelerPricingList);
             }
            
     } catch (IOException e) {
-        System.out.println("blev fel här mannen");
         e.printStackTrace();
     }
 
     return displayedList;
     }
 
-    public ArrayList<String> filterOutDuplicateDurationTimes(ArrayList<String> displayedList) {
-        ArrayList<String> filteredFlightDurationList = new ArrayList<>(); //Create an ArrayList to store the flight information
-        ArrayList<String> finalFlightList = displayedList;
+    public ArrayList<String> getTravelerPricings(List<Map<String, Object>> dataList, String adults, String children, String infants, String currency) {
+            ArrayList<String> travelerPricingList = new ArrayList<>();
+            int childrenAmount = 0;
+            int infantsAmount = 0;
+            //we dont need one "adultsAmount" variable for adults, as the API requires at least one adult to be present in the request.
+            
+            
+            double totalPrice = 0;
+            double totalAdultPrice = 0;
+            double totalChildrenPrice = 0;
+            double totalInfantPrice = 0;
+            String oneAdultPrice = null;
+            String oneChildPrice = null;
+            String oneInfantPrice = null;
 
-        for(int i = 0; i < finalFlightList.size(); i++){
-            String number = finalFlightList.get(i);
+            if(children == null || children.isEmpty()) {
+                childrenAmount = 0;
+            } else {
+                childrenAmount = Integer.parseInt(children.trim());
+            }
 
-            if(number.contains("Flight number:")){
-                for(int j = i + 1; j < finalFlightList.size() - i; j++){
-                    String nextNumber = finalFlightList.get(j);
-                    if(nextNumber.contains("Flight number:")){
-                        if(number.equals(nextNumber)){
-                            finalFlightList.remove(j);
+            if(infants == null || infants.isEmpty()) {
+                infantsAmount = 0;
+            } else {
+                infantsAmount = Integer.parseInt(infants.trim());
+            }
+
+            /*
+             * The index for the child prices is determined by the number of adults.
+             * This pattern was identified when testing the API.
+             */
+            int childIndex = Integer.parseInt(adults);
+
+            //same goes for infants.
+            int infantIndex = Integer.parseInt(adults) + childrenAmount;
+            
+            for(int i = 0; i < dataList.size(); i++){
+                try{
+                    List<Map<String, Object>> pricings = (List<Map<String, Object>>) dataList.get(i).get("travelerPricings");
+                    
+                    if(pricings != null) {
+                        Map<String, Object> price_map_adult = (Map<String, Object>) pricings.get(0).get("price");
+                        oneAdultPrice = (String) price_map_adult.get("total");
+
+                        totalAdultPrice = Double.parseDouble(oneAdultPrice.trim()) * Double.parseDouble(adults.trim());
+                        Map<String, Object> price_map_children = (Map<String, Object>) pricings.get(childIndex).get("price");
+                        totalPrice += totalAdultPrice;
+
+
+                        if(price_map_children != null || price_map_children.size() > 0) {
+                            oneChildPrice = (String) price_map_children.get("total");
+                            totalChildrenPrice = Double.parseDouble(oneChildPrice.trim()) * childrenAmount;
+                            totalPrice += totalChildrenPrice;
+                        }
+                        
+                        Map<String, Object> price_map_infant = (Map<String, Object>) pricings.get(infantIndex).get("price");
+
+                        if(price_map_infant != null || price_map_infant.size() > 0) {
+                            oneInfantPrice = (String) price_map_infant.get("total");
+                            totalInfantPrice = Double.parseDouble(oneInfantPrice.trim()) * infantsAmount;
+                            totalPrice += totalInfantPrice;
                         }
 
+                        DecimalFormat df = new DecimalFormat("#.##");
+                        String formattedTotalPrice = df.format(totalPrice);
+
+                        String element = "";
+
+                        if(totalChildrenPrice != 0 && totalInfantPrice != 0){
+                            element = "Total price: " + formattedTotalPrice + "(" + currency + ")" + "\n" + "Total adult price: " + totalAdultPrice + "(" + currency + ")" + "\n" + "Total children price: " + totalChildrenPrice + "(" + currency + ")" + "\n" + "Infant price: " + totalInfantPrice + "(" + currency + ")";
+                        } else if(totalChildrenPrice != 0 && totalInfantPrice == 0) {
+                            element = "Total price: " + formattedTotalPrice + "(" + currency + ")" + "\n" + "Total adult price: " + totalAdultPrice + "(" + currency + ")" + "\n" + "Total children price: " + totalChildrenPrice + "(" + currency + ")";
+                        } else if(totalChildrenPrice == 0 && totalInfantPrice != 0) {
+                            element = "Total price: " + formattedTotalPrice + "(" + currency + ")" + "\n" + "Total adult price: " + totalAdultPrice + "(" + currency + ")" + "\n" + "Infant price: " + totalInfantPrice + "(" + currency + ")";
+                        } else if (totalChildrenPrice == 0 && totalInfantPrice == 0){
+                            element = "Total price: " + formattedTotalPrice + "(" + currency + ")"  + "\n"  +"Total adult price: "  + totalAdultPrice  +"("  + currency  + ")" ;
+                        }
+
+                        travelerPricingList.add(element);
+                        totalPrice = 0; //Reset the total price for the next iteration
+                        totalAdultPrice = 0; //Reset the total adult price for the next iteration
+                        totalChildrenPrice = 0; //Reset the total children price for the next iteration
+                        totalInfantPrice = 0; //Reset the total infant price for the next iteration
                     }
+    
+                } catch (Exception e) {
+                    e.getMessage();
                 }
             }
-        }
-
-        return finalFlightList; //Return the list of flight durations
+    
+            return travelerPricingList;
     }
+
 
     public ArrayList<String> getFlightDurations(List<Map<String, Object>> dataList) {
         ArrayList<String> flightDurationList = new ArrayList<>();
@@ -133,15 +200,14 @@ public class AmadeusAPIController {
     }
 
     //This method organizes the flight list into a more readable format to be displayed on the frontend.
-    public ArrayList<String> organizeFlightList(ArrayList<HashMap<String, Object>> flightList, ArrayList<String> flightDurationList) {
+    public ArrayList<String> organizeFlightList(ArrayList<HashMap<String, Object>> flightList, ArrayList<String> flightDurationList, ArrayList<String> travelerPricingList) {
         int flight = 1;
         ArrayList<String> result = new ArrayList<>();
-        System.out.println("\n");
-      //  StringBuilder flightHeader_sb = new StringBuilder();
 
         for (int i = 0; i < flightList.size(); i += 12) {
             StringBuilder flightHeader_sb = new StringBuilder();
             StringBuilder sb = new StringBuilder();
+            StringBuilder pricing_sb = new StringBuilder();
             String departureIATA = "";
             String departureTime = "";
             String departureTerminal = "";
@@ -166,6 +232,17 @@ public class AmadeusAPIController {
                 flight++;
                 result.add(flightHeader_sb.toString()); //Add the flight header to the result list
             }
+
+            if(travelerPricingList.size() > 1) {
+                String pricing = travelerPricingList.get(0);
+                pricing_sb.append(pricing).append("\n").append("\n");
+                travelerPricingList.remove(0);
+                result.add(pricing_sb.toString()); //Add the pricing information to the result list
+            } else if(travelerPricingList.size() == 1) {
+                String pricing = travelerPricingList.get(0);
+                pricing_sb.append(pricing).append("\n").append("\n");
+                result.add(pricing_sb.toString()); //Add the pricing information to the result list
+            }
     
             for (int j = 0; j < 3; j++) {
                 HashMap<String, Object> departure = flightList.get(i + j);
@@ -186,17 +263,15 @@ public class AmadeusAPIController {
 
                 sb.append("\n")
                 .append("📍Departure: ").append(departureIATA).append("\n")
-                .append("🗓️ Departure time: ").append(departureTime).append("\n")
+                .append("🗓️Departure time: ").append(departureTime).append("\n")
                 .append("🛂Departure terminal: ").append(departureTerminal).append("\n").append("\n")
                 .append("✈️").append("Flight number: ").append(fn).append("\n")
                 .append("🏢 Airline: ").append(cc).append("\n").append("\n")
-                .append("📍Arrival: ").append(arrivalIATA).append("\n")
-                .append("🗓️ Arrival time: ").append(arrivalTime).append("\n")
+                .append("📍Arrival: ").append(arrivalIATA).append("🗓️      Arrival time:").append(arrivalTime).append("\n")
                 .append("🛂Arrival terminal: ").append(arrivalTerminal).append("\n");                
             }
 
     
-        //    result.add(flightHeader_sb.toString()); //Add the flight header to the result list
             result.add(sb.toString());
         }
     
