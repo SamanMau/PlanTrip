@@ -70,11 +70,21 @@ public class AmadeusAPIController {
                     List<Map<String, Object>> arrivalList = getDepartureOrArrivalList(i, dataList, "arrival");
                     ArrayList<String> flightNumberList = getFlightNumber(i, dataList);
                     ArrayList<String> carrierCodeList = getCarrierCode(i, dataList);
-                    ArrayList<HashMap<String, Object>> tempFlightList = manageFlightList(departureList, arrivalList, flightNumberList, carrierCodeList);
+                    ArrayList<HashMap<String, Object>> tempFlightList = preprocessFlightData(departureList, arrivalList, flightNumberList, carrierCodeList, i);
                     flightList.addAll(tempFlightList);
                 }
 
-                displayedList = organizeFlightList(flightList, flightDurationList, travelerPricingList);
+                int stops = checkNumberOfStops(flightList); //Check the number of stops for the flights
+
+                if(stops == 2){
+                    displayedList = prepareDisplayStrings(flightList, flightDurationList, travelerPricingList, 12, 3, 0, 3, 6, 9);
+                } else if (stops == 1){
+                    displayedList = prepareDisplayStrings(flightList, flightDurationList, travelerPricingList, 8, 2, 0, 2, 4, 6);
+                    
+                } else if (stops == 0){
+                    displayedList = prepareDisplayStrings(flightList, flightDurationList, travelerPricingList, 4, 1, 0, 1, 2, 3);
+                }  
+
             }
            
     } catch (IOException e) {
@@ -82,6 +92,30 @@ public class AmadeusAPIController {
     }
 
     return displayedList;
+    }
+
+    public int checkNumberOfStops(ArrayList<HashMap<String, Object>> flightList){
+        int stops = -1; //Initialize the number of stops to -1. The first departure does not count.
+
+        try{
+            for(int i = 0; i < flightList.size(); i++){
+                String departure = (String)flightList.get(i).get("departureIATA");
+                String arrival = (String) flightList.get(i).get("arrivalIATA");
+    
+                if(departure != null && !departure.isEmpty()) { //Check if the flight has a departure IATA code
+                    stops++; //Increment the number of stops
+                }
+    
+                if(arrival != null && !arrival.isEmpty()) {
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return stops; //Return the number of stops
     }
 
     public ArrayList<String> getTravelerPricings(List<Map<String, Object>> dataList, String adults, String children, String infants, String currency) {
@@ -199,86 +233,102 @@ public class AmadeusAPIController {
         return flightDurationList;
     }
 
-    //This method organizes the flight list into a more readable format to be displayed on the frontend.
-    public ArrayList<String> organizeFlightList(ArrayList<HashMap<String, Object>> flightList, ArrayList<String> flightDurationList, ArrayList<String> travelerPricingList) {
-        int flight = 1;
-        ArrayList<String> result = new ArrayList<>();
-
-        for (int i = 0; i < flightList.size(); i += 12) {
-            StringBuilder flightHeader_sb = new StringBuilder();
-            StringBuilder sb = new StringBuilder();
-            StringBuilder pricing_sb = new StringBuilder();
-            String departureIATA = "";
-            String departureTime = "";
-            String departureTerminal = "";
-
-            String arrivalIATA = "";
-            String arrivalTime = "";
-            String arrivalTerminal = "";
-
-            String fn = "";
-            String cc = "";
-
-            if(flightDurationList.size() > 1) {
-                String duration = flightDurationList.get(0);
-                flightHeader_sb.append("📄Flight number: " + flight).append("\n").append("⏳ Flight duration: ").append(duration).append("\n").append("\n");
-                flightDurationList.remove(0);
-                flight++;
-                result.add(flightHeader_sb.toString()); //Add the flight header to the result list
-
-            } else if(flightDurationList.size() == 1){
-                String duration = flightDurationList.get(0);
-                flightHeader_sb.append("📄Flight number: " + flight).append("\n").append("⏳ Flight duration: ").append(duration).append("\n").append("\n");
-                flight++;
-                result.add(flightHeader_sb.toString()); //Add the flight header to the result list
+    //This method prepares the display strings for the flight information.
+    //It takes the flight list, flight duration list, and traveler pricing list as input and returns an ArrayList of strings for display.
+    public ArrayList<String> prepareDisplayStrings(ArrayList<HashMap<String, Object>> flightList, ArrayList<String> flightDurationList, ArrayList<String> travelerPricingList, int outerLoopIncrement, int innerLoopCondition, int departureOffset, int arrivalOffset, int flightNumberOffset, int carrierCodeOffset) {
+  
+        try{
+            int flight = 1;
+            ArrayList<String> result = new ArrayList<>();
+    
+            for (int i = 0; i < flightList.size(); i += outerLoopIncrement) {
+                StringBuilder flightHeader_sb = new StringBuilder();
+                StringBuilder sb = new StringBuilder();
+                StringBuilder pricing_sb = new StringBuilder();
+                String departureIATA = "";
+                String departureTime = "";
+                String departureTerminal = "";
+    
+                String arrivalIATA = "";
+                String arrivalTime = "";
+                String arrivalTerminal = "";
+    
+                String fn = "";
+                String cc = "";
+    
+                if(flightDurationList.size() > 1) {
+                    String duration = flightDurationList.get(0);
+                    flightHeader_sb.append("📄Flight number: " + flight).append("\n").append("⏳ Flight duration: ").append(duration).append("\n").append("\n");
+                    flightDurationList.remove(0);
+                    flight++;
+                    result.add(flightHeader_sb.toString()); //Add the flight header to the result list
+    
+                } else if(flightDurationList.size() == 1){
+                    String duration = flightDurationList.get(0);
+                    flightHeader_sb.append("📄Flight number: " + flight).append("\n").append("⏳ Flight duration: ").append(duration).append("\n").append("\n");
+                    flight++;
+                    result.add(flightHeader_sb.toString()); //Add the flight header to the result list
+                }
+    
+                if(travelerPricingList.size() > 1) {
+                    String pricing = travelerPricingList.get(0);
+                    pricing_sb.append(pricing).append("\n").append("\n");
+                    travelerPricingList.remove(0);
+                    result.add(pricing_sb.toString()); //Add the pricing information to the result list
+                } else if(travelerPricingList.size() == 1) {
+                    String pricing = travelerPricingList.get(0);
+                    pricing_sb.append(pricing).append("\n").append("\n");
+                    result.add(pricing_sb.toString()); //Add the pricing information to the result list
+                }
+        
+                for (int j = 0; j < innerLoopCondition; j++) {
+                    HashMap<String, Object> departure = flightList.get(i + departureOffset + j);
+                    HashMap<String, Object> arrival = flightList.get(i + arrivalOffset + j);
+                    HashMap<String, Object> flightNumber = flightList.get(i + flightNumberOffset + j);
+                    HashMap<String, Object> carrier = flightList.get(i + carrierCodeOffset + j);
+        
+                    departureIATA = (String) departure.get("departureIATA");
+                    departureTime = (String) departure.get("departureAt");
+                    departureTerminal = (String) departure.get("departureTerminal");
+        
+                    arrivalIATA = (String) arrival.get("arrivalIATA");
+                    arrivalTime = (String) arrival.get("arrivalAt");
+                    arrivalTerminal = (String) arrival.get("arrivalTerminal");
+        
+                    fn = (String) flightNumber.get("flightNumber");
+                    cc = (String) carrier.get("carrierCode");
+    
+                    sb.append("\n")
+                    .append("📍Departure: ").append(departureIATA).append("\n")
+                    .append("🗓️Departure time: ").append(departureTime).append("\n")
+                    .append("🛂Departure terminal: ").append(departureTerminal).append("\n").append("\n")
+                    .append("✈️").append("Flight number: ").append(fn).append("\n")
+                    .append("🏢 Airline: ").append(cc).append("\n").append("\n")
+                    .append("📍Arrival: ").append(arrivalIATA).append("🗓️      Arrival time:").append(arrivalTime).append("\n")
+                    .append("🛂Arrival terminal: ").append(arrivalTerminal).append("\n");                
+                }
+    
+        
+                result.add(sb.toString());
             }
-
-            if(travelerPricingList.size() > 1) {
-                String pricing = travelerPricingList.get(0);
-                pricing_sb.append(pricing).append("\n").append("\n");
-                travelerPricingList.remove(0);
-                result.add(pricing_sb.toString()); //Add the pricing information to the result list
-            } else if(travelerPricingList.size() == 1) {
-                String pricing = travelerPricingList.get(0);
-                pricing_sb.append(pricing).append("\n").append("\n");
-                result.add(pricing_sb.toString()); //Add the pricing information to the result list
+        
+            
+            for(int x = 0; x < result.size(); x++){
+                System.out.println(result.get(x)); //Print the result to the console
             }
-    
-            for (int j = 0; j < 3; j++) {
-                HashMap<String, Object> departure = flightList.get(i + j);
-                HashMap<String, Object> arrival = flightList.get(i + 3 + j);
-                HashMap<String, Object> flightNumber = flightList.get(i + 6 + j);
-                HashMap<String, Object> carrier = flightList.get(i + 9 + j);
-    
-                departureIATA = (String) departure.get("departureIATA");
-                departureTime = (String) departure.get("departureAt");
-                departureTerminal = (String) departure.get("departureTerminal");
-    
-                arrivalIATA = (String) arrival.get("arrivalIATA");
-                arrivalTime = (String) arrival.get("arrivalAt");
-                arrivalTerminal = (String) arrival.get("arrivalTerminal");
-    
-                fn = (String) flightNumber.get("flightNumber");
-                cc = (String) carrier.get("carrierCode");
+            
+            return result;
 
-                sb.append("\n")
-                .append("📍Departure: ").append(departureIATA).append("\n")
-                .append("🗓️Departure time: ").append(departureTime).append("\n")
-                .append("🛂Departure terminal: ").append(departureTerminal).append("\n").append("\n")
-                .append("✈️").append("Flight number: ").append(fn).append("\n")
-                .append("🏢 Airline: ").append(cc).append("\n").append("\n")
-                .append("📍Arrival: ").append(arrivalIATA).append("🗓️      Arrival time:").append(arrivalTime).append("\n")
-                .append("🛂Arrival terminal: ").append(arrivalTerminal).append("\n");                
-            }
 
-    
-            result.add(sb.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    
-        return result;
+
+        return null;
     }
 
-    public ArrayList<HashMap<String, Object>> manageFlightList(List<Map<String, Object>> departureList, List<Map<String, Object>> arrivalList, ArrayList<String> flightNumberList, ArrayList<String> carrierCodeList) {
+    //This method preprocesses the flight data and organizes it into a more readable format.
+    public ArrayList<HashMap<String, Object>> preprocessFlightData(List<Map<String, Object>> departureList, List<Map<String, Object>> arrivalList, ArrayList<String> flightNumberList, ArrayList<String> carrierCodeList, int trycount) {
         ArrayList<HashMap<String, Object>> flightList = new ArrayList<>(); //Create an ArrayList to store the flight information
 
         for(int i = 0; i < departureList.size(); i++) {
@@ -304,7 +354,7 @@ public class AmadeusAPIController {
                 flightList.add(flight); //Add the flight HashMap to the flight list
 
             } catch (Exception e) {
-                e.getMessage(); //Print the error message
+                e.printStackTrace();
             }
             
         }
@@ -331,7 +381,7 @@ public class AmadeusAPIController {
 
                 
             } catch (Exception e) {
-                e.getMessage();
+                e.printStackTrace();
             }
         }
 
@@ -343,7 +393,7 @@ public class AmadeusAPIController {
                 flight.put("flightNumber", flightNumber); //Add the flight number to the flight HashMap
                 flightList.add(flight); //Add the flight HashMap to the flight list
             } catch (Exception e) {
-                System.out.println("No flight number information available.");
+                e.printStackTrace();
             }
         }
 
@@ -355,9 +405,8 @@ public class AmadeusAPIController {
                 flight.put("carrierCode", carrierCode); //Add the carrier code to the flight HashMap
                 flightList.add(flight); //Add the flight HashMap to the flight list
 
-
             } catch (Exception e) {
-                e.getMessage();
+                e.printStackTrace();
             }
         }
 

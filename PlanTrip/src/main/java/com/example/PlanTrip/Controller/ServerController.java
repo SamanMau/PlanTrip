@@ -38,6 +38,8 @@ public class ServerController {
         HashMap<String, String> iataCodesList = chatGPTController.getIATACode(from, to, chatGptApiKey);
         String fromIATA = iataCodesList.get("from");
         String toIATA = iataCodesList.get("to");
+        System.out.println("From IATA: " + fromIATA);
+        System.out.println("To IATA: " + toIATA);
 
         ArrayList<String> result = amadeusController.getFlightInformation(fromIATA, toIATA, date, maxPrice, amadeusApiKey, amadeusApiSecret, adults, children, infants, travelClass, currency);
 
