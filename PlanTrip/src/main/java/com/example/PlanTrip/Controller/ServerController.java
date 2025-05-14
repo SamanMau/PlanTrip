@@ -43,6 +43,10 @@ public class ServerController {
 
         ArrayList<String> result = amadeusController.getFlightInformation(fromIATA, toIATA, date, maxPrice, amadeusApiKey, amadeusApiSecret, adults, children, infants, travelClass, currency);
 
+        for(int i = 0; i < result.size(); i++){
+            System.out.println(result.get(i));
+        }
+
         return result;
     }
 

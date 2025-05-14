@@ -46,7 +46,7 @@ public class AmadeusAPIController {
 
             if(response.isSuccessful()) {
                 String responseBody = response.body().string(); //Get the response body as a string
-               
+                System.out.println("fick svar från amadeus");
                 //This line converts the JSON response to a Map object
                 //The Map object contains the key-value pairs of the JSON response                              
                 Map<String, Object> responseMap = mapper.readValue(responseBody, Map.class);
@@ -312,11 +312,6 @@ public class AmadeusAPIController {
                 result.add(sb.toString());
             }
         
-            
-            for(int x = 0; x < result.size(); x++){
-                System.out.println(result.get(x)); //Print the result to the console
-            }
-            
             return result;
 
 
