@@ -10,6 +10,17 @@ document.addEventListener("DOMContentLoaded", function () {
     const adults = document.getElementById("adults").value;
     const children = document.getElementById("children").value;
     const infants = document.getElementById("infants").value;
+
+    if(adults < 1){
+      alert("At least one adult is required");
+      return;
+    }
+
+    if(infants > adults){
+      alert("Number of infants can't exceed number of adults");
+      return;
+    }
+
     const travelClass = document.getElementById("travelClass").value;
     const maxPrice = document.getElementById("maxPrice").value;
     const currency = document.getElementById("currency").value;
@@ -25,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const resultsSection = document.getElementById("results");
         resultsSection.innerHTML = "<h2>✈️ Flight Results</h2>";
 
-        const maxFlights = 8;
+        const maxFlights = 12;
         const displayedFlights = data.slice(0, maxFlights);
 
         displayedFlights.forEach(flightInfo => {

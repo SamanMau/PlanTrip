@@ -13,6 +13,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.example.PlanTrip.Controller.Entity.FlightBlock;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import okhttp3.MediaType;
@@ -27,12 +28,13 @@ public class AmadeusAPIController {
         OkHttpClient client = new OkHttpClient(); //This object is used to send HTTP requests and receive responses.
         ObjectMapper mapper = new ObjectMapper(); //This object is used to convert Java objects to JSON and vice versa.
         ArrayList<HashMap<String, Object>> flightList = new ArrayList<>(); //Create an ArrayList to store the flight information
+        ArrayList<String> listOfFlights = new ArrayList<>(); //Create an ArrayList to store the flight information
         ArrayList<String> displayedList = new ArrayList<>(); //Create an ArrayList to store the flight information
 
         String accessToken = getAccessToken(apiKey, apiSecret);
 
-        String URL = "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=" + from + "&destinationLocationCode=" + to + "&departureDate=" + date + "&adults=" + adults + "&children=" + children + "&infants=" + infants + "&travelClass=" + travelClass + "&nonStop=false&currencyCode=" + currency + "&maxPrice=" + budget + "&max=4";
-    
+        String URL = getSpecificURL(from, to, date, budget, adults, children, infants, travelClass, currency);
+
         okhttp3.Request request = new okhttp3.Request.Builder()
         .url(URL)
         .addHeader("Authorization", "Bearer " + accessToken) // Lägg till access token här
@@ -46,7 +48,6 @@ public class AmadeusAPIController {
 
             if(response.isSuccessful()) {
                 String responseBody = response.body().string(); //Get the response body as a string
-                System.out.println("fick svar från amadeus");
                 //This line converts the JSON response to a Map object
                 //The Map object contains the key-value pairs of the JSON response                              
                 Map<String, Object> responseMap = mapper.readValue(responseBody, Map.class);
@@ -74,48 +75,133 @@ public class AmadeusAPIController {
                     flightList.addAll(tempFlightList);
                 }
 
-                int stops = checkNumberOfStops(flightList); //Check the number of stops for the flights
+            int index = 0;
 
-                if(stops == 2){
-                    displayedList = prepareDisplayStrings(flightList, flightDurationList, travelerPricingList, 12, 3, 0, 3, 6, 9);
-                } else if (stops == 1){
-                    displayedList = prepareDisplayStrings(flightList, flightDurationList, travelerPricingList, 8, 2, 0, 2, 4, 6);
-                    
-                } else if (stops == 0){
-                    displayedList = prepareDisplayStrings(flightList, flightDurationList, travelerPricingList, 4, 1, 0, 1, 2, 3);
-                }  
+            while (index < flightList.size()) {
+                FlightBlock block = getEachSeparateFlight(flightList.subList(index, flightList.size()));
+                List<HashMap<String, Object>> oneFlight = block.flight;
+                int stops = checkNumberOfStops(oneFlight);
 
+
+                if (stops == 2) {
+                    listOfFlights.addAll(prepareDisplayStrings(oneFlight, flightDurationList, travelerPricingList, 12, 3, 0, 3, 6, 9));
+                } else if (stops == 3) {
+                } else if (stops == 1) {
+                    listOfFlights.addAll(prepareDisplayStrings(oneFlight, flightDurationList, travelerPricingList, 8, 2, 0, 2, 4, 6));
+                } else {
+                    listOfFlights.addAll(prepareDisplayStrings(oneFlight, flightDurationList, travelerPricingList, 4, 1, 0, 1, 2, 3));
+                }
+
+                index += block.nextIndex; // uppdatera index korrekt
             }
-           
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
 
+            displayedList = addFlightDurationAndPricingToList(listOfFlights, flightDurationList, travelerPricingList, convertedCount, children, infants);
+
+        return displayedList;           
+    }
+    } catch (IOException e){
+
+    }
+    
     return displayedList;
-    }
 
-    public int checkNumberOfStops(ArrayList<HashMap<String, Object>> flightList){
-        int stops = -1; //Initialize the number of stops to -1. The first departure does not count.
+}
+
+    public ArrayList<String> addFlightDurationAndPricingToList(ArrayList<String> result, ArrayList<String> flightDurationList, ArrayList<String> travelerPricingList, int convertedCount, String children, String infants) {
+        ArrayList<String> returnList = new ArrayList<>();
+        int flight = 1; //Initialize the flight number
+        System.out.println("flightDurationList: " + flightDurationList.size());
+        System.out.println("travelerPricingList: " + travelerPricingList.size());
 
         try{
-            for(int i = 0; i < flightList.size(); i++){
-                String departure = (String)flightList.get(i).get("departureIATA");
-                String arrival = (String) flightList.get(i).get("arrivalIATA");
-    
-                if(departure != null && !departure.isEmpty()) { //Check if the flight has a departure IATA code
-                    stops++; //Increment the number of stops
+            for(int i = 0; i < convertedCount; i++){
+                StringBuilder flightHeader_sb = new StringBuilder();
+                StringBuilder pricing_sb = new StringBuilder();
+                String duration = flightDurationList.get(i);
+                flightHeader_sb.append("📄Flight number: " + flight).append("\n").append("⏳ Flight duration: ").append(duration).append("\n").append("\n");
+                flight++;
+                returnList.add(flightHeader_sb.toString());
+
+                if(travelerPricingList.size() > 1) {
+                    String pricing = travelerPricingList.get(0);
+                    pricing_sb.append(pricing).append("\n").append("\n");
+                    travelerPricingList.remove(0);
+                    returnList.add(pricing);
                 }
-    
-                if(arrival != null && !arrival.isEmpty()) {
-                    break;
+
+                else if(travelerPricingList.size() == 1) {
+                    String pricing = travelerPricingList.get(0);
+                    pricing_sb.append(pricing).append("\n").append("\n");
+                    returnList.add(pricing);
                 }
+
+                returnList.add(result.get(i));
             }
-        } catch (Exception e) {
+
+            return returnList;
+
+        } catch (Exception e){
             e.printStackTrace();
         }
 
+        return returnList;
 
-        return stops; //Return the number of stops
+    }
+
+    public FlightBlock getEachSeparateFlight(List<HashMap<String, Object>> flightList) {
+        List<HashMap<String, Object>> oneFlight = new ArrayList<>();
+
+        for (int i = 0; i < flightList.size(); i++) {
+            HashMap<String, Object> current = flightList.get(i);
+            oneFlight.add(current);
+
+            if (current.containsKey("carrierCode") && i + 1 < flightList.size()) {
+                HashMap<String, Object> next = flightList.get(i + 1);
+                if (next.containsKey("departureIATA")) {
+                    return new FlightBlock(oneFlight, i + 1); // här
+                }
+            }
+
+
+        }
+
+        // Om vi når slutet utan att hitta ny departure
+        return new FlightBlock(oneFlight, flightList.size());
+    }
+
+    public String getSpecificURL(String from, String to, String date, String budget, String adults, String children, String infants, String travelClass, String currency) {
+        String URL = "";
+
+        if(children == null || children.isEmpty()) {
+            children = "0";
+        }
+
+        if(infants == null || infants.isEmpty()) {
+            infants = "0";
+        }
+
+        if(budget == null || budget.isEmpty()) {
+            URL = "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=" + from + "&destinationLocationCode=" + to + "&departureDate=" + date + "&adults=" + adults + "&children=" + children + "&infants=" + infants + "&travelClass=" + travelClass + "&nonStop=false" + "&max=4";
+        }
+        
+        else{
+           URL = "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=" + from + "&destinationLocationCode=" + to + "&departureDate=" + date + "&adults=" + adults + "&children=" + children + "&infants=" + infants + "&travelClass=" + travelClass + "&nonStop=false&currencyCode=" + currency + "&maxPrice=" + budget + "&max=4";
+        }
+
+        return URL;
+
+    }
+
+    public int checkNumberOfStops(List<HashMap<String, Object>> oneFlight) {
+        int stops = -1; // För att exkludera den första departure
+
+        for (HashMap<String, Object> entry : oneFlight) {
+            if (entry.containsKey("departureIATA")) {
+                stops++;
+            }
+        }
+
+        return stops;
     }
 
     public ArrayList<String> getTravelerPricings(List<Map<String, Object>> dataList, String adults, String children, String infants, String currency) {
@@ -163,22 +249,30 @@ public class AmadeusAPIController {
                         oneAdultPrice = (String) price_map_adult.get("total");
 
                         totalAdultPrice = Double.parseDouble(oneAdultPrice.trim()) * Double.parseDouble(adults.trim());
-                        Map<String, Object> price_map_children = (Map<String, Object>) pricings.get(childIndex).get("price");
                         totalPrice += totalAdultPrice;
 
-
-                        if(price_map_children != null || price_map_children.size() > 0) {
+                        try{
+                           Map<String, Object> price_map_children = (Map<String, Object>) pricings.get(childIndex).get("price");
+                            if(price_map_children != null || price_map_children.size() > 0) {
                             oneChildPrice = (String) price_map_children.get("total");
                             totalChildrenPrice = Double.parseDouble(oneChildPrice.trim()) * childrenAmount;
                             totalPrice += totalChildrenPrice;
                         }
-                        
-                        Map<String, Object> price_map_infant = (Map<String, Object>) pricings.get(infantIndex).get("price");
+
+                        } catch (Exception e) {
+                            
+                        }
+
+                        try{
+                            Map<String, Object> price_map_infant = (Map<String, Object>) pricings.get(infantIndex).get("price");
 
                         if(price_map_infant != null || price_map_infant.size() > 0) {
                             oneInfantPrice = (String) price_map_infant.get("total");
                             totalInfantPrice = Double.parseDouble(oneInfantPrice.trim()) * infantsAmount;
                             totalPrice += totalInfantPrice;
+                        }
+                        } catch (Exception e) {
+                            
                         }
 
                         DecimalFormat df = new DecimalFormat("#.##");
@@ -187,11 +281,11 @@ public class AmadeusAPIController {
                         String element = "";
 
                         if(totalChildrenPrice != 0 && totalInfantPrice != 0){
-                            element = "Total price: " + formattedTotalPrice + "(" + currency + ")" + "\n" + "Total adult price: " + totalAdultPrice + "(" + currency + ")" + "\n" + "Total children price: " + totalChildrenPrice + "(" + currency + ")" + "\n" + "Infant price: " + totalInfantPrice + "(" + currency + ")";
+                            element = "Total price: " + formattedTotalPrice + "(" + currency + ")" + "\n" + "Total adult price: " + totalAdultPrice + "(" + currency + ")" + "\n" + "Total children price: " + totalChildrenPrice + "(" + currency + ")" + "\n" + "Total nfant price: " + totalInfantPrice + "(" + currency + ")";
                         } else if(totalChildrenPrice != 0 && totalInfantPrice == 0) {
                             element = "Total price: " + formattedTotalPrice + "(" + currency + ")" + "\n" + "Total adult price: " + totalAdultPrice + "(" + currency + ")" + "\n" + "Total children price: " + totalChildrenPrice + "(" + currency + ")";
                         } else if(totalChildrenPrice == 0 && totalInfantPrice != 0) {
-                            element = "Total price: " + formattedTotalPrice + "(" + currency + ")" + "\n" + "Total adult price: " + totalAdultPrice + "(" + currency + ")" + "\n" + "Infant price: " + totalInfantPrice + "(" + currency + ")";
+                            element = "Total price: " + formattedTotalPrice + "(" + currency + ")" + "\n" + "Total adult price: " + totalAdultPrice + "(" + currency + ")" + "\n" + "Total infant price: " + totalInfantPrice + "(" + currency + ")";
                         } else if (totalChildrenPrice == 0 && totalInfantPrice == 0){
                             element = "Total price: " + formattedTotalPrice + "(" + currency + ")"  + "\n"  +"Total adult price: "  + totalAdultPrice  +"("  + currency  + ")" ;
                         }
@@ -204,7 +298,7 @@ public class AmadeusAPIController {
                     }
     
                 } catch (Exception e) {
-                    e.getMessage();
+                    e.printStackTrace();
                 }
             }
     
@@ -235,92 +329,62 @@ public class AmadeusAPIController {
 
     //This method prepares the display strings for the flight information.
     //It takes the flight list, flight duration list, and traveler pricing list as input and returns an ArrayList of strings for display.
-    public ArrayList<String> prepareDisplayStrings(ArrayList<HashMap<String, Object>> flightList, ArrayList<String> flightDurationList, ArrayList<String> travelerPricingList, int outerLoopIncrement, int innerLoopCondition, int departureOffset, int arrivalOffset, int flightNumberOffset, int carrierCodeOffset) {
-  
-        try{
-            int flight = 1;
-            ArrayList<String> result = new ArrayList<>();
-    
-            for (int i = 0; i < flightList.size(); i += outerLoopIncrement) {
-                StringBuilder flightHeader_sb = new StringBuilder();
-                StringBuilder sb = new StringBuilder();
-                StringBuilder pricing_sb = new StringBuilder();
-                String departureIATA = "";
-                String departureTime = "";
-                String departureTerminal = "";
-    
-                String arrivalIATA = "";
-                String arrivalTime = "";
-                String arrivalTerminal = "";
-    
-                String fn = "";
-                String cc = "";
-    
-                if(flightDurationList.size() > 1) {
-                    String duration = flightDurationList.get(0);
-                    flightHeader_sb.append("📄Flight number: " + flight).append("\n").append("⏳ Flight duration: ").append(duration).append("\n").append("\n");
-                    flightDurationList.remove(0);
-                    flight++;
-                    result.add(flightHeader_sb.toString()); //Add the flight header to the result list
-    
-                } else if(flightDurationList.size() == 1){
-                    String duration = flightDurationList.get(0);
-                    flightHeader_sb.append("📄Flight number: " + flight).append("\n").append("⏳ Flight duration: ").append(duration).append("\n").append("\n");
-                    flight++;
-                    result.add(flightHeader_sb.toString()); //Add the flight header to the result list
+            public ArrayList<String> prepareDisplayStrings(
+                List<HashMap<String, Object>> flightList,
+                List<String> flightDurationList,
+                List<String> travelerPricingList,
+                int outerLoopIncrement,
+                int innerLoopCondition,
+                int departureOffset,
+                int arrivalOffset,
+                int flightNumberOffset,
+                int carrierCodeOffset
+            ) {
+                ArrayList<String> result = new ArrayList<>();
+
+                try {
+                    StringBuilder sb = new StringBuilder();
+                    StringBuilder flightHeader_sb = new StringBuilder();
+                    StringBuilder pricing_sb = new StringBuilder();
+                    int flight = 1; //Initialize the flight number
+
+                    for (int j = 0; j < innerLoopCondition; j++) {
+                        HashMap<String, Object> departure = flightList.get(departureOffset + j);
+                        HashMap<String, Object> arrival = flightList.get(arrivalOffset + j);
+                        HashMap<String, Object> flightNumber = flightList.get(flightNumberOffset + j);
+                        HashMap<String, Object> carrier = flightList.get(carrierCodeOffset + j);
+
+                        String departureIATA = (String) departure.get("departureIATA");
+                        String departureTime = (String) departure.get("departureAt");
+                        String departureTerminal = (String) departure.get("departureTerminal");
+
+                        String arrivalIATA = (String) arrival.get("arrivalIATA");
+                        String arrivalTime = (String) arrival.get("arrivalAt");
+                        String arrivalTerminal = (String) arrival.get("arrivalTerminal");
+
+                        String fn = (String) flightNumber.get("flightNumber");
+                        String cc = (String) carrier.get("carrierCode");
+
+                        sb.append("\n")
+                        .append("🛫 Departure: ").append(departureIATA).append("\n")
+                        .append("🕐 Departure time: ").append(departureTime).append("\n")
+                        .append("🛃 Departure terminal: ").append(departureTerminal).append("\n")
+                        .append("✈ Flight number: ").append(fn).append("\n")
+                        .append("🛩 Airline: ").append(cc).append("\n\n")
+                        .append("🛬 Arrival: ").append(arrivalIATA).append("\n")
+                        .append("🕐 Arrival time: ").append(arrivalTime).append("\n")
+                        .append("🛃 Arrival terminal: ").append(arrivalTerminal).append("\n");
+                    }
+
+                    result.add(sb.toString());
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-    
-                if(travelerPricingList.size() > 1) {
-                    String pricing = travelerPricingList.get(0);
-                    pricing_sb.append(pricing).append("\n").append("\n");
-                    travelerPricingList.remove(0);
-                    result.add(pricing_sb.toString()); //Add the pricing information to the result list
-                } else if(travelerPricingList.size() == 1) {
-                    String pricing = travelerPricingList.get(0);
-                    pricing_sb.append(pricing).append("\n").append("\n");
-                    result.add(pricing_sb.toString()); //Add the pricing information to the result list
-                }
-        
-                for (int j = 0; j < innerLoopCondition; j++) {
-                    HashMap<String, Object> departure = flightList.get(i + departureOffset + j);
-                    HashMap<String, Object> arrival = flightList.get(i + arrivalOffset + j);
-                    HashMap<String, Object> flightNumber = flightList.get(i + flightNumberOffset + j);
-                    HashMap<String, Object> carrier = flightList.get(i + carrierCodeOffset + j);
-        
-                    departureIATA = (String) departure.get("departureIATA");
-                    departureTime = (String) departure.get("departureAt");
-                    departureTerminal = (String) departure.get("departureTerminal");
-        
-                    arrivalIATA = (String) arrival.get("arrivalIATA");
-                    arrivalTime = (String) arrival.get("arrivalAt");
-                    arrivalTerminal = (String) arrival.get("arrivalTerminal");
-        
-                    fn = (String) flightNumber.get("flightNumber");
-                    cc = (String) carrier.get("carrierCode");
-    
-                    sb.append("\n")
-                    .append("📍Departure: ").append(departureIATA).append("\n")
-                    .append("🗓️Departure time: ").append(departureTime).append("\n")
-                    .append("🛂Departure terminal: ").append(departureTerminal).append("\n").append("\n")
-                    .append("✈️").append("Flight number: ").append(fn).append("\n")
-                    .append("🏢 Airline: ").append(cc).append("\n").append("\n")
-                    .append("📍Arrival: ").append(arrivalIATA).append("🗓️      Arrival time:").append(arrivalTime).append("\n")
-                    .append("🛂Arrival terminal: ").append(arrivalTerminal).append("\n");                
-                }
-    
-        
-                result.add(sb.toString());
+
+                return result;
             }
-        
-            return result;
 
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
 
     //This method preprocesses the flight data and organizes it into a more readable format.
     public ArrayList<HashMap<String, Object>> preprocessFlightData(List<Map<String, Object>> departureList, List<Map<String, Object>> arrivalList, ArrayList<String> flightNumberList, ArrayList<String> carrierCodeList, int trycount) {
