@@ -13,7 +13,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.example.PlanTrip.Controller.Entity.FlightBlock;
+import com.example.PlanTrip.Entity.FlightBlock;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import okhttp3.MediaType;

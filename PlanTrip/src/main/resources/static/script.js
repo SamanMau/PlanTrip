@@ -11,12 +11,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const children = document.getElementById("children").value;
     const infants = document.getElementById("infants").value;
 
-    if(adults < 1){
+    if (adults < 1) {
       alert("At least one adult is required");
       return;
     }
 
-    if(infants > adults){
+    if (infants > adults) {
       alert("Number of infants can't exceed number of adults");
       return;
     }
@@ -39,6 +39,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const maxFlights = 12;
         const displayedFlights = data.slice(0, maxFlights);
 
+        let shortestDuration = Infinity;
+
         displayedFlights.forEach(flightInfo => {
           const flightCard = document.createElement("div");
           flightCard.className = "flight-card";
@@ -47,18 +49,74 @@ document.addEventListener("DOMContentLoaded", function () {
 
           lines.forEach((line) => {
             const p = document.createElement("p");
-            p.textContent = line.trim(); // raden har redan emoji
+            p.textContent = line.trim();
             p.style.marginBottom = "8px";
             flightCard.appendChild(p);
+
+            if (line.startsWith("⏳ Flight duration:")) {
+              const durationStr = line.replace("⏳ Flight duration:", "").trim();
+              const match = durationStr.match(/(?:(\d+)h)?\s*(?:(\d+)m)?/);
+
+              if (match) {
+                const hours = parseInt(match[1]) || 0;
+                const minutes = parseInt(match[2]) || 0;
+                const totalMinutes = hours * 60 + minutes;
+
+                if (totalMinutes < shortestDuration) {
+                  shortestDuration = totalMinutes;
+                }
+              }
+            }
           });
 
           resultsSection.appendChild(flightCard);
         });
+
+        if (shortestDuration !== Infinity) {
+          localStorage.setItem("flightDuration", shortestDuration.toString());
+        }
       })
       .catch(error => {
         console.error("Fel vid API-anrop:", error);
         const resultsSection = document.getElementById("results");
-        resultsSection.innerHTML = "<p>Något gick fel när data skulle hämtas. Försök igen senare.</p>";
+        resultsSection.innerHTML = "<p>No flights were found</p>";
       });
   });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const duration = localStorage.getItem("flightDuration");
+
+  if (duration) {
+    const url = `http://localhost:8080/api/music-recommendations?duration=${encodeURIComponent(duration)}`;
+
+    fetch(url)
+      .then(response => {
+        if (!response.ok) throw new Error("Failed to fetch music data");
+        return response.json();
+      })
+      .then(data => {
+        const resultDiv = document.getElementById("musicResult");
+        for (const [key, value] of Object.entries(data)) {
+          const p = document.createElement("p");
+
+          if (value.startsWith("http")) {
+            const a = document.createElement("a");
+            a.href = value;
+            a.target = "_blank";
+            a.textContent = `${key}: ${value}`;
+            p.appendChild(a);
+          } else {
+            p.textContent = `${key}: ${value}`;
+          }
+
+          resultDiv.appendChild(p);
+        }
+      })
+      .catch(err => {
+        console.error("Error:", err);
+      });
+  } else {
+    alert("No flight duration found. Please go back and search for a trip first.");
+  }
 });

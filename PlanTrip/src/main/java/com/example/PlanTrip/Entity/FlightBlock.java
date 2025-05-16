@@ -1,4 +1,4 @@
-package com.example.PlanTrip.Controller.Entity;
+package com.example.PlanTrip.Entity;
 
 import java.util.HashMap;
 import java.util.List;

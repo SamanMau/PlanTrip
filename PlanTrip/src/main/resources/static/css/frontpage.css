@@ -137,3 +137,35 @@ button[type="submit"]:hover {
 .flight-card p {
   margin: 4px 0;
 }
+
+.recommendations-section {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 15px;
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  text-align: center;
+}
+
+.recommendations-section h2 {
+  font-size: 22px;
+  margin-bottom: 15px;
+  color: #ffffff;
+}
+
+.recommendations-section button {
+  margin: 10px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #27ae60;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.recommendations-section button:hover {
+  background-color: #1e8449;
+}

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -99,7 +100,24 @@
       <!-- Resor kommer att laddas in här av JS -->
     </section>
 
+    <section id="recommendations" class="recommendations-section">
+      <h2>🎧 Travel Entertainment</h2>
+      <button onclick="redirectToMusic()">Get recommendations on music or podcasts</button>
+      <button onclick="window.location.href='movies.html'">Get movie recommendations</button>
+    </section>
+
     <script src="script.js"></script>
+
+    <script>
+      function redirectToMusic() {
+        const duration = localStorage.getItem("flightDuration");
+        if (!duration) {
+          alert("Please search for a flight first.");
+          return;
+        }
+        window.location.href = "music.html";
+      }
+    </script>
   </div>
 </body>
 </html>

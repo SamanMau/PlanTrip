@@ -18,6 +18,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 public class ServerController {
     private AmadeusAPIController amadeusController = new AmadeusAPIController();
     private ChatGPTAPIController chatGPTController = new ChatGPTAPIController();
+    private SpotifyAPIController spotifyAPIController = new SpotifyAPIController();
 
     @GetMapping("/trip")
     public ArrayList<String> getFlightInformation(@RequestParam Map<String, String> map) {
@@ -55,6 +56,15 @@ public class ServerController {
 
     String info = dotenv.get(input);
     return info;
+    }
+
+    @GetMapping("/api/music-recommendations")
+    public Map<String, String> getMusicRecommendations(@RequestParam String destination) {
+        // Anropa Spotify API eller hårdkoda rekommendationer baserat på 'destination'
+        Map<String, String> recommendations = new HashMap<>();
+        recommendations.put("Genre", "Lo-fi Chill");
+        recommendations.put("Playlist", "https://open.spotify.com/playlist/example");
+        return recommendations;
     }
     
 }
