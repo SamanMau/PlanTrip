@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.example.PlanTrip.TokenManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,12 +32,13 @@ public class ServerController {
     private TokenManager tokenManager;
     private String spotifyClientID;
     private String spotifyClientSecret;
+    private String userCode;
 
     public ServerController(){
         this.tokenManager = new TokenManager();
         this.spotifyClientID = getInfoFromENV("SPOTIFY_CLIENTID");
         this.spotifyClientSecret = getInfoFromENV("SPOTIFY_CLIENTSECRET");
-        String spotifyToken = fetchAccessToken(spotifyClientID, spotifyClientSecret, "https://accounts.spotify.com/api/token");
+        String spotifyToken = fetchAccessToken(spotifyClientID, spotifyClientSecret, "https://api.spotify.com/v1/me");
 
         tokenManager.setAccessToken(spotifyToken);
 
@@ -72,9 +74,11 @@ public class ServerController {
     }
 
     @GetMapping("/callback")
-    public ResponseEntity<String> handleSpotifyCallback(@RequestParam("code") String code) {
-        System.out.println("jag befinner mig här");
-        return ResponseEntity.ok("Fick kod: " + code);
+    public RedirectView handleSpotifyCallback(@RequestParam("code") String code) {
+        this.userCode = code;
+        System.out.println("jag befinner mig inne i callback");
+
+        return new RedirectView("/music.html");
     }
 
 
