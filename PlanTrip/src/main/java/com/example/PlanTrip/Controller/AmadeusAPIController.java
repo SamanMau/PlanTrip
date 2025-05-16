@@ -24,14 +24,12 @@ import okhttp3.Response;
 @Service
 public class AmadeusAPIController {
 
-    public ArrayList<String> getFlightInformation(String from, String to, String date, String budget, String apiKey, String apiSecret, String adults, String children, String infants, String travelClass, String currency) {
+    public ArrayList<String> getFlightInformation(String from, String to, String date, String budget, String adults, String children, String infants, String travelClass, String currency, String accessToken) {
         OkHttpClient client = new OkHttpClient(); //This object is used to send HTTP requests and receive responses.
         ObjectMapper mapper = new ObjectMapper(); //This object is used to convert Java objects to JSON and vice versa.
         ArrayList<HashMap<String, Object>> flightList = new ArrayList<>(); //Create an ArrayList to store the flight information
         ArrayList<String> listOfFlights = new ArrayList<>(); //Create an ArrayList to store the flight information
         ArrayList<String> displayedList = new ArrayList<>(); //Create an ArrayList to store the flight information
-
-        String accessToken = getAccessToken(apiKey, apiSecret);
 
         String URL = getSpecificURL(from, to, date, budget, adults, children, infants, travelClass, currency);
 
@@ -548,32 +546,4 @@ public class AmadeusAPIController {
         return carrierCodeList;
     }
 
-    public String getAccessToken(String apiKey, String apiSecret) {
-        OkHttpClient client = new OkHttpClient();
-
-        String url = "https://test.api.amadeus.com/v1/security/oauth2/token";
-        String body = "grant_type=client_credentials&client_id=" + apiKey + "&client_secret=" + apiSecret;
-
-        RequestBody requestBody = RequestBody.create(body, MediaType.parse("application/x-www-form-urlencoded"));
-        
-        okhttp3.Request request = new okhttp3.Request.Builder()
-                .url(url)
-                .post(requestBody)
-                .addHeader("Content-Type", "application/x-www-form-urlencoded")
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            if (response.isSuccessful()) {
-                String responseBody = response.body().string();
-                ObjectMapper objectMapper = new ObjectMapper();
-                Map<String, String> responseMap = objectMapper.readValue(responseBody, Map.class);
-                return responseMap.get("access_token");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }   
-        
-        return null;
-    
-    }
 }

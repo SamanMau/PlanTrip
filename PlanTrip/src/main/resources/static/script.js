@@ -84,6 +84,19 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+      function openSpotifyModal() {
+      document.getElementById("spotifyModal").style.display = "block";
+    }
+
+    function closeSpotifyModal() {
+      document.getElementById("spotifyModal").style.display = "none";
+    }
+
+    function authenticateSpotify() {
+      const spotifyUrl = "https://accounts.spotify.com/authorize?client_id=72a9d8f2ee974b11b040c55d4319f934&response_type=code&redirect_uri=http%3A%2F%2F127.0.0.1%3A8080%2Fapi%2Fcallback&scope=playlist-modify-public%20user-read-private&show_dialog=true";
+      window.open(spotifyUrl, "_blank");
+    }
+
 document.addEventListener("DOMContentLoaded", function () {
   const duration = localStorage.getItem("flightDuration");
 
@@ -116,7 +129,5 @@ document.addEventListener("DOMContentLoaded", function () {
       .catch(err => {
         console.error("Error:", err);
       });
-  } else {
-    alert("No flight duration found. Please go back and search for a trip first.");
   }
 });

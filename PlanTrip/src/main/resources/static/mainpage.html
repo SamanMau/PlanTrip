@@ -102,9 +102,17 @@
 
     <section id="recommendations" class="recommendations-section">
       <h2>🎧 Travel Entertainment</h2>
-      <button onclick="redirectToMusic()">Get recommendations on music or podcasts</button>
+      <button onclick="openSpotifyModal()">Get recommendations on music or podcasts</button>
       <button onclick="window.location.href='movies.html'">Get movie recommendations</button>
     </section>
+
+    <div id="spotifyModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeSpotifyModal()">&times;</span>
+        <img src="pictures/spotifyLogo.png" alt="Spotify Logo" style="width: 105px; display: block; margin: 0 auto 20px; margin-left: 65px;" />
+        <button onclick="authenticateSpotify()" class="spotify-auth-btn">Authenticate</button>
+      </div>
+    </div>
 
     <script src="script.js"></script>
 

@@ -169,3 +169,46 @@ button[type="submit"]:hover {
 .recommendations-section button:hover {
   background-color: #1e8449;
 }
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+}
+
+.modal-content {
+  background: linear-gradient(to bottom right, #2c3e50, #145374);
+  color: white;
+  margin: 15% auto;
+  padding: 30px;
+  border-radius: 10px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.close {
+  float: right;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.spotify-auth-btn {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #1DB954; /* Spotify-grön */
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.spotify-auth-btn:hover {
+  background-color: #17a64a;
+  transform: scale(1.05);
+}
