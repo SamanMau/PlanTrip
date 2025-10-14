@@ -6,6 +6,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,7 @@ import okhttp3.Response;
 
 @Service
 public class AmadeusAPIController {
+    private int shortestFlightDuration = 100000;
 
     public ArrayList<String> getFlightInformation(String from, String to, String date, String budget, String adults, String children, String infants, String travelClass, String currency, String accessToken) {
         OkHttpClient client = new OkHttpClient(); //This object is used to send HTTP requests and receive responses.
@@ -39,7 +41,8 @@ public class AmadeusAPIController {
         .get()
         .build();
 
-        Response response = null; //Initialize the response variable        
+        Response response = null; //Initialize the response variable   
+
        
         try {
             response = client.newCall(request).execute();
@@ -314,6 +317,8 @@ public class AmadeusAPIController {
                 if(itineraries != null) {
                     String duration = itineraries.get(0).get("duration").toString();
                     flightDurationList.add(duration);
+
+                    findShortestFlightDuration(duration);
                 }
 
             } catch (Exception e) {
@@ -323,6 +328,19 @@ public class AmadeusAPIController {
 
 
         return flightDurationList;
+    }
+
+    public void findShortestFlightDuration(String currentDuration){
+        Duration dur = Duration.parse(currentDuration);
+        int currentDur = (int) dur.toHours();
+
+        if(currentDur <= shortestFlightDuration){
+            shortestFlightDuration = currentDur;
+        }
+    }
+
+    public int getShortestFlightDuration(){
+        return shortestFlightDuration;
     }
 
     //This method prepares the display strings for the flight information.

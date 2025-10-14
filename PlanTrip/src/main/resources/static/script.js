@@ -98,10 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 document.addEventListener("DOMContentLoaded", function () {
-  const duration = localStorage.getItem("flightDuration");
-
-  if (duration) {
-    const url = `http://localhost:8080/api/music-recommendations?duration=${encodeURIComponent(duration)}`;
+    const url = `http://localhost:8080/api/music-recommendations`;
 
     fetch(url)
       .then(response => {
@@ -129,5 +126,5 @@ document.addEventListener("DOMContentLoaded", function () {
       .catch(err => {
         console.error("Error:", err);
       });
-  }
+  
 });

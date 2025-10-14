@@ -32,7 +32,7 @@ public class ServerController {
     private TokenManager tokenManager;
     private String spotifyClientID;
     private String spotifyClientSecret;
-    private String userCode;
+    private String spotifyAccessToken;
 
     public ServerController(){
         this.tokenManager = new TokenManager();
@@ -75,8 +75,7 @@ public class ServerController {
 
     @GetMapping("/callback")
     public RedirectView handleSpotifyCallback(@RequestParam("code") String code) {
-        this.userCode = code;
-        System.out.println("jag befinner mig inne i callback");
+        this.spotifyAccessToken = code;
 
         return new RedirectView("/music.html");
     }
@@ -93,7 +92,8 @@ public class ServerController {
     }
 
     @GetMapping("/api/music-recommendations")
-    public Map<String, String> getMusicRecommendations(@RequestParam String duration) {
+    public Map<String, String> getMusicRecommendations() {
+        System.out.println("jag befinner nu i getmusicrecomendaitons");
         if(tokenManager.isTokenExpired()){
             String accessToken = fetchAccessToken(spotifyClientID, spotifyClientSecret, "https://accounts.spotify.com/api/token");
             tokenManager.setAccessToken(accessToken);
@@ -101,7 +101,7 @@ public class ServerController {
 
         String tokenToUse = tokenManager.getAccessToken();
 
-        Map<String, Object> recommendations = spotifyAPIController.getMusicAndPodcastInformation(duration, tokenToUse);
+        Map<String, Object> recommendations = spotifyAPIController.getMusicAndPodcastInformation(amadeusController.getShortestFlightDuration(), tokenToUse);
 
 
         // Anropa Spotify API eller hårdkoda rekommendationer baserat på 'destination'
