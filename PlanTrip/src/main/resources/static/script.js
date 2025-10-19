@@ -1,6 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("tripForm");
 
+  if(!form){
+    return;
+  }
+
   form.addEventListener("submit", function (e) {
     e.preventDefault();
 

@@ -31,7 +31,11 @@ public class SpotifyAPIController {
             return null;
         }
         
-        String URL = "https://api.spotify.com/v1/recommendations?seed_genres=${genre}" + genres[0] + "," + genres[1] + "," + genres[2] + "&limit="+ String.valueOf(songs);
+                String URL = "https://api.spotify.com/v1/search?q="
+                + "genre:" + genres[0]
+                + " OR genre:" + genres[1]
+                + " OR genre:" + genres[2]
+                + "&type=track&limit="+ String.valueOf(songs);
 
                 okhttp3.Request request = new okhttp3.Request.Builder()
         .url(URL)
@@ -40,11 +44,14 @@ public class SpotifyAPIController {
         .build();
 
         Response response = null; //Initialize the response variable
-        
+
         try{
+            response = client.newCall(request).execute();
+
             if(response.isSuccessful()){
                 String responseBody = response.body().string(); //Get the response body as a string
-
+                System.out.println("------Here is the responsebody----------");
+                System.out.println(responseBody);
             }
 
         } catch(IOException e){
