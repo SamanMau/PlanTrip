@@ -33,6 +33,7 @@ public class ServerController {
     private String spotifyClientID;
     private String spotifyClientSecret;
     private String spotifyAccessToken;
+    private String destination;
 
     public ServerController(){
         this.tokenManager = new TokenManager();
@@ -41,7 +42,6 @@ public class ServerController {
         String spotifyToken = fetchAccessToken(spotifyClientID, spotifyClientSecret, "https://api.spotify.com/v1/me");
 
         tokenManager.setAccessToken(spotifyToken);
-
     }
 
     @GetMapping("/trip")
@@ -55,6 +55,9 @@ public class ServerController {
         String travelClass = map.get("travelClass");
         String maxPrice = map.get("maxPrice");
         String currency = map.get("currency");
+        
+        String[] toArray = to.split(",");
+        destination = toArray[1].trim();
         
         String amadeusApiKey = getInfoFromENV("AMADEUS_API_KEY");
         String amadeusApiSecret = getInfoFromENV("AMADEUS_API_SECRET");
@@ -80,7 +83,6 @@ public class ServerController {
         return new RedirectView("/music.html");
     }
 
-
     public String getInfoFromENV(String input){
         Dotenv dotenv = Dotenv.configure()
         .directory(System.getProperty("user.dir"))
@@ -92,8 +94,7 @@ public class ServerController {
     }
 
     @GetMapping("/api/music-recommendations")
-    public Map<String, String> getMusicRecommendations() {
-        System.out.println("jag befinner nu i getmusicrecomendaitons");
+    public Map<String, String> getMusicRecommendations() throws Exception {
         if(tokenManager.isTokenExpired()){
             String accessToken = fetchAccessToken(spotifyClientID, spotifyClientSecret, "https://accounts.spotify.com/api/token");
             tokenManager.setAccessToken(accessToken);
@@ -101,8 +102,11 @@ public class ServerController {
 
         String tokenToUse = tokenManager.getAccessToken();
 
-        Map<String, Object> recommendations = spotifyAPIController.getMusicAndPodcastInformation(amadeusController.getShortestFlightDuration(), tokenToUse);
+        Map<String, Object> recommendations = spotifyAPIController.getMusicAndPodcastInformation(amadeusController.getShortestFlightDuration(), tokenToUse, destination);
 
+        if(recommendations == null){
+            throw new Exception("The recomendations list was null");
+        }
 
         // Anropa Spotify API eller hårdkoda rekommendationer baserat på 'destination'
         recommendations.put("Genre", "Lo-fi Chill");
