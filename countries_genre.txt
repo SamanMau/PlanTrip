@@ -1,178 +1,203 @@
-Afghanistan: Folk, Classical, Pop
-Armenia: Folk, Pop, Jazz
-Azerbaijan: Mugham, Pop, Jazz
-Bahrain: Khaliji, Pop, Electronic
-Bangladesh: Baul, Pop, Classical
-Bhutan: Folk, Pop, Religious Music
-Brunei: Pop, Dangdut, Malay Traditional
-Cambodia: Khmer Traditional, Pop, Rock
-China: Mandopop, C-pop, Rock, Folk
-Cyprus: Pop, Laïko, Folk
-Georgia: Folk, Pop, Jazz
-India: Bollywood, Bhangra, Classical, Pop
-Indonesia: Dangdut, Pop, Gamelan, Rock
-Iran: Persian Pop, Classical, Rock
-Iraq: Maqam, Pop, Folk
-Israel: Pop, Mizrahi, Rock
-Japan: J-pop, Enka, Rock, Electronic
-Jordan: Arab Pop, Folk, Rock
-Kazakhstan: Folk, Pop, Q-pop
-Kuwait: Khaliji, Pop, Folk
-Kyrgyzstan: Folk, Pop, Ethno-pop
-Laos: Mor Lam, Pop, Folk
-Lebanon: Arabic Pop, Tarab, Folk
-Malaysia: Pop, Dangdut, Rock
-Maldives: Bodu Beru, Pop, Reggae
-Mongolia: Throat Singing, Rock, Folk
-Myanmar: Pop, Rock, Traditional
-Nepal: Pop, Folk, Classical
-North Korea: Patriotic Music, Classical, Pop
-Oman: Khaliji, Folk, Pop
-Pakistan: Qawwali, Pop, Rock, Classical
-Palestine: Arabic Pop, Folk, Dabke
-Philippines: OPM, Pop, Rock, Ballad
-Qatar: Khaliji, Pop, Folk
-Saudi Arabia: Khaliji, Pop, Folk
-Singapore: Pop, Mandopop, Electronic
-South Korea: K-pop, Hip Hop, R&B
-Sri Lanka: Baila, Pop, Folk
-Syria: Arabic Pop, Tarab, Folk
-Taiwan: Mandopop, Indie Pop, Rock
-Tajikistan: Folk, Pop, Classical
-Thailand: Luk Thung, Pop, Rock
-Timor-Leste: Folk, Pop, Reggae
-Turkey: Pop, Arabesque, Trap
-Turkmenistan: Folk, Classical, Pop
-United Arab Emirates: Khaliji, Pop, Electronic
-Uzbekistan: Folk, Pop, Classical
-Vietnam: V-pop, Folk, Rock, Ballad
-Yemen: Arabic Pop, Folk, Traditional
-Sweden: Pop, Indie Pop, Electronic
-Norway: Pop, Indie Rock, Electronic
-Denmark: Pop, Alternative Rock, Indie
-Finland: Metal, Rock, Pop
-Iceland: Indie Pop, Folk, Electronic
-United Kingdom: Pop, Rock, Grime, Indie
-Ireland: Folk, Pop, Indie Rock
-Germany: Techno, Pop, Rock, Schlager
-France: Pop, Chanson, Hip Hop, Electronic
-Spain: Pop, Flamenco, Reggaeton, Latin Pop
-Portugal: Fado, Pop, Indie, Rock
-Italy: Pop, Classical, Rock, Hip Hop
-Switzerland: Pop, Rock, Electronic
-Austria: Pop, Rock, Folk Music
-Belgium: Pop, EDM, Indie
-Netherlands: EDM, Pop, Rock
-Poland: Pop, Hip Hop, Rock
-Czech Republic: Pop, Rock, Folk
-Slovakia: Pop, Folk, Rock
-Hungary: Pop, Rock, Folk
-Romania: Pop, Dance, Folk
-Bulgaria: Pop-folk, Pop, Rock
-Greece: Laïko, Pop, Folk
-Croatia: Pop, Rock, Folk
-Serbia: Turbo-folk, Pop, Trap
-Bosnia and Herzegovina: Pop, Folk, Sevdah
-Slovenia: Pop, Rock, Folk
-Albania: Pop, Folk, Dance
-North Macedonia: Pop, Folk, Rock
-Montenegro: Pop, Folk, Rock
-Kosovo: Pop, Hip Hop, Folk
-Lithuania: Pop, Rock, Electronic
-Latvia: Pop, Rock, Electronic
-Estonia: Pop, Electronic, Indie
-Ukraine: Pop, Folk, Rock
-Belarus: Pop, Rock, Folk
-Moldova: Pop, Folk, Dance
-Russia: Pop, Rock, Rap, Electronic
-Georgia: Folk, Pop, Jazz
-Armenia: Folk, Pop, Rock
-Azerbaijan: Mugham, Pop, Jazz
-United States: Pop, Hip Hop, Rock, Country, Jazz
-Canada: Pop, Rock, Indie, Folk
-Mexico: Mariachi, Pop, Rock, Regional Mexican
-Guatemala: Marimba, Pop, Rock
-Belize: Punta, Reggae, Soca
-El Salvador: Pop, Cumbia, Rock
-Honduras: Punta, Reggaeton, Pop
-Nicaragua: Folk, Cumbia, Pop
-Costa Rica: Reggae, Rock, Pop
-Panama: Reggaeton, Salsa, Pop
-Bahamas: Junkanoo, Rake and Scrape, Pop
-Cuba: Son Cubano, Salsa, Timba
-Jamaica: Reggae, Dancehall, Ska
-Haiti: Kompa, Rara, Rap Kreyòl
-Dominican Republic: Merengue, Bachata, Reggaeton
-Barbados: Soca, Calypso, Pop
-Trinidad and Tobago: Calypso, Soca, Chutney
-Saint Lucia: Zouk, Soca, Reggae
-Grenada: Soca, Calypso, Reggae
-Saint Vincent and the Grenadines: Soca, Calypso, Reggae
-Antigua and Barbuda: Calypso, Soca, Reggae
-Saint Kitts and Nevis: Calypso, Soca, Reggae
-Argentina: Tango, Rock Nacional, Pop
-Bolivia: Folk, Cumbia, Andean Music
-Brazil: Samba, Bossa Nova, Funk Carioca, MPB
-Chile: Pop, Rock, Cumbia, Folk
-Colombia: Cumbia, Vallenato, Reggaeton, Salsa
-Ecuador: Pasillo, Cumbia, Rock
-Guyana: Chutney, Calypso, Reggae
-Paraguay: Polka Paraguaya, Guarania, Folk
-Peru: Huayno, Cumbia, Folk
-Suriname: Kaseko, Pop, Reggae
-Uruguay: Candombe, Rock, Pop
-Venezuela: Joropo, Salsa, Pop
-Algeria: Raï, Chaabi, Pop
-Angola: Kizomba, Semba, Kuduro
-Benin: Afrobeat, Tchink System, Folk
-Botswana: Kwaito, Pop, Folk
-Burkina Faso: Traditional, Zouglou, Pop
-Burundi: Drumming Music, Pop, Folk
-Cabo Verde: Morna, Coladeira, Funaná
-Cameroon: Makossa, Bikutsi, Afrobeat
-Central African Republic: Folk, Pop, Soukous
-Chad: Folk, Pop, Afrobeat
-Comoros: Taarab, Pop, Reggae
-Democratic Republic of the Congo: Soukous, Rumba, Ndombolo
-Republic of the Congo: Soukous, Rumba, Pop
-Djibouti: Somali Music, Pop, Folk
-Egypt: Shaabi, Arabic Pop, Mahraganat
-Equatorial Guinea: Makossa, Folk, Pop
-Eritrea: Tigrigna Music, Pop, Folk
-Eswatini: Folk, Gospel, Pop
-Ethiopia: Ethio-jazz, Tizita, Pop
-Gabon: Fang Music, Pop, Hip Hop
-Gambia: Afrobeat, Folk, Reggae
-Ghana: Highlife, Hiplife, Afrobeats
-Guinea: Folk, Afrobeat, Pop
-Guinea-Bissau: Gumbé, Kussundé, Pop
-Ivory Coast: Coupé-Décalé, Zouglou, Pop
-Kenya: Benga, Gengetone, Pop
-Lesotho: Famo, Folk, Pop
-Liberia: Hipco, Pop, Gospel
-Libya: Folk, Pop, Arabic Music
-Madagascar: Salegy, Folk, Pop
-Malawi: Afrobeat, Gospel, Pop
-Mali: Desert Blues, Folk, Griot Music
-Mauritania: Folk, Moorish Music, Pop
-Mauritius: Sega, Bhojpuri Music, Reggae
-Morocco: Gnawa, Chaabi, Pop
-Mozambique: Marrabenta, Pop, Afrobeat
-Namibia: Kwaito, Pop, Afrobeat
-Niger: Tuareg Blues, Folk, Pop
-Nigeria: Afrobeats, Highlife, Juju
-Rwanda: Pop, Afrobeat, Gospel
-São Tomé and Príncipe: Tchiloli, Folk, Pop
-Senegal: Mbalax, Afrobeat, Pop
-Seychelles: Moutya, Sega, Pop
-Sierra Leone: Gumbe, Afrobeat, Pop
-Somalia: Somali Jazz, Pop, Qaraami
-South Africa: Amapiano, Kwaito, Afrobeat, House
-South Sudan: Folk, Afrobeat, Pop
-Sudan: Nubian Music, Folk, Pop
-Tanzania: Bongo Flava, Taarab, Afrobeat
-Togo: Afrobeat, Folk, Pop
-Tunisia: Malouf, Pop, Folk
-Uganda: Afrobeat, Dancehall, Folk
-Zambia: Kalindula, Afrobeat, Pop
-Zimbabwe: Mbira, Sungura, Afrobeat
+Argentina: Argentine
+Bolivia: Bolivian
+Brazil: Brazilian
+Chile: Chilean
+Colombia: Colombian
+Ecuador: Ecuadorian
+Guyana: Guyanese
+Paraguay: Paraguayan
+Peru: Peruvian
+Suriname: Surinamese
+Uruguay: Uruguayan
+Venezuela: Venezuelan
+Antigua and Barbuda: Antiguan and Barbudan
+Bahamas: Bahamian
+Barbados: Barbadian
+Belize: Belizean
+Canada: Canadian
+Costa Rica: Costa Rican
+Cuba: Cuban
+Dominica: Dominican
+Dominican Republic: Dominican
+El Salvador: Salvadoran
+Grenada: Grenadian
+Guatemala: Guatemalan
+Haiti: Haitian
+Honduras: Honduran
+Jamaica: Jamaican
+Mexico: Mexican
+Nicaragua: Nicaraguan
+Panama: Panamanian
+Saint Kitts and Nevis: Kittitian or Nevisian
+Saint Lucia: Saint Lucian
+Saint Vincent and the Grenadines: Vincentian
+Trinidad and Tobago: Trinidadian or Tobagonian
+United States: American
+Albania: Albanian
+Andorra: Andorran
+Armenia: Armenian
+Austria: Austrian
+Azerbaijan: Azerbaijani
+Belarus: Belarusian
+Belgium: Belgian
+Bosnia and Herzegovina: Bosnian or Herzegovinian
+Bulgaria: Bulgarian
+Croatia: Croatian
+Cyprus: Cypriot
+Czech Republic: Czech
+Denmark: Danish
+Estonia: Estonian
+Finland: Finnish
+France: French
+Georgia: Georgian
+Germany: German
+Greece: Greek
+Hungary: Hungarian
+Iceland: Icelandic
+Ireland: Irish
+Italy: Italian
+Kazakhstan: Kazakhstani
+Kosovo: Kosovar
+Latvia: Latvian
+Liechtenstein: Liechtensteiner
+Lithuania: Lithuanian
+Luxembourg: Luxembourger
+Malta: Maltese
+Moldova: Moldovan
+Monaco: Monegasque
+Montenegro: Montenegrin
+Netherlands: Dutch
+North Macedonia: Macedonian
+Norway: Norwegian
+Poland: Polish
+Portugal: Portuguese
+Romania: Romanian
+Russia: Russian
+San Marino: Sammarinese
+Serbia: Serbian
+Slovakia: Slovak
+Slovenia: Slovenian
+Spain: Spanish
+Sweden: Swedish
+Switzerland: Swiss
+Turkey: Turkish
+Ukraine: Ukrainian
+United Kingdom: British
+Vatican City: Vatican
+Afghanistan: Afghan
+Armenia: Armenian
+Azerbaijan: Azerbaijani
+Bahrain: Bahraini
+Bangladesh: Bangladeshi
+Bhutan: Bhutanese
+Brunei: Bruneian
+Cambodia: Cambodian
+China: Chinese
+Cyprus: Cypriot
+Georgia: Georgian
+India: Indian
+Indonesia: Indonesian
+Iran: Iranian
+Iraq: Iraqi
+Israel: Israeli
+Japan: Japanese
+Jordan: Jordanian
+Kazakhstan: Kazakhstani
+Kuwait: Kuwaiti
+Kyrgyzstan: Kyrgyzstani
+Laos: Lao or Laotian
+Lebanon: Lebanese
+Malaysia: Malaysian
+Maldives: Maldivian
+Mongolia: Mongolian
+Myanmar: Burmese
+Nepal: Nepali
+North Korea: North Korean
+Oman: Omani
+Pakistan: Pakistani
+Palestine: Palestinian
+Philippines: Filipino
+Qatar: Qatari
+Saudi Arabia: Saudi or Saudi Arabian
+Singapore: Singaporean
+South Korea: South Korean
+Sri Lanka: Sri Lankan
+Syria: Syrian
+Taiwan: Taiwanese
+Tajikistan: Tajikistani
+Thailand: Thai
+Timor-Leste: Timorese
+Turkey: Turkish
+Turkmenistan: Turkmen
+United Arab Emirates: Emirati
+Uzbekistan: Uzbekistani
+Vietnam: Vietnamese
+Yemen: Yemeni
+Algeria: Algerian
+Angola: Angolan
+Benin: Beninese
+Botswana: Botswanan
+Burkina Faso: Burkinabé
+Burundi: Burundian
+Cabo Verde: Cape Verdean
+Cameroon: Cameroonian
+Central African Republic: Central African
+Chad: Chadian
+Comoros: Comoran or Comorian
+Democratic Republic of the Congo: Congolese
+Republic of the Congo: Congolese
+Djibouti: Djiboutian
+Egypt: Egyptian
+Equatorial Guinea: Equatoguinean
+Eritrea: Eritrean
+Eswatini: Swazi
+Ethiopia: Ethiopian
+Gabon: Gabonese
+Gambia: Gambian
+Ghana: Ghanaian
+Guinea: Guinean
+Guinea-Bissau: Bissau-Guinean
+Ivory Coast: Ivorian
+Kenya: Kenyan
+Lesotho: Basotho
+Liberia: Liberian
+Libya: Libyan
+Madagascar: Malagasy
+Malawi: Malawian
+Mali: Malian
+Mauritania: Mauritanian
+Mauritius: Mauritian
+Morocco: Moroccan
+Mozambique: Mozambican
+Namibia: Namibian
+Niger: Nigerien
+Nigeria: Nigerian
+Rwanda: Rwandan
+São Tomé and Príncipe: São Toméan
+Senegal: Senegalese
+Seychelles: Seychellois
+Sierra Leone: Sierra Leonean
+Somalia: Somali
+South Africa: South African
+South Sudan: South Sudanese
+Sudan: Sudanese
+Tanzania: Tanzanian
+Togo: Togolese
+Tunisia: Tunisian
+Uganda: Ugandan
+Zambia: Zambian
+Zimbabwe: Zimbabwean
+Australia: Australian
+Fiji: Fijian
+Kiribati: I-Kiribati
+Marshall Islands: Marshallese
+Micronesia: Micronesian
+Nauru: Nauruan
+New Zealand: New Zealander
+Palau: Palauan
+Papua New Guinea: Papua New Guinean
+Samoa: Samoan
+Solomon Islands: Solomon Islander
+Tonga: Tongan
+Tuvalu: Tuvaluan
+Vanuatu: Ni-Vanuatu

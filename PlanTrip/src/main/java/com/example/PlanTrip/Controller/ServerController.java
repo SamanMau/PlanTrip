@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,18 +11,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
-
 import com.example.PlanTrip.TokenManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import io.github.cdimascio.dotenv.Dotenv;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-@RestController
 @CrossOrigin(origins = "*")
+@RestController
 @RequestMapping("/api")
 public class ServerController {
     private AmadeusAPIController amadeusController = new AmadeusAPIController();
@@ -39,8 +36,7 @@ public class ServerController {
         this.tokenManager = new TokenManager();
         this.spotifyClientID = getInfoFromENV("SPOTIFY_CLIENTID");
         this.spotifyClientSecret = getInfoFromENV("SPOTIFY_CLIENTSECRET");
-        String spotifyToken = fetchAccessToken(spotifyClientID, spotifyClientSecret, "https://api.spotify.com/v1/me");
-
+        String spotifyToken = fetchAccessToken(spotifyClientID, spotifyClientSecret, "https://accounts.spotify.com/api/token");
         tokenManager.setAccessToken(spotifyToken);
     }
 
@@ -66,8 +62,6 @@ public class ServerController {
         HashMap<String, String> iataCodesList = chatGPTController.getIATACode(from, to, chatGptApiKey);
         String fromIATA = iataCodesList.get("from");
         String toIATA = iataCodesList.get("to");
-        System.out.println("From IATA: " + fromIATA);
-        System.out.println("To IATA: " + toIATA);
 
         String accessToken = fetchAccessToken(amadeusApiKey, amadeusApiSecret, "https://test.api.amadeus.com/v1/security/oauth2/token");
 
@@ -93,7 +87,7 @@ public class ServerController {
     return info;
     }
 
-    @GetMapping("/api/music-recommendations")
+    @GetMapping("/musicRecommendations")
     public Map<String, String> getMusicRecommendations() throws Exception {
         if(tokenManager.isTokenExpired()){
             String accessToken = fetchAccessToken(spotifyClientID, spotifyClientSecret, "https://accounts.spotify.com/api/token");
@@ -119,21 +113,25 @@ public class ServerController {
         OkHttpClient client = new OkHttpClient();
 
         String url = APIURL;
-        String body = "grant_type=client_credentials&client_id=" + apiKey + "&client_secret=" + apiSecret;
+        String body = "grant_type=client_credentials";
 
-        RequestBody requestBody = RequestBody.create(body, MediaType.parse("application/x-www-form-urlencoded"));
+        RequestBody requestBody = RequestBody.create(body,MediaType.parse("application/x-www-form-urlencoded"));        
         
+        String basicAuth = okhttp3.Credentials.basic(apiKey, apiSecret);
+
         okhttp3.Request request = new okhttp3.Request.Builder()
-                .url(url)
-                .post(requestBody)
-                .addHeader("Content-Type", "application/x-www-form-urlencoded")
-                .build();
+        .url(url)
+        .post(requestBody)
+        .addHeader("Authorization", basicAuth)
+        .addHeader("Content-Type", "application/x-www-form-urlencoded")
+        .build();
 
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
                 String responseBody = response.body().string();
                 ObjectMapper objectMapper = new ObjectMapper();
                 Map<String, String> responseMap = objectMapper.readValue(responseBody, Map.class);
+
                 return responseMap.get("access_token");
             }
         } catch (IOException e) {

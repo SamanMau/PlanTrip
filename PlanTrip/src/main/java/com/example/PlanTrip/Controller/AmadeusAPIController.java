@@ -111,8 +111,6 @@ public class AmadeusAPIController {
     public ArrayList<String> addFlightDurationAndPricingToList(ArrayList<String> result, ArrayList<String> flightDurationList, ArrayList<String> travelerPricingList, int convertedCount, String children, String infants) {
         ArrayList<String> returnList = new ArrayList<>();
         int flight = 1; //Initialize the flight number
-        System.out.println("flightDurationList: " + flightDurationList.size());
-        System.out.println("travelerPricingList: " + travelerPricingList.size());
 
         try{
             for(int i = 0; i < convertedCount; i++){

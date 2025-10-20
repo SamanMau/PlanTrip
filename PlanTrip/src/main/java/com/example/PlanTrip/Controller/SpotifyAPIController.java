@@ -9,6 +9,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
 
@@ -25,22 +26,29 @@ public class SpotifyAPIController {
             songs = songs * duration;
         }
 
-        String[] genres = getGenre(destination);
-
-        if(genres == null){
-            return null;
+        if(songs > 100){
+            songs = 100;
         }
-        
-                String URL = "https://api.spotify.com/v1/search?q="
-                + "genre:" + genres[0]
-                + " OR genre:" + genres[1]
-                + " OR genre:" + genres[2]
-                + "&type=track&limit="+ String.valueOf(songs);
 
-                okhttp3.Request request = new okhttp3.Request.Builder()
-        .url(URL)
-        .addHeader("Authorization", "Bearer " + accessToken) // Lägg till access token här
-        .get()
+      //  String[] genres = getGenre(destination);
+
+            /* 
+                String URL = "https://api.spotify.com/v1/recommendations?seed_genres=" 
+               + genres[0] + "," + genres[1] + "," + genres[2] + "&limit=" + String.valueOf(songs);
+               */
+
+                 HttpUrl url = new HttpUrl.Builder()
+                .scheme("https")
+                .host("api.spotify.com")
+                .addPathSegments("v1/recommendations")
+                .addQueryParameter("seed_genres", "pop")
+                .addQueryParameter("limit", String.valueOf(songs))
+                .addQueryParameter("market", "SE")
+                .build();
+
+        okhttp3.Request request = new okhttp3.Request.Builder()
+        .url(url)
+        .addHeader("Authorization", "Bearer " + accessToken)
         .build();
 
         Response response = null; //Initialize the response variable
@@ -49,15 +57,15 @@ public class SpotifyAPIController {
             response = client.newCall(request).execute();
 
             if(response.isSuccessful()){
-                String responseBody = response.body().string(); //Get the response body as a string
-                System.out.println("------Here is the responsebody----------");
+                String responseBody = response.body().string();
                 System.out.println(responseBody);
+            } else{
+                System.out.println("response blev inte sucess");
             }
 
         } catch(IOException e){
             e.printStackTrace();
         }
-
 
         return null;
     } 
