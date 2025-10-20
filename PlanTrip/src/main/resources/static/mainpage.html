@@ -8,125 +8,140 @@
   <link rel="stylesheet" href="css/frontpage.css" />
 </head>
 <body>
+  <div class="overlay"></div>
+
   <div class="page">
-    <header>
-      <h1>✈️ PlanTrip – Your Smart Travel Planner</h1>
-      <p>Plan your perfect trip without booking – get flight details, recommendations, and entertainment tailored to your journey.</p>
-    </header>
 
-    <section class="form-section">
-      <h2>📝 Travel Preferences</h2>
-      <form id="tripForm">
-        <div class="inputs">
-          <div>
-            <label for="fromCity">From:</label>
-            <input type="text" id="fromCity" name="fromCity" required placeholder="City, Country" />
-          </div>
-          <div>
-            <label for="toCity">To:</label>
-            <input type="text" id="toCity" name="toCity" required placeholder="City, Country"/>
-          </div>
-          <div>
-            <label for="departureDate">Departure Date:</label>
-            <input type="date" id="departureDate" name="departureDate" required />
-          </div>
-          <div>
-            <label for="adults">Adults (12+ years):</label>
-            <input type="number" id="adults" name="adults" min="1" value="1" required />
-          </div>
-          <div>
-            <label for="children">Children (2-11 years):</label>
-            <input type="number" id="children" name="children" min="0" value="0" />
-          </div>
-          <div>
-            <label for="infants">Infants (under 2 years):</label>
-            <input type="number" id="infants" name="infants" min="0" value="0" />
-          </div>
-          <div>
-            <label for="travelClass">Travel Class:</label>
-            <select id="travelClass" name="travelClass">
-              <option value="ECONOMY">Economy</option>
-              <option value="PREMIUM_ECONOMY">Premium Economy</option>
-              <option value="BUSINESS">Business</option>
-              <option value="FIRST">First Class</option>
-            </select>
-          </div>
-          <div>
-            <label for="maxPrice">Max Price per Traveler:</label>
-            <input type="number" id="maxPrice" name="maxPrice" min="0" />
-          </div>
-          <div>
-            <label for="currency">Currency:</label>
-            <select id="currency" name="currency">
-              <option value="EUR">Euro (EUR)</option>
-              <option value="USD">US Dollar (USD)</option>
-              <option value="GBP">British Pound (GBP)</option>
-              <option value="SEK">Swedish Krona (SEK)</option>
-              <option value="AUD">Australian Dollar (AUD)</option>
-              <option value="CAD">Canadian Dollar (CAD)</option>
-              <option value="JPY">Japanese Yen (JPY)</option>
-              <option value="CNY">Chinese Yuan (CNY)</option>
-              <option value="CHF">Swiss Franc (CHF)</option>
-              <option value="NZD">New Zealand Dollar (NZD)</option>
-              <option value="NOK">Norwegian Krone (NOK)</option>
-              <option value="DKK">Danish Krone (DKK)</option>
-              <option value="HKD">Hong Kong Dollar (HKD)</option>
-              <option value="SGD">Singapore Dollar (SGD)</option>
-              <option value="KRW">South Korean Won (KRW)</option>
-              <option value="INR">Indian Rupee (INR)</option>
-              <option value="BRL">Brazilian Real (BRL)</option>
-              <option value="ZAR">South African Rand (ZAR)</option>
-              <option value="RUB">Russian Ruble (RUB)</option>
-              <option value="MXN">Mexican Peso (MXN)</option>
-              <option value="TRY">Turkish Lira (TRY)</option>
-              <option value="PLN">Polish Zloty (PLN)</option>
-              <option value="THB">Thai Baht (THB)</option>
-              <option value="IDR">Indonesian Rupiah (IDR)</option>
-              <option value="TWD">New Taiwan Dollar (TWD)</option>
-              <option value="MYR">Malaysian Ringgit (MYR)</option>
-              <option value="CZK">Czech Koruna (CZK)</option>
-              <option value="HUF">Hungarian Forint (HUF)</option>
-              <option value="ILS">Israeli New Shekel (ILS)</option>
-              <option value="SAR">Saudi Riyal (SAR)</option>
-            </select>
-          </div>
-        </div>
-        <button type="submit">Submit</button>
-      </form>
+    <!-- 🌍 Navbar -->
+    <nav class="navbar">
+      <div class="logo">✈️ PlanTrip</div>
+      <ul class="nav-links">
+        <li><a href="#" onclick="openSpotifyModal()">🎧 Music Recommendations</a></li>
+        <li><a href="movies.html">🎬 Movie Recommendations</a></li>
+      </ul>
+    </nav>
+
+    <!-- Rubrik -->
+    <section class="intro">
+      <h1>One plan. One trip. Endless experiences.</h1>
     </section>
 
-    <section id="results" class="results-section">
-      <h2>✈️ Flight Results</h2>
-      <!-- Resor kommer att laddas in här av JS -->
+    <!-- 📦 Två breda kolumner sida vid sida -->
+    <section class="dashboard">
+      <!-- Vänster: Travel preferences -->
+      <div class="panel">
+        <h2>📝 Travel Preferences</h2>
+
+        <form id="tripForm" class="wide-form">
+          <div class="inputs double-column">
+            <div>
+              <label for="fromCity">From:</label>
+              <input type="text" id="fromCity" required placeholder="City, Country" />
+            </div>
+
+            <div>
+              <label for="toCity">To:</label>
+              <input type="text" id="toCity" required placeholder="City, Country" />
+            </div>
+
+            <div>
+              <label for="departureDate">Departure Date:</label>
+              <input type="date" id="departureDate" required />
+            </div>
+
+            <div>
+              <label for="adults">Adults (12+):</label>
+              <input type="number" id="adults" min="1" value="1" required />
+            </div>
+
+            <div>
+              <label for="children">Children (2–11):</label>
+              <input type="number" id="children" min="0" value="0" />
+            </div>
+
+            <div>
+              <label for="infants">Infants (&lt;2):</label>
+              <input type="number" id="infants" min="0" value="0" />
+            </div>
+
+            <div>
+              <label for="travelClass">Class:</label>
+              <select id="travelClass">
+                <option value="ECONOMY">Economy</option>
+                <option value="PREMIUM_ECONOMY">Premium Economy</option>
+                <option value="BUSINESS">Business</option>
+                <option value="FIRST">First</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="maxPrice">Max Price (per traveler):</label>
+              <input type="number" id="maxPrice" min="0" />
+            </div>
+
+            <div>
+              <label for="currency">Currency:</label>
+              <select id="currency">
+                <option value="EUR">Euro (EUR)</option>
+                <option value="USD">US Dollar (USD)</option>
+                <option value="GBP">British Pound (GBP)</option>
+                <option value="SEK">Swedish Krona (SEK)</option>
+                <option value="AUD">Australian Dollar (AUD)</option>
+                <option value="CAD">Canadian Dollar (CAD)</option>
+                <option value="JPY">Japanese Yen (JPY)</option>
+                <option value="CNY">Chinese Yuan (CNY)</option>
+                <option value="CHF">Swiss Franc (CHF)</option>
+                <option value="NZD">New Zealand Dollar (NZD)</option>
+                <option value="NOK">Norwegian Krone (NOK)</option>
+                <option value="DKK">Danish Krone (DKK)</option>
+                <option value="HKD">Hong Kong Dollar (HKD)</option>
+                <option value="SGD">Singapore Dollar (SGD)</option>
+                <option value="KRW">South Korean Won (KRW)</option>
+                <option value="INR">Indian Rupee (INR)</option>
+                <option value="BRL">Brazilian Real (BRL)</option>
+                <option value="ZAR">South African Rand (ZAR)</option>
+                <option value="RUB">Russian Ruble (RUB)</option>
+                <option value="MXN">Mexican Peso (MXN)</option>
+                <option value="TRY">Turkish Lira (TRY)</option>
+                <option value="PLN">Polish Zloty (PLN)</option>
+                <option value="THB">Thai Baht (THB)</option>
+                <option value="IDR">Indonesian Rupiah (IDR)</option>
+                <option value="TWD">New Taiwan Dollar (TWD)</option>
+                <option value="MYR">Malaysian Ringgit (MYR)</option>
+                <option value="CZK">Czech Koruna (CZK)</option>
+                <option value="HUF">Hungarian Forint (HUF)</option>
+                <option value="ILS">Israeli New Shekel (ILS)</option>
+                <option value="SAR">Saudi Riyal (SAR)</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" class="main-btn">Search Flights</button>
+        </form>
+      </div>
+
+      <!-- Höger: Flight Results -->
+      <section id="results" class="panel results-panel">
+        <h2>✈️ Flight Results</h2>
+        <p class="placeholder">Your flight results will appear here...</p>
+      </section>
     </section>
 
-    <section id="recommendations" class="recommendations-section">
-      <h2>🎧 Travel Entertainment</h2>
-      <button onclick="openSpotifyModal()">Get recommendations on music or podcasts</button>
-      <button onclick="window.location.href='movies.html'">Get movie recommendations</button>
-    </section>
-
+    <!-- 🎵 Spotify Modal -->
     <div id="spotifyModal" class="modal">
       <div class="modal-content">
         <span class="close" onclick="closeSpotifyModal()">&times;</span>
-        <img src="pictures/spotifyLogo.png" alt="Spotify Logo" style="width: 105px; display: block; margin: 0 auto 20px; margin-left: 65px;" />
-        <button onclick="authenticateSpotify()" class="spotify-auth-btn">Authenticate</button>
+        <img src="pictures/spotifyLogo.png" alt="Spotify Logo" class="spotify-logo"/>
+        <button onclick="authenticateSpotify()" class="spotify-auth-btn">Connect Spotify</button>
       </div>
     </div>
 
-    <script src="script.js"></script>
-
-    <script>
-      function redirectToMusic() {
-        const duration = localStorage.getItem("flightDuration");
-        if (!duration) {
-          alert("Please search for a flight first.");
-          return;
-        }
-        window.location.href = "music.html";
-        
-      }
-    </script>
+    <!-- ⚓ Footer -->
+    <footer>
+      <p>© 2025 PlanTrip. Designed for smarter journeys ✈️</p>
+    </footer>
   </div>
+
+  <script src="script.js"></script>
 </body>
 </html>

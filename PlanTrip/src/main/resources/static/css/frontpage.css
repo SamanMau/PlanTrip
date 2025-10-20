@@ -1,69 +1,148 @@
-/* Updated frontpage.css */
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
   font-family: 'Poppins', sans-serif;
 }
 
 body {
-  background: linear-gradient(to bottom right, #2c3e50, #145374);
+  margin: 0;
+  background: linear-gradient(to bottom right, #1b262c, #0f4c75);
   color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   min-height: 100vh;
-  padding: 20px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: url("../pictures/travel-bg.jpg") center/cover no-repeat;
+  filter: brightness(40%);
+  z-index: -1;
 }
 
 .page {
-  max-width: 1200px;
-  background-color: rgba(255, 255, 255, 0.06);
-  padding: 25px 40px;
-  border-radius: 20px;
-  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.25);
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 30px;
 }
 
-header {
+/* 🌍 Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  margin-bottom: 0px;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 22px;
+  margin-left: 25px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+  margin-right: 25px;
+}
+
+.nav-links a {
+  color: #b8e0f2;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #ffffff;
+}
+
+/* 🏞️ Hero */
+.hero {
   text-align: center;
-  margin-bottom: 25px;
+  padding: 60px 20px 50px;
 }
 
-header h1 {
+.hero h1 {
   font-size: 36px;
+  font-weight: 700;
   margin-bottom: 10px;
 }
 
-header p {
-  font-size: 18px;
-  color: #e1f5fe;
+.hero p {
+  font-size: 17px;
+  color: #b8e0f2;
+  margin-bottom: 25px;
 }
 
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+}
+
+.hero-btn, .green-btn, .blue-btn {
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s;
+  padding: 12px 25px;
+  text-decoration: none;
+  color: white;
+}
+
+/* 🎧 Knappar */
+.green-btn {
+  background-color: #2ecc71;
+}
+
+.green-btn:hover {
+  background-color: #27ae60;
+}
+
+.blue-btn {
+  background-color: #3498db;
+}
+
+.blue-btn:hover {
+  background-color: #2980b9;
+}
+
+.hero-btn {
+  background: linear-gradient(to right, #3282b8, #56cfe1);
+}
+
+.hero-btn.secondary {
+  background: linear-gradient(to right, #4a4e69, #6c757d);
+}
+
+/* ✈️ Sektioner */
 .form-section, .results-section {
   background-color: rgba(255, 255, 255, 0.08);
   border-radius: 15px;
-  padding: 20px;
-  margin-bottom: 15px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-}
-
-.form-section h2, .results-section h2 {
-  font-size: 22px;
-  margin-bottom: 15px;
-  color: #ffffff;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 .inputs {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 20px;
 }
 
 label {
   display: block;
-  margin-bottom: 5px;
   font-weight: 600;
-  color: #d0f0ff;
+  margin-bottom: 6px;
+  color: #d9faff;
 }
 
 input, select {
@@ -72,143 +151,293 @@ input, select {
   border-radius: 8px;
   border: none;
   font-size: 14px;
-  background-color: #ffffff;
+  background-color: #fff;
   color: #333;
 }
 
-button[type="submit"] {
-  margin-top: 20px;
-  padding: 12px 20px;
-  font-size: 16px;
-  font-weight: 600;
-  background-color: #3498db;
+/* Main button */
+.main-btn {
+  margin-top: 25px;
+  background: linear-gradient(to right, #3282b8, #56cfe1);
   border: none;
-  border-radius: 10px;
+  padding: 14px 30px;
+  font-size: 16px;
+  border-radius: 12px;
+  font-weight: 600;
   cursor: pointer;
   color: white;
-  transition: background-color 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
-button[type="submit"]:hover {
-  background-color: #2980b9;
+.main-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(50, 130, 184, 0.4);
 }
 
-.trip-card {
-  background-color: rgba(255, 255, 255, 0.15);
-  border-radius: 12px;
-  padding: 15px;
-  margin-bottom: 15px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-}
-
-.trip-card h3 {
-  margin-bottom: 10px;
-  font-size: 20px;
-  color: #aedcff;
-}
-
-.trip-card p {
-  margin: 5px 0;
-  color: #ffffff;
-}
-
-.flight-card {
-  background-color: #0d1b2a;
-  border: 1px solid #1b263b;
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 16px;
-  color: white;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-  font-family: 'Segoe UI', sans-serif;
-}
-
-.flight-card strong {
-  font-size: 18px;
-  color: #145374;
-}
-
-.flight-card h3 {
-  margin-bottom: 8px;
-  font-size: 1.2rem;
-  color: #00b4d8;
-}
-
-.flight-card p {
-  margin: 4px 0;
-}
-
-.recommendations-section {
-  background-color: rgba(255, 255, 255, 0.08);
-  border-radius: 15px;
-  padding: 20px;
-  margin-top: 20px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-  text-align: center;
-}
-
-.recommendations-section h2 {
-  font-size: 22px;
-  margin-bottom: 15px;
-  color: #ffffff;
-}
-
-.recommendations-section button {
-  margin: 10px;
-  padding: 12px 20px;
-  font-size: 16px;
-  font-weight: 600;
-  background-color: #27ae60;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  color: white;
-  transition: background-color 0.3s;
-}
-
-.recommendations-section button:hover {
-  background-color: #1e8449;
-}
-
+/* Modal */
 .modal {
   display: none;
   position: fixed;
-  z-index: 999;
+  z-index: 1000;
   left: 0; top: 0;
   width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.6);
 }
 
 .modal-content {
-  background: linear-gradient(to bottom right, #2c3e50, #145374);
+  background: linear-gradient(to bottom right, #1b262c, #0f4c75);
   color: white;
-  margin: 15% auto;
-  padding: 30px;
-  border-radius: 10px;
-  width: 300px;
+  margin: 10% auto;
+  padding: 40px 30px;
+  border-radius: 15px;
+  width: 340px;
   text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.5);
 }
 
 .close {
   float: right;
-  font-size: 24px;
+  font-size: 26px;
   cursor: pointer;
+}
+
+.spotify-logo {
+  width: 110px;
+  margin: 0 auto 25px;
+  display: block;
 }
 
 .spotify-auth-btn {
-  padding: 12px 24px;
-  font-size: 16px;
-  font-weight: 600;
-  background-color: #1DB954; /* Spotify-grön */
+  padding: 12px 25px;
+  background-color: #1db954;
   border: none;
   border-radius: 30px;
-  cursor: pointer;
   color: white;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s, transform 0.2s;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
 }
 
 .spotify-auth-btn:hover {
-  background-color: #17a64a;
+  background-color: #18a84b;
   transform: scale(1.05);
 }
+
+/* Flight result cards */
+.flight-card {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 15px;
+  margin: 15px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  transition: transform 0.2s;
+}
+
+.flight-card:hover {
+  transform: translateY(-3px);
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #b8e0f2;
+  font-size: 14px;
+  margin-top: 40px;
+  opacity: 0.8;
+}
+
+.side-visual {
+  position: absolute;
+  left: 0;
+  top: 200px;
+  width: 280px;
+  opacity: 0.25;
+  pointer-events: none;
+  filter: drop-shadow(0 8px 14px rgba(0,0,0,0.35));
+  z-index: 0; /* ändra från -1 till 0 */
+}
+
+/* Rubrik */
+.intro {
+  text-align: center;
+  padding: 24px 10px 18px;
+}
+
+.intro h1 {
+  font-size: 28px;
+  margin: 0;
+  font-weight: 700;
+}
+
+/* Två höga rutor */
+.dashboard {
+  display: grid;
+  grid-template-columns: 1fr 1fr;   /* två smalare kolumner */
+  gap: 24px;
+  align-items: stretch;
+  min-height: calc(100vh - 220px);  /* gör sektionen hög på sidan */
+}
+
+/* Panelerna: smala men höga "kvadrater" */
+.panel {
+  background-color: rgba(0, 0, 0, 0.45);
+  border: 1.5px;          /* guldig kant (likt din mockup) */
+  border-radius: 10px;
+  padding: 18px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+  min-height: 78vh;                     /* höööög */
+  display: flex;
+  flex-direction: column;
+}
+
+.panel h2 {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 12px 0;
+}
+
+/* Gör formuläret smalt och långt (en kolumn) */
+.tall-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+}
+
+.inputs.single-column {
+  display: grid;
+  grid-template-columns: 1fr; /* EN kolumn – smal men lång */
+  gap: 14px;
+}
+
+/* Resultatpanelen ska skrolla när det blir många kort */
+.results-panel {
+  overflow-y: auto;           /* scrollbar i hela panelen */
+  padding-right: 10px;
+}
+
+/* Scrollbar-stil i mörkt tema */
+.results-panel::-webkit-scrollbar { width: 10px; }
+.results-panel::-webkit-scrollbar-thumb {
+  background-color: #3282b8;
+  border-radius: 12px;
+}
+.results-panel::-webkit-scrollbar-thumb:hover { background-color: #56cfe1; }
+
+/* Flygkorten får plats i smal kolumn */
+.flight-card {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 12px;
+  margin: 10px 0;
+}
+
+/* Responsivitet: stacka panelerna på mobil */
+@media (max-width: 900px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+  .panel {
+    min-height: auto;
+  }
+}
+
+/* Layout: två breda kolumner */
+.dashboard {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;  /* vänster något bredare */
+  gap: 28px;
+  min-height: calc(100vh - 200px);
+  margin-top: 25px;
+}
+
+.panel {
+  background-color: rgba(0, 0, 0, 0.45);
+  border: 1.5px solid;
+  border-radius: 10px;
+  padding: 20px 24px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+  display: flex;
+  flex-direction: column;
+    max-height: 78vh;          /* aldrig högre än 78% av skärmen */
+
+}
+
+.panel h2 {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+/* 📝 Formulär – två fält per rad */
+.inputs.double-column {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px 24px;
+}
+
+.inputs.double-column label {
+  font-weight: 600;
+  margin-bottom: 4px;
+  display: block;
+  color: #d9faff;
+}
+
+.inputs.double-column input,
+.inputs.double-column select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+}
+
+/* ✈️ Resultat – scrollbar */
+.results-panel {
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.results-panel::-webkit-scrollbar {
+  width: 10px;
+}
+
+.results-panel::-webkit-scrollbar-thumb {
+  background-color: #3282b8;
+  border-radius: 10px;
+}
+
+.results-panel::-webkit-scrollbar-thumb:hover {
+  background-color: #56cfe1;
+}
+
+/* Responsivt: stapla kolumner på små skärmar */
+@media (max-width: 950px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+}
+
+.results-panel {
+  max-height: 78vh;          /* aldrig högre än 78% av skärmen */
+  overflow-y: auto;          /* scrolla inuti rutan */
+  padding-right: 10px;
+}
+
+.results-panel::-webkit-scrollbar {
+  width: 10px;
+}
+
+.results-panel::-webkit-scrollbar-thumb {
+  background-color: #3282b8;
+  border-radius: 10px;
+}
+
+.results-panel::-webkit-scrollbar-thumb:hover {
+  background-color: #56cfe1;
+}
+
+
+

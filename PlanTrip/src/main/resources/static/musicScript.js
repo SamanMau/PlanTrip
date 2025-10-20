@@ -37,7 +37,8 @@ function wireGenreClicks() {
 
 // 3) Hämta rekommendationer för en vald genre
 // 3) Hämta rekommendationer för en vald genre (List<String> som JSON-array)
-function getRecommendations(genre) {
+// 3) Hämta rekommendationer för en vald genre (List<String> som JSON-array)
+function getRecomendations(genre) {
   const url = `http://127.0.0.1:8080/api/musicRecommendations?genre=${encodeURIComponent(genre)}`;
 
   fetch(url)
@@ -100,6 +101,7 @@ function getRecommendations(genre) {
     })
     .catch((err) => console.error("Error:", err));
 }
+
 
 
       function openSpotifyModal() {
