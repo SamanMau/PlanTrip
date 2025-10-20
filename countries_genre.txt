@@ -1,203 +1,202 @@
-Argentina: Argentine
-Bolivia: Bolivian
-Brazil: Brazilian
-Chile: Chilean
-Colombia: Colombian
-Ecuador: Ecuadorian
-Guyana: Guyanese
-Paraguay: Paraguayan
-Peru: Peruvian
-Suriname: Surinamese
-Uruguay: Uruguayan
-Venezuela: Venezuelan
-Antigua and Barbuda: Antiguan and Barbudan
-Bahamas: Bahamian
-Barbados: Barbadian
-Belize: Belizean
-Canada: Canadian
-Costa Rica: Costa Rican
-Cuba: Cuban
-Dominica: Dominican
-Dominican Republic: Dominican
-El Salvador: Salvadoran
-Grenada: Grenadian
-Guatemala: Guatemalan
-Haiti: Haitian
-Honduras: Honduran
-Jamaica: Jamaican
-Mexico: Mexican
-Nicaragua: Nicaraguan
-Panama: Panamanian
-Saint Kitts and Nevis: Kittitian or Nevisian
-Saint Lucia: Saint Lucian
-Saint Vincent and the Grenadines: Vincentian
-Trinidad and Tobago: Trinidadian or Tobagonian
-United States: American
-Albania: Albanian
-Andorra: Andorran
-Armenia: Armenian
-Austria: Austrian
-Azerbaijan: Azerbaijani
-Belarus: Belarusian
-Belgium: Belgian
-Bosnia and Herzegovina: Bosnian or Herzegovinian
-Bulgaria: Bulgarian
-Croatia: Croatian
-Cyprus: Cypriot
-Czech Republic: Czech
-Denmark: Danish
-Estonia: Estonian
-Finland: Finnish
-France: French
-Georgia: Georgian
-Germany: German
-Greece: Greek
-Hungary: Hungarian
-Iceland: Icelandic
-Ireland: Irish
-Italy: Italian
-Kazakhstan: Kazakhstani
-Kosovo: Kosovar
-Latvia: Latvian
-Liechtenstein: Liechtensteiner
-Lithuania: Lithuanian
-Luxembourg: Luxembourger
-Malta: Maltese
-Moldova: Moldovan
-Monaco: Monegasque
-Montenegro: Montenegrin
-Netherlands: Dutch
-North Macedonia: Macedonian
-Norway: Norwegian
-Poland: Polish
-Portugal: Portuguese
-Romania: Romanian
-Russia: Russian
-San Marino: Sammarinese
-Serbia: Serbian
-Slovakia: Slovak
-Slovenia: Slovenian
-Spain: Spanish
-Sweden: Swedish
-Switzerland: Swiss
-Turkey: Turkish
-Ukraine: Ukrainian
-United Kingdom: British
-Vatican City: Vatican
-Afghanistan: Afghan
-Armenia: Armenian
-Azerbaijan: Azerbaijani
-Bahrain: Bahraini
-Bangladesh: Bangladeshi
-Bhutan: Bhutanese
-Brunei: Bruneian
-Cambodia: Cambodian
-China: Chinese
-Cyprus: Cypriot
-Georgia: Georgian
-India: Indian
-Indonesia: Indonesian
-Iran: Iranian
-Iraq: Iraqi
-Israel: Israeli
-Japan: Japanese
-Jordan: Jordanian
-Kazakhstan: Kazakhstani
-Kuwait: Kuwaiti
-Kyrgyzstan: Kyrgyzstani
-Laos: Lao or Laotian
-Lebanon: Lebanese
-Malaysia: Malaysian
-Maldives: Maldivian
-Mongolia: Mongolian
-Myanmar: Burmese
-Nepal: Nepali
-North Korea: North Korean
-Oman: Omani
-Pakistan: Pakistani
-Palestine: Palestinian
-Philippines: Filipino
-Qatar: Qatari
-Saudi Arabia: Saudi or Saudi Arabian
-Singapore: Singaporean
-South Korea: South Korean
-Sri Lanka: Sri Lankan
-Syria: Syrian
-Taiwan: Taiwanese
-Tajikistan: Tajikistani
-Thailand: Thai
-Timor-Leste: Timorese
-Turkey: Turkish
-Turkmenistan: Turkmen
-United Arab Emirates: Emirati
-Uzbekistan: Uzbekistani
-Vietnam: Vietnamese
-Yemen: Yemeni
-Algeria: Algerian
-Angola: Angolan
-Benin: Beninese
-Botswana: Botswanan
-Burkina Faso: Burkinabé
-Burundi: Burundian
-Cabo Verde: Cape Verdean
-Cameroon: Cameroonian
-Central African Republic: Central African
-Chad: Chadian
-Comoros: Comoran or Comorian
-Democratic Republic of the Congo: Congolese
-Republic of the Congo: Congolese
-Djibouti: Djiboutian
-Egypt: Egyptian
-Equatorial Guinea: Equatoguinean
-Eritrea: Eritrean
-Eswatini: Swazi
-Ethiopia: Ethiopian
-Gabon: Gabonese
-Gambia: Gambian
-Ghana: Ghanaian
-Guinea: Guinean
-Guinea-Bissau: Bissau-Guinean
-Ivory Coast: Ivorian
-Kenya: Kenyan
-Lesotho: Basotho
-Liberia: Liberian
-Libya: Libyan
-Madagascar: Malagasy
-Malawi: Malawian
-Mali: Malian
-Mauritania: Mauritanian
-Mauritius: Mauritian
-Morocco: Moroccan
-Mozambique: Mozambican
-Namibia: Namibian
-Niger: Nigerien
-Nigeria: Nigerian
-Rwanda: Rwandan
-São Tomé and Príncipe: São Toméan
-Senegal: Senegalese
-Seychelles: Seychellois
-Sierra Leone: Sierra Leonean
-Somalia: Somali
-South Africa: South African
-South Sudan: South Sudanese
-Sudan: Sudanese
-Tanzania: Tanzanian
-Togo: Togolese
-Tunisia: Tunisian
-Uganda: Ugandan
-Zambia: Zambian
-Zimbabwe: Zimbabwean
-Australia: Australian
-Fiji: Fijian
-Kiribati: I-Kiribati
-Marshall Islands: Marshallese
-Micronesia: Micronesian
-Nauru: Nauruan
-New Zealand: New Zealander
-Palau: Palauan
-Papua New Guinea: Papua New Guinean
-Samoa: Samoan
-Solomon Islands: Solomon Islander
-Tonga: Tongan
-Tuvalu: Tuvaluan
-Vanuatu: Ni-Vanuatu
+Argentina: tango, rock%20en%20español, folklore%20argentino
+Bolivia: bolivian%20folk, cumbia, andean%20music
+Brazil: samba, bossa%20nova, funk%20carioca
+Chile: cueca, nueva%20canción, rock%20chileno
+Colombia: cumbia, vallenato, reggaeton
+Ecuador: pasillo, ecuadorian%20folk, salsa
+Guyana: chutney, soca, reggae
+Paraguay: guarani%20folk, polka%20paraguaya, latin%20pop
+Peru: andean%20folk, huayno, chicha
+Suriname: kaseko, kawina, reggae
+Uruguay: candombe, tango, rock%20uruguayo
+Venezuela: joropo, gaita, salsa
+Antigua and Barbuda: antiguan%20soca, antiguan%20calypso, reggae
+Bahamas: bahamian%20junkanoo, rake%20and%20scrape, bahamian%20calypso
+Barbados: bajan%20soca, bajan%20calypso, reggae
+Belize: belizean%20punta, brukdown, belizean%20reggae
+Canada: canadian%20indie%20rock, canadian%20country, canadian%20folk
+Costa Rica: costa%20rican%20calypso, costa%20rican%20salsa, reggae
+Cuba: son%20cubano, cuban%20salsa, cuban%20rumba
+Dominica: bouyon, cadence-lypso, dominican%20reggae
+Dominican Republic: merengue, bachata, dembow
+El Salvador: salvadoran%20cumbia, salvadoran%20folk, salvadoran%20reggaeton
+Grenada: grenadian%20soca, grenadian%20calypso, reggae
+Guatemala: guatemalan%20marimba, guatemalan%20folk, guatemalan%20cumbia
+Haiti: haitian%20compas, rara, mizik%20rasin
+Honduras: honduran%20punta, garifuna%20folk, honduran%20reggaeton
+Jamaica: reggae, dancehall, ska
+Mexico: mariachi, norteño, ranchera
+Nicaragua: palo%20de%20mayo, nicaraguan%20folk, nicaraguan%20cumbia
+Panama: panamanian%20reggaeton, típico, panamanian%20salsa
+Saint Kitts and Nevis: kittitian%20soca, kittitian%20calypso, reggae
+Saint Lucia: lucian%20soca, lucian%20calypso, zouk
+Saint Vincent and the Grenadines: vincentian%20soca, vincentian%20calypso, reggae
+Trinidad and Tobago: trinidadian%20soca, trinidadian%20calypso, chutney
+USA: american%20hip%20hop, american%20country, american%20rock
+Albania: albanian%20folk, albanian%20pop, iso-polyphony
+Andorra: catalan%20folk, andorran%20pop, andorran%20rock
+Armenia: armenian%20folk, duduk%20music, armenian%20pop
+Austria: austrian%20folk, schlager, viennese%20waltz
+Azerbaijan: mugham, azerbaijani%20folk, azerbaijani%20pop
+Belarus: belarusian%20folk, belarusian%20pop, belarusian%20rock
+Belgium: belgian%20pop, belgian%20electronic, chanson%20belge
+Bosnia and Herzegovina: sevdalinka, bosnian%20folk, bosnian%20pop
+Bulgaria: bulgarian%20folk, chalga, bulgarian%20pop
+Croatia: klapa, croatian%20pop, tamburica
+Cyprus: cypriot%20folk, laiko, cypriot%20pop
+Czech Republic: czech%20folk, czech%20rock, czech%20pop
+Denmark: danish%20pop, danish%20rock, danish%20folk
+Estonia: estonian%20folk, estonian%20pop, choir%20music
+Finland: finnish%20metal, finnish%20folk, finnish%20pop
+France: chanson%20française, french%20pop, french%20electronic
+Georgia: georgian%20polyphonic%20singing, georgian%20folk, georgian%20pop
+Germany: german%20rock, schlager, techno
+Greece: rebetiko, laiko, greek%20folk
+Hungary: hungarian%20folk, csárdás, hungarian%20pop
+Iceland: icelandic%20folk, icelandic%20pop, icelandic%20rock
+Ireland: irish%20folk, celtic%20music, irish%20rock
+Italy: italian%20pop, canzone%20napoletana, italian%20folk
+Kosovo: kosovan%20folk, kosovan%20pop, tallava
+Latvia: latvian%20folk, latvian%20pop, choir%20music
+Liechtenstein: alpine%20folk, liechtenstein%20pop, schlager
+Lithuania: lithuanian%20folk, lithuanian%20pop, sutartines
+Luxembourg: luxembourgish%20folk, luxembourgish%20pop, luxembourgish%20rock
+Malta: maltese%20folk, maltese%20pop, għana
+Moldova: moldovan%20folk, moldovan%20pop, hora
+Monaco: monégasque%20folk, french%20chanson, monégasque%20pop
+Montenegro: montenegrin%20folk, montenegrin%20pop, gusle
+Netherlands: dutch%20pop, dutch%20folk, gabber
+North Macedonia: macedonian%20folk, chalga, macedonian%20pop
+Norway: norwegian%20folk, black%20metal, norwegian%20pop
+Poland: polish%20folk, disco%20polo, polish%20pop
+Portugal: fado, portuguese%20folk, portuguese%20pop
+Romania: romanian%20folk, manele, romanian%20pop
+Russia: russian%20folk, russian%20rock, russian%20pop
+San Marino: san%20marinese%20folk, san%20marinese%20pop, san%20marinese%20rock
+Serbia: turbo-folk, serbian%20pop, sevdah
+Slovakia: slovak%20folk, slovak%20pop, slovak%20rock
+Slovenia: slovenian%20folk, slovenian%20pop, polka
+Spain: flamenco, spanish%20pop, spanish%20rock
+Sweden: swedish%20pop, swedish%20folk, dansband
+Switzerland: yodeling, swiss%20folk, swiss%20pop
+Turkey: turkish%20folk, arabesque, turkish%20pop
+Ukraine: ukrainian%20folk, ukrainian%20pop, ukrainian%20rock
+United Kingdom: british%20rock, british%20pop, celtic%20folk
+Vatican City: gregorian%20chant, sacred%20music, vatican%20choral
+Algeria: raï, chaabi, algerian%20folk
+Angola: kizomba, semba, kuduro
+Benin: beninese%20folk, afrobeats, tchinkoumé
+Botswana: botswana%20folk, kwasa%20kwasa, afro-pop
+Burkina Faso: burkinabe%20folk, mande%20music, coupé-décalé
+Burundi: burundian%20drumming, burundian%20folk, afrobeat
+Cabo Verde: morna, coladeira, funaná
+Cameroon: makossa, bikutsi, cameroonian%20folk
+Central African Republic: gbaya%20music, banda%20music, central%20african%20folk
+Chad: chadian%20folk, sahelian%20blues, afrobeat
+Comoros: comorian%20folk, twarab, afro-pop
+Congo: soukous, congolaise%20rumba, ndombolo
+Democratic Republic of the Congo: soukous, ndombolo, congolese%20rumba
+Djibouti: somali%20folk, djiboutian%20pop, twarab
+Egypt: egyptian%20folk, shaabi, arabic%20pop
+Equatorial Guinea: equatoguinean%20folk, bikutsi, makossa
+Eritrea: eritrean%20folk, toba%20music, eritrean%20pop
+Eswatini: swazi%20folk, gospel, afro%20soul
+Ethiopia: ethiopian%20folk, tizita, ethio-jazz
+Gabon: gabonese%20folk, afro-zouk, traditional%20bwiti
+Gambia: kora%20music, mandinka%20folk, afrobeat
+Ghana: highlife, hiplife, ghanaian%20folk
+Guinea: guinean%20folk, djembe%20music, afrobeat
+Guinea-Bissau: gumbe, bissau-guinean%20folk, afro-pop
+Ivory Coast: coupé-décalé, zouglou, ivorian%20folk
+Kenya: benga, genge, kenyan%20folk
+Lesotho: famo, basotho%20folk, afro-jazz
+Liberia: liberian%20folk, hipco, gbema
+Libya: libyan%20folk, arabic%20pop, malouf
+Madagascar: salegy, hiragasy, malagasy%20folk
+Malawi: malawian%20folk, kwela, afro-pop
+Mali: desert%20blues, griot%20music, manding%20folk
+Mauritania: mauritanian%20folk, tidinit%20music, hassaniya%20songs
+Mauritius: sega, bhojpuri%20folk, reggae
+Morocco: gnawa, chaabi, amazigh%20folk
+Mozambique: marrabenta, mozambican%20folk, afro-jazz
+Namibia: namibian%20folk, kwaito, shambo
+Niger: tuareg%20blues, hausa%20folk, desert%20rock
+Nigeria: afrobeats, juju, fuji
+Rwanda: rwandan%20folk, gospel, afrobeat
+Sao Tome and Principe: socopé, puxa, santomean%20folk
+Senegal: mbalax, sabar, senegalese%20folk
+Seychelles: moutya, sega, creole%20folk
+Sierra Leone: bubu%20music, palm-wine, afrobeats
+Somalia: somali%20folk, hees, qaraami
+South Africa: kwaito, amapiano, zulu%20folk
+South Sudan: south%20sudanese%20folk, afrobeat, gospel
+Sudan: nubian%20folk, sudanese%20jazz, arabic%20pop
+Tanzania: bongo%20flava, taarab, tanzanian%20folk
+Togo: togolese%20folk, afrobeats, hiplife
+Tunisia: malouf, tunisian%20folk, arabic%20pop
+Uganda: kadongo%20kamu, ugandan%20folk, afrobeat
+Zambia: kalindula, zambian%20folk, zamrock
+Zimbabwe: mbira, chimurenga, zimbabwean%20folk
+Afghanistan: afghan%20folk, afghan%20pop, ghazal
+Armenia: armenian%20folk, duduk%20music, armenian%20pop
+Azerbaijan: mugham, azerbaijani%20folk, azerbaijani%20pop
+Bahrain: khaliji, bahraini%20folk, arabic%20pop
+Bangladesh: baul, bangla%20folk, bangladeshi%20pop
+Bhutan: bhutanese%20folk, boedra, zhungdra
+Brunei: bruneian%20folk, islamic%20nasheed, bruneian%20pop
+Cambodia: khmer%20folk, cambodian%20rock, pinpeat
+China: chinese%20folk, mandopop, guzheng%20music
+Cyprus: cypriot%20folk, laiko, cypriot%20pop
+Georgia: georgian%20polyphonic%20singing, georgian%20folk, georgian%20pop
+India: bollywood%20music, indian%20classical, bhangra
+Indonesia: gamelan, dangdut, indonesian%20folk
+Iran: persian%20classical, iranian%20folk, pop%20irani
+Iraq: maqam, iraqi%20folk, arabic%20pop
+Israel: israeli%20folk, mizrahi%20music, hebrew%20pop
+Japan: enka, j-pop, taiko
+Jordan: jordanian%20folk, arabic%20pop, dabke
+Kazakhstan: kazakh%20folk, q-pop, dombyra%20music
+Kuwait: khaliji, sawt, kuwaiti%20folk
+Kyrgyzstan: kyrgyz%20folk, komuz%20music, ethno-pop
+Laos: lam%20luang, lao%20folk, mor%20lam
+Lebanon: arabic%20pop, lebanese%20folk, dabke
+Malaysia: malay%20folk, nasyid, malaysian%20pop
+Maldives: bodu%20beru, maldivian%20folk, maldivian%20pop
+Mongolia: throat%20singing, morin%20khuur%20music, mongolian%20folk
+Myanmar: myanmar%20folk, myanmar%20pop, traditional%20saung%20music
+Nepal: nepali%20folk, dohori, nepali%20pop
+North Korea: revolutionary%20songs, north%20korean%20folk, light%20music
+Oman: omani%20folk, khaliji, arabic%20pop
+Pakistan: qawwali, pakistani%20folk, coke%20studio
+Palestine: palestinian%20folk, dabke, arabic%20pop
+Philippines: opm%20(original%20pinoy%20music), kundiman, filipino%20folk
+Qatar: khaliji, qatarian%20folk, arabic%20pop
+Saudi Arabia: khaliji, arabic%20pop, saudi%20folk
+Singapore: singaporean%20pop, chinese%20folk, malay%20folk
+South Korea: k-pop, trot, gugak
+Sri Lanka: baila, sri%20lankan%20folk, sinhala%20pop
+Syria: arabic%20classical, syrian%20folk, dabke
+Taiwan: mandopop, hokkien%20folk, taiwanese%20indie
+Tajikistan: shashmaqam, tajik%20folk, tajik%20pop
+Thailand: luk%20thung, mor%20lam, thai%20pop
+Timor-Leste: timorese%20folk, tebe%20music, timorese%20pop
+Turkey: turkish%20folk, arabesque, turkish%20pop
+Turkmenistan: turkmen%20folk, dutar%20music, turkmen%20pop
+United Arab Emirates: khaliji, emirati%20folk, arabic%20pop
+Uzbekistan: shashmaqam, uzbek%20folk, uzbek%20pop
+Vietnam: vietnamese%20folk, cải%20lương, vietnamese%20pop
+Yemen: yemeni%20folk, arabic%20pop, sanaani%20music
+Australia: australian%20rock, aboriginal%20folk, aussie%20pop
+Fiji: fijian%20folk, meke, island%20reggae
+Kiribati: kiribati%20folk, maneaba%20songs, pacific%20pop
+Marshall Islands: marshallese%20folk, island%20music, reggae
+Micronesia: micronesian%20folk, island%20pop, traditional%20chant
+Nauru: nauruan%20folk, island%20music, choral%20songs
+New Zealand: maori%20folk, new%20zealand%20rock, kiwi%20pop
+Palau: palauan%20folk, island%20ballads, reggae
+Papua New Guinea: png%20folk, stringband%20music, highlands%20chants
+Samoa: samoan%20folk, island%20reggae, samoan%20pop
+Solomon Islands: solomon%20islands%20folk, island%20reggae, kastom%20music
+Tonga: tongan%20folk, himi%20music, island%20pop
+Tuvalu: tuvaluan%20folk, fatele, island%20music
+Vanuatu: vanuatu%20folk, stringband%20music, island%20reggae

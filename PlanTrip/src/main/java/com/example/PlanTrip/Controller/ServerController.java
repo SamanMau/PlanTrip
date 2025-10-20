@@ -1,8 +1,11 @@
 package com.example.PlanTrip.Controller;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -88,26 +91,74 @@ public class ServerController {
     }
 
     @GetMapping("/musicRecommendations")
-    public Map<String, String> getMusicRecommendations() throws Exception {
+    public List<String> getMusicRecommendations(@RequestParam String genre) throws Exception {
         if(tokenManager.isTokenExpired()){
             String accessToken = fetchAccessToken(spotifyClientID, spotifyClientSecret, "https://accounts.spotify.com/api/token");
             tokenManager.setAccessToken(accessToken);
         }
-
+        
         String tokenToUse = tokenManager.getAccessToken();
 
-        Map<String, Object> recommendations = spotifyAPIController.getMusicAndPodcastInformation(amadeusController.getShortestFlightDuration(), tokenToUse, destination);
+        List<String> recommendations = spotifyAPIController.getMusicAndPodcastInformation(amadeusController.getShortestFlightDuration(), tokenToUse, genre);
 
         if(recommendations == null){
             throw new Exception("The recomendations list was null");
         }
 
-        // Anropa Spotify API eller hårdkoda rekommendationer baserat på 'destination'
-        recommendations.put("Genre", "Lo-fi Chill");
-        recommendations.put("Playlist", "https://open.spotify.com/playlist/example");
-       // return recommendations;
-       return null;
+       return recommendations;
     }
+
+    @GetMapping("/fetch-genre")
+    public ResponseEntity<List<String>> fetchGenre() {
+        List<String> genres = getGenre(destination);
+        
+        return ResponseEntity.ok(putSpaceForGenres(genres));
+    }
+
+    public List<String> putSpaceForGenres(List<String> arr){
+        List<String> newList = new ArrayList<>();
+
+        for(String line : arr){
+            if(line.contains("%20")){
+                line.replace("%20", " ");
+                newList.add(line);
+            }
+        }
+
+        return newList;
+    }
+
+    public List<String> getGenre(String destination){
+        String countries_genre = "";
+        
+        try {
+            countries_genre = Files.readString(Paths.get("countries_genre.txt"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String[] lines = countries_genre.split("\\r?\\n");
+
+            for (String line : lines) {
+                String[] parts = line.split(":");
+                String country = parts[0].trim();
+                String genres = parts[1].trim();
+
+                if (country.equalsIgnoreCase(destination)) {
+                    String[] genreArray = genres.split(",\\s*");
+                    List<String> arr = new ArrayList();
+
+                    for(int i = 0; i < genreArray.length; i++){
+                        arr.add(genreArray[i]);
+                    }
+                    return arr;
+                }
+            }
+
+        return null;    
+    }
+
+
 
     public String fetchAccessToken(String apiKey, String apiSecret, String APIURL) {
         OkHttpClient client = new OkHttpClient();

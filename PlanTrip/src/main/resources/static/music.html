@@ -11,6 +11,16 @@
     <h1>🎵 Music & Podcast Recommendations</h1>
     <p>Based on your flight duration, here’s something to enjoy during your trip.</p>
 
+    <!-- Genre picker -->
+    <section class="genre-picker">
+      <h2>What music genre would you like to listen to for your travel?</h2>
+      <div class="genre-buttons">
+        <button id="genreBtn1" class="genre-btn" type="button" disabled><span class="label"></span></button>
+        <button id="genreBtn2" class="genre-btn" type="button" disabled><span class="label"></span></button>
+        <button id="genreBtn3" class="genre-btn" type="button" disabled><span class="label"></span></button>
+      </div>
+    </section>
+
     <div id="musicResult" class="results"></div>
       <div class="actions">
     <button type="button" onclick="getRecomendations()" aria-label="Generate playlist">
