@@ -1,0 +1,190 @@
+/* === GLOBAL === */
+* {
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(to bottom right, #1b262c, #0f4c75);
+  color: white;
+  min-height: 100vh;
+}
+
+.overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: url("../pictures/travel-bg.jpg") center/cover no-repeat;
+  filter: brightness(40%);
+  z-index: -1;
+}
+
+.page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 30px;
+}
+
+/* 🌍 Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 22px;
+  margin-left: 25px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+  margin-right: 25px;
+}
+
+.nav-links a {
+  color: #b8e0f2;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #ffffff;
+}
+
+/* 🏞️ Hero */
+.hero {
+  text-align: center;
+  padding: 60px 20px 50px;
+}
+
+.hero h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+/* === GENRE SECTION === */
+.genre-section {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.genre-section h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #e0e0e0;
+  margin-bottom: 15px;
+}
+
+.genre-dropdown {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f8f9fa;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: border-color 0.25s, background-color 0.25s;
+}
+
+.genre-dropdown:hover {
+  background: rgba(50, 130, 184, 0.6);
+  border-color: #56cfe1;
+}
+
+/* === RESULTS GRID === */
+.results {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 900px;
+  margin: 40px auto;
+  max-height: 70vh;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.results::-webkit-scrollbar {
+  width: 10px;
+}
+
+.results::-webkit-scrollbar-thumb {
+  background-color: #3282b8;
+  border-radius: 10px;
+}
+
+.results::-webkit-scrollbar-thumb:hover {
+  background-color: #56cfe1;
+}
+
+/* === MOVIE CARD === */
+.movie-card {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform 0.2s;
+}
+
+.movie-card:hover {
+  transform: translateY(-3px);
+}
+
+.movie-card img {
+  width: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.movie-info h3 {
+  font-size: 18px;
+  margin: 5px 0;
+}
+
+.movie-info p {
+  font-size: 14px;
+  color: #b8e0f2;
+}
+
+/* === PLACEHOLDER === */
+.placeholder {
+  grid-column: 1 / -1;
+  text-align: center;
+  opacity: 0.7;
+  color: #cfe7f5;
+}
+
+/* === FOOTER === */
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #b8e0f2;
+  font-size: 14px;
+  margin-top: 40px;
+  opacity: 0.8;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 700px) {
+  .results {
+    grid-template-columns: 1fr;
+  }
+
+  .hero h1 {
+    font-size: 28px;
+  }
+}

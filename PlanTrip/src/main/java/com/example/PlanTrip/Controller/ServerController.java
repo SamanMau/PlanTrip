@@ -29,6 +29,7 @@ public class ServerController {
     private AmadeusAPIController amadeusController = new AmadeusAPIController();
     private ChatGPTAPIController chatGPTController = new ChatGPTAPIController();
     private SpotifyAPIController spotifyAPIController = new SpotifyAPIController();
+    private TmdbAPIController tmdbAPIController = new TmdbAPIController();
     private TokenManager tokenManager;
     private String spotifyClientID;
     private String spotifyClientSecret;
@@ -40,6 +41,7 @@ public class ServerController {
         this.tokenManager = new TokenManager();
         this.spotifyClientID = getInfoFromENV("SPOTIFY_CLIENTID");
         this.spotifyClientSecret = getInfoFromENV("SPOTIFY_CLIENTSECRET");
+        this.TMDBAPI_KEY = getInfoFromENV("TMDB_API_KEY");
         String spotifyToken = fetchAccessToken(spotifyClientID, spotifyClientSecret, "https://accounts.spotify.com/api/token");
         tokenManager.setAccessToken(spotifyToken);
     }
@@ -107,6 +109,19 @@ public class ServerController {
         }
 
        return recommendations;
+    }
+
+    @GetMapping("/getMovies")
+    public List<String> getMovieRecomendations(@RequestParam String genre) throws Exception {
+        List<String> list = new ArrayList<>();
+        
+        list = tmdbAPIController.getMovieRecomendationsBasedOnGenre(genre, TMDBAPI_KEY);
+
+        if(list == null){
+            throw new Exception("The recomendations list was null");
+        }
+
+       return list;
     }
 
     @GetMapping("/fetch-genre")

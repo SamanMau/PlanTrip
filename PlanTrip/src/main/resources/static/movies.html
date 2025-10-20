@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PlanTrip – Movie Recommendations</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/movies.css" />
+</head>
+<body>
+  <div class="overlay"></div>
+
+  <div class="page">
+
+    <!-- 🌍 Navbar -->
+    <nav class="navbar">
+      <div class="logo">✈️ PlanTrip</div>
+      <ul class="nav-links">
+        <li><a href="mainpage.html">Home</a></li>
+        <li><a href="music.html">🎶 Music Recommendations</a></li>
+      </ul>
+    </nav>
+
+    <!-- 🏞️ Hero -->
+    <section class="hero">
+      <h1>Sit back, relax, and watch a movie</h1>
+    </section>
+
+    <!-- 🎬 Genre dropdown -->
+    <section class="genre-section">
+      <h2>Choose Genre</h2>
+      <select id="genreDropdown" class="genre-dropdown">
+        <option value="">-- Select a Genre --</option>
+        <option>Action</option>
+        <option>Adventure</option>
+        <option>Animation</option>
+        <option>Comedy</option>
+        <option>Crime</option>
+        <option>Drama</option>
+        <option>Family</option>
+        <option>Fantasy</option>
+        <option>Horror</option>
+        <option>Mystery</option>
+        <option>Science Fiction</option>
+        <option>Thriller</option>
+        <option>Western</option>
+      </select>
+    </section>
+
+    <!-- 🎥 Movie results -->
+    <section id="movieResult" class="results">
+      <p class="placeholder">Choose a genre above to see movie recommendations...</p>
+    </section>
+
+    <footer>
+      <p>© 2025 PlanTrip. Designed for smarter journeys ✈️</p>
+    </footer>
+  </div>
+
+  <script src="moviesScript.js"></script>
+</body>
+</html>
