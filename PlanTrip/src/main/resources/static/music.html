@@ -3,33 +3,54 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Travel Music & Podcasts</title>
+  <title>PlanTrip – Music & Podcasts</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/music.css" />
 </head>
 <body>
-  <div class="container">
-    <h1>🎵 Music & Podcast Recommendations</h1>
-    <p>Based on your flight duration, here’s something to enjoy during your trip.</p>
+  <div class="overlay"></div>
 
-    <!-- Genre picker -->
-    <section class="genre-picker">
-      <h2>What music genre would you like to listen to for your travel?</h2>
-      <div class="genre-buttons">
-        <button id="genreBtn1" class="genre-btn" type="button" disabled><span class="label"></span></button>
-        <button id="genreBtn2" class="genre-btn" type="button" disabled><span class="label"></span></button>
-        <button id="genreBtn3" class="genre-btn" type="button" disabled><span class="label"></span></button>
+  <div class="page">
+
+    <!-- 🌍 Navbar (samma som framsidan) -->
+    <nav class="navbar">
+      <div class="logo">✈️ PlanTrip</div>
+      <ul class="nav-links">
+        <li><a href="mainpage.html">Home</a></li>
+        <li><a href="movies.html">🎬 Movie Recommendations</a></li>
+      </ul>
+    </nav>
+
+    <!-- 🏞️ Hero (samma stil som frontpage) -->
+    <section class="hero">
+      <h1>Music Recommendations</h1>
+    </section>
+
+    <!-- 🎶 Genre picker -->
+    <section class="genre-section">
+      <h2>Select a Genre</h2>
+      <div class="genre-grid">
+        <button id="genreBtn1" class="genre-card" disabled>
+          <span class="label"></span>
+        </button>
+        <button id="genreBtn2" class="genre-card" disabled>
+          <span class="label"></span>
+        </button>
+        <button id="genreBtn3" class="genre-card" disabled>
+          <span class="label"></span>
+        </button>
       </div>
     </section>
 
-    <div id="musicResult" class="results"></div>
-      <div class="actions">
-    <button type="button" onclick="getRecomendations()" aria-label="Generate playlist">
-      ▶ Generate playlist
-    </button>
+    <!-- 🎵 Music results -->
+    <section id="musicResult" class="results">
+      <p class="placeholder">Choose a genre above to see music and podcasts...</p>
+    </section>
 
-  </div>
+    <footer>
+      <p>© 2025 PlanTrip. Designed for smarter journeys ✈️</p>
+    </footer>
 
-    <button onclick="window.location.href='mainpage.html'">← Back to Main Page</button>
   </div>
 
   <script src="musicScript.js"></script>

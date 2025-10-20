@@ -34,6 +34,7 @@ public class ServerController {
     private String spotifyClientSecret;
     private String spotifyAccessToken;
     private String destination;
+    private String TMDBAPI_KEY;
 
     public ServerController(){
         this.tokenManager = new TokenManager();
@@ -120,7 +121,9 @@ public class ServerController {
 
         for(String line : arr){
             if(line.contains("%20")){
-                line.replace("%20", " ");
+                String linee = line.replace("%20", " ");
+                newList.add(linee);
+            } else{
                 newList.add(line);
             }
         }
