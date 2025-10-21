@@ -280,7 +280,7 @@ public class AmadeusAPIController {
                         String element = "";
 
                         if(totalChildrenPrice != 0 && totalInfantPrice != 0){
-                            element = "Total price: " + formattedTotalPrice + "(" + currency + ")" + "\n" + "Total adult price: " + totalAdultPrice + "(" + currency + ")" + "\n" + "Total children price: " + totalChildrenPrice + "(" + currency + ")" + "\n" + "Total nfant price: " + totalInfantPrice + "(" + currency + ")";
+                            element = "Total price: " + formattedTotalPrice + "(" + currency + ")" + "\n" + "Total adult price: " + totalAdultPrice + "(" + currency + ")" + "\n" + "Total children price: " + totalChildrenPrice + "(" + currency + ")" + "\n" + "Total infant price: " + totalInfantPrice + "(" + currency + ")";
                         } else if(totalChildrenPrice != 0 && totalInfantPrice == 0) {
                             element = "Total price: " + formattedTotalPrice + "(" + currency + ")" + "\n" + "Total adult price: " + totalAdultPrice + "(" + currency + ")" + "\n" + "Total children price: " + totalChildrenPrice + "(" + currency + ")";
                         } else if(totalChildrenPrice == 0 && totalInfantPrice != 0) {
@@ -370,10 +370,12 @@ public class AmadeusAPIController {
 
                         String departureIATA = (String) departure.get("departureIATA");
                         String departureTime = (String) departure.get("departureAt");
+                        String correctDepTime = splitDateAndTime(departureTime);
                         String departureTerminal = (String) departure.get("departureTerminal");
 
                         String arrivalIATA = (String) arrival.get("arrivalIATA");
                         String arrivalTime = (String) arrival.get("arrivalAt");
+                        String correctArrTime = splitDateAndTime(arrivalTime);
                         String arrivalTerminal = (String) arrival.get("arrivalTerminal");
 
                         String fn = (String) flightNumber.get("flightNumber");
@@ -381,12 +383,12 @@ public class AmadeusAPIController {
 
                         sb.append("\n")
                         .append("🛫 Departure: ").append(departureIATA).append("\n")
-                        .append("🕐 Departure time: ").append(departureTime).append("\n")
+                        .append("🕐 Departure time: ").append(correctDepTime).append("\n")
                         .append("🛃 Departure terminal: ").append(departureTerminal).append("\n")
                         .append("✈ Flight number: ").append(fn).append("\n")
                         .append("🛩 Airline: ").append(cc).append("\n\n")
                         .append("🛬 Arrival: ").append(arrivalIATA).append("\n")
-                        .append("🕐 Arrival time: ").append(arrivalTime).append("\n")
+                        .append("🕐 Arrival time: ").append(correctArrTime).append("\n")
                         .append("🛃 Arrival terminal: ").append(arrivalTerminal).append("\n");
                     }
 
@@ -399,6 +401,22 @@ public class AmadeusAPIController {
                 return result;
             }
 
+
+    public String splitDateAndTime(String depTime){
+        char[] letters = depTime.toCharArray();
+        StringBuilder sb = new StringBuilder();
+
+        for(char letter : letters){
+            if(letter == 'T'){
+                sb.append(" ");
+                sb.append("T");
+            } else{
+                sb.append(letter);
+            }
+        }
+
+        return sb.toString();
+    }        
 
     //This method preprocesses the flight data and organizes it into a more readable format.
     public ArrayList<HashMap<String, Object>> preprocessFlightData(List<Map<String, Object>> departureList, List<Map<String, Object>> arrivalList, ArrayList<String> flightNumberList, ArrayList<String> carrierCodeList, int trycount) {
