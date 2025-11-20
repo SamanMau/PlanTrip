@@ -10,8 +10,8 @@ function fetchGenres() {
       return r.json();
     })
     .then(genres => {
-      ["genreBtn1","genreBtn2","genreBtn3"].forEach((id, i) => {
-        const btn = document.getElementById(id);
+      ["genreBtn1"].forEach((id, i) => {
+        const btn = document.getElementById(id); 
         if (btn && genres[i]) {
           btn.querySelector(".label").textContent = genres[i];
           btn.dataset.genre = genres[i];
@@ -101,8 +101,6 @@ function getRecomendations(genre) {
     })
     .catch((err) => console.error("Error:", err));
 }
-
-
 
       function openSpotifyModal() {
       document.getElementById("spotifyModal").style.display = "block";

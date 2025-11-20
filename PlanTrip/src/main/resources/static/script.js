@@ -1,5 +1,6 @@
+let tripChosen = false;
 document.addEventListener("DOMContentLoaded", function () {
-  const form = document.getElementById("tripForm");
+form = document.getElementById("tripForm");
 
   if(form){
       form.addEventListener("submit", function (e) {
@@ -11,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const adults = document.getElementById("adults").value;
     const children = document.getElementById("children").value;
     const infants = document.getElementById("infants").value;
+    tripChosen = true;
 
     if (adults < 1) {
       alert("At least one adult is required");
@@ -88,6 +90,10 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
       function openSpotifyModal() {
+      if(!tripChosen) {
+        alert("Please plan your trip first!");
+          return;
+        }
       document.getElementById("spotifyModal").style.display = "block";
     }
 
