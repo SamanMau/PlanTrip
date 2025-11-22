@@ -39,8 +39,17 @@ public class SpotifyAPIController {
         this.duration = duration;
         this.access_token = accessToken;
         
-        String URL = "https://api.spotify.com/v1/search?q=" + genre + "&type=playlist&limit="+String.valueOf(songs);
-               
+        System.out.println("genre: " + genre);
+        //String URL = "https://api.spotify.com/v1/search?q=" + genre + "&type=playlist&limit="+String.valueOf(songs);
+        
+        String URL = HttpUrl.parse("https://api.spotify.com/v1/search")
+        .newBuilder()
+        .addQueryParameter("q", genre)
+        .addQueryParameter("type", "playlist")
+        .addQueryParameter("limit", String.valueOf(songs))
+        .build()
+        .toString();
+
         okhttp3.Request request = new okhttp3.Request.Builder()
         .url(URL)
         .addHeader("Authorization", "Bearer " + accessToken)
