@@ -38,7 +38,7 @@ public class SpotifyAPIController {
 
         this.duration = duration;
         this.access_token = accessToken;
-          
+        
         String URL = "https://api.spotify.com/v1/search?q=" + genre + "&type=playlist&limit="+String.valueOf(songs);
                
         okhttp3.Request request = new okhttp3.Request.Builder()
@@ -75,6 +75,7 @@ public class SpotifyAPIController {
             JsonNode items = root.path("playlists").path("items");
 
             if(items.size() == 0){
+                System.out.println("inga items, return general playlist");
                 return getGeneralPlaylist();
             }
 

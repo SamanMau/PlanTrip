@@ -16,22 +16,10 @@ function fetchGenres() {
     .catch(err => console.error(err));
 }
 
-// 2) Klick på en genre-knapp → hämta rekommendationer för just den genren
-function wireGenreClicks() {
-  document.querySelectorAll(".genre-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const chosen = btn.dataset.genre;
-      selectedGenre = chosen;
-      getRecomendations(selectedGenre); // OBS: nu skickar vi vald genre
-    });
-  });
-}
-
 // 3) Hämta rekommendationer för en vald genre
 // 3) Hämta rekommendationer för en vald genre (List<String> som JSON-array)
 // 3) Hämta rekommendationer för en vald genre (List<String> som JSON-array)
 function getRecomendations(genre) {
-  alert("im here")
   const url = `http://127.0.0.1:8080/api/musicRecommendations?genre=${encodeURIComponent(genre)}`;
 
   fetch(url)

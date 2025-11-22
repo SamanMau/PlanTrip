@@ -101,7 +101,6 @@ public class ServerController {
 
     @GetMapping("/musicRecommendations")
     public List<String> getMusicRecommendations(@RequestParam String genre) throws Exception {
-        System.out.println("music recomendations");
         if(tokenManager.isTokenExpired()){
             String accessToken = fetchAccessToken(spotifyClientID, spotifyClientSecret, "https://accounts.spotify.com/api/token");
             tokenManager.setAccessToken(accessToken);
@@ -132,10 +131,12 @@ public class ServerController {
     }
 
     @GetMapping("/fetch-genre")
-    public ResponseEntity<String> fetchGenre() {
-        String countryGenre = getGenre(destination);
-        
-        return ResponseEntity.ok(putSpaceForGenres(countryGenre));
+    public ResponseEntity<Map<String, String>> fetchGenre() {
+        String countryGenre = getGenre(destination);        
+        Map<String, String> response = new HashMap<>();
+        response.put("genre", putSpaceForGenres(countryGenre));
+
+        return ResponseEntity.ok(response);
     }
 
     public String putSpaceForGenres(String input){
