@@ -1,6 +1,6 @@
 let selectedGenre = null;
 
-// 1) Hämta tre genrer när sidan laddas
+// 1) Hämta genre när sidan laddas
 document.addEventListener("DOMContentLoaded", fetchGenres);
 
 function fetchGenres() {
@@ -11,15 +11,7 @@ function fetchGenres() {
     })
       .then(data => {
           const genre = data.genre; // <-- En enda sträng
-
-          const btn = document.getElementById("genreBtn1");
-          if (btn) {
-              btn.querySelector(".label").textContent = genre;
-              btn.dataset.genre = genre;
-              selectedGenre = genre;
-              btn.disabled = false;
-              btn.addEventListener("click", () => getRecomendations(genre));
-          }
+          getRecomendations(genre); // Hämta rekommendationer direkt för den genren
       })
     .catch(err => console.error(err));
 }
@@ -39,6 +31,7 @@ function wireGenreClicks() {
 // 3) Hämta rekommendationer för en vald genre (List<String> som JSON-array)
 // 3) Hämta rekommendationer för en vald genre (List<String> som JSON-array)
 function getRecomendations(genre) {
+  alert("im here")
   const url = `http://127.0.0.1:8080/api/musicRecommendations?genre=${encodeURIComponent(genre)}`;
 
   fetch(url)

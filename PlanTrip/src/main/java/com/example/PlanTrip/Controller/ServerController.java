@@ -101,6 +101,7 @@ public class ServerController {
 
     @GetMapping("/musicRecommendations")
     public List<String> getMusicRecommendations(@RequestParam String genre) throws Exception {
+        System.out.println("music recomendations");
         if(tokenManager.isTokenExpired()){
             String accessToken = fetchAccessToken(spotifyClientID, spotifyClientSecret, "https://accounts.spotify.com/api/token");
             tokenManager.setAccessToken(accessToken);
