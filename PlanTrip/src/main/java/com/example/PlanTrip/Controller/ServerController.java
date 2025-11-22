@@ -34,7 +34,7 @@ public class ServerController {
     private String spotifyClientID;
     private String spotifyClientSecret;
     private String spotifyAccessToken;
-    private String destination;
+    private static String destination;
     private String TMDBAPI_KEY;
 
     public ServerController(){
@@ -75,6 +75,12 @@ public class ServerController {
 
         return result;
     }
+
+    public static String getDestination(){
+        return destination;
+    }
+
+    
 
     @GetMapping("/callback")
     public RedirectView handleSpotifyCallback(@RequestParam("code") String code) {
@@ -125,51 +131,46 @@ public class ServerController {
     }
 
     @GetMapping("/fetch-genre")
-    public ResponseEntity<List<String>> fetchGenre() {
-        List<String> genres = getGenre(destination);
+    public ResponseEntity<String> fetchGenre() {
+        String countryGenre = getGenre(destination);
         
-        return ResponseEntity.ok(putSpaceForGenres(genres));
+        return ResponseEntity.ok(putSpaceForGenres(countryGenre));
     }
 
-    public List<String> putSpaceForGenres(List<String> arr){
-        List<String> newList = new ArrayList<>();
-
-        for(String line : arr){
-            if(line.contains("%20")){
-                String linee = line.replace("%20", " ");
-                newList.add(linee);
-            } else{
-                newList.add(line);
+    public String putSpaceForGenres(String input){
+        String correctInput = "";
+        
+            if(input.contains("%20")){
+                String line = input.replace("%20", " ");
+                correctInput = line;
+                return correctInput;
             }
-        }
 
-        return newList;
+        return input;
     }
 
-    public List<String> getGenre(String destination){
-        String countries_genre = "";
-        
+    public String getGenre(String destination){
+        String genre_FileTxt = "";
+        String countryGenre = "";
+
         try {
-            countries_genre = Files.readString(Paths.get("countries_genre.txt"));
+            genre_FileTxt = Files.readString(Paths.get("countries_genre.txt"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        String[] lines = countries_genre.split("\\r?\\n");
+        String[] lines = genre_FileTxt.split("\\r?\\n");
 
             for (String line : lines) {
                 String[] parts = line.split(":");
                 String country = parts[0].trim();
-                String genres = parts[1].trim();
+                String genre = parts[1].trim();
 
                 if (country.equalsIgnoreCase(destination)) {
-                    String[] genreArray = genres.split(",\\s*");
+                    String[] genreArray = genre.split(",\\s*");
                     List<String> arr = new ArrayList();
-
-                    for(int i = 0; i < genreArray.length; i++){
-                        arr.add(genreArray[i]);
-                    }
-                    return arr;
+                    countryGenre = genreArray[0];
+                    return countryGenre;
                 }
             }
 

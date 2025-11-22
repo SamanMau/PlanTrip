@@ -1,0 +1,31 @@
+Nordic: Sweden, Norway, Denmark, Finland, Iceland
+Scandinavian: Sweden, Norway, Denmark
+Baltic: Estonia, Latvia, Lithuania
+Benelux: Belgium, Netherlands, Luxembourg
+Balkan: Albania, Bosnia and Herzegovina, Bulgaria, Croatia, Greece, Kosovo, Montenegro, North Macedonia, Romania, Serbia, Slovenia
+Central%20European: Austria, Czech Republic, Germany, Hungary, Liechtenstein, Poland, Slovakia, Slovenia, Switzerland
+Western%20European: France, Belgium, Netherlands, Luxembourg, Ireland, United Kingdom
+Southern%20European: Italy, Spain, Portugal, Greece, Malta, Cyprus, San Marino, Vatican City, Andorra, Monaco
+Northern%20European: Sweden, Norway, Denmark, Finland, Iceland, Estonia, Latvia, Lithuania, Ireland, United Kingdom
+Eastern%20European: Belarus, Moldova, Russia, Ukraine
+Caucasian: Armenia, Azerbaijan, Georgia
+Middle%20Eastern: Turkey, Syria, Lebanon, Israel, Palestine, Jordan, Iraq, Iran, Saudi Arabia, United Arab Emirates, Qatar, Bahrain, Kuwait, Oman, Yemen
+Maghreb: Morocco, Algeria, Tunisia, Libya, Mauritania
+West%20African: Benin, Burkina Faso, Cape Verde, Ivory Coast, Gambia, Ghana, Guinea, Guinea-Bissau, Liberia, Mali, Niger, Nigeria, Senegal, Sierra Leone, Togo
+East%20African: Burundi, Comoros, Djibouti, Eritrea, Ethiopia, Kenya, Madagascar, Malawi, Mauritius, Mozambique, Rwanda, Seychelles, Somalia, South Sudan, Tanzania, Uganda, Zambia, Zimbabwe
+Central%20African: Cameroon, Central African Republic, Chad, Congo, DR Congo, Equatorial Guinea, Gabon, Sao Tome and Principe
+Southern%20African: South Africa, Namibia, Botswana, Lesotho, Eswatini, Angola
+Horn%20of%20Africa: Somalia, Ethiopia, Eritrea, Djibouti
+North%20African: Egypt, Sudan, Libya, Tunisia, Algeria, Morocco
+South%20Asian: India, Pakistan, Bangladesh, Nepal, Sri Lanka, Bhutan, Maldives, Afghanistan
+Southeast%20Asian: Thailand, Timor-Leste, Vietnam, Malaysia, Singapore, Indonesia, Philippines, Myanmar, Laos, Cambodia, Brunei, East Timor
+Central%20Asian: Kazakhstan, Uzbekistan, Turkmenistan, Kyrgyzstan, Tajikistan
+East%20Asian: China, Japan, South Korea, North Korea, Mongolia, Taiwan
+Oceanian: Australia, New Zealand, Fiji, Papua New Guinea, Solomon Islands, Vanuatu, Tonga, Samoa, Kiribati, Tuvalu, Micronesia, Palau, Nauru, Marshall Islands
+Caribbean: Antigua and Barbuda, Bahamas, Barbados, Cuba, Dominica, Dominican Republic, Grenada, Haiti, Jamaica, Saint Kitts and Nevis, Saint Lucia, Saint Vincent and the Grenadines, Trinidad and Tobago
+Latin%20American: Mexico, Guatemala, Belize, Honduras, El Salvador, Nicaragua, Costa Rica, Panama, Colombia, Venezuela, Ecuador, Peru, Brazil, Bolivia, Paraguay, Uruguay, Argentina, Chile
+Anglo: United States, United Kingdom, Canada, Australia, New Zealand, Ireland
+Arabic: Saudi Arabia, UAE, Qatar, Bahrain, Kuwait, Oman, Yemen, Jordan, Lebanon, Syria, Iraq, Egypt, Libya, Tunisia, Algeria, Morocco, Sudan, Mauritania
+African: Cabo Verde, Democratic Republic of the Congo
+South%20american: Guyana, Suriname
+American: USA, United states of America

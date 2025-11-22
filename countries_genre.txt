@@ -10,12 +10,12 @@ Peru: peruvian
 Suriname: surinamese
 Uruguay: uruguayan
 Venezuela: venezuelan
-Antigua and Barbuda: antiguan and barbudan
+Antigua and Barbuda: antiguan%20and%20barbudan
 Bahamas: bahamian
 Barbados: barbadian
 Belize: belizean
 Canada: canadian
-Costa Rica: costa rican
+Costa Rica: costa%20rican
 Cuba: cuban
 Dominica: dominican
 Dominican Republic: dominican
@@ -28,10 +28,10 @@ Jamaica: jamaican
 Mexico: mexican
 Nicaragua: nicaraguan
 Panama: panamanian
-Saint Kitts and Nevis: kittitian and nevisian
-Saint Lucia: saint lucian
-Saint Vincent and the Grenadines: saint vincentian
-Trinidad and Tobago: trinidadian and tobagonian
+Saint Kitts and Nevis: kittitian%20and%20nevisian
+Saint Lucia: saint%20lucian
+Saint Vincent and the Grenadines: saint%20vincentian
+Trinidad and Tobago: trinidadian%20and%20tobagonian
 USA: american
 Albania: albanian
 Andorra: andorran
@@ -40,7 +40,7 @@ Austria: austrian
 Azerbaijan: azerbaijani
 Belarus: belarusian
 Belgium: belgian
-Bosnia and Herzegovina: bosnian and herzegovinian
+Bosnia and Herzegovina: bosnian%20and%20herzegovinian
 Bulgaria: bulgarian
 Croatia: croatian
 Cyprus: cypriot
@@ -89,9 +89,9 @@ Benin: beninese
 Botswana: botswanan
 Burkina Faso: burkinabe
 Burundi: burundian
-Cabo Verde: cape verdean
+Cabo Verde: cape%20verdean
 Cameroon: cameroonian
-Central African Republic: central african
+Central African Republic: central%20african
 Chad: chadian
 Comoros: comorian
 Congo: congolese
@@ -123,13 +123,13 @@ Namibia: namibian
 Niger: nigerien
 Nigeria: nigerian
 Rwanda: rwandan
-Sao Tome and Principe: sao tomean
+Sao Tome and Principe: sao%20tomean
 Senegal: senegalese
 Seychelles: seychellois
-Sierra Leone: sierra leonean
+Sierra Leone: sierra%20leonean
 Somalia: somali
-South Africa: south african
-South Sudan: south sudanese
+South Africa: south%20african
+South Sudan: south%20sudanese
 Sudan: sudanese
 Tanzania: tanzanian
 Togo: togolese
@@ -165,7 +165,7 @@ Maldives: maldivian
 Mongolia: mongolian
 Myanmar: burmese
 Nepal: nepalese
-North Korea: north korean
+North Korea: north%20korean
 Oman: omani
 Pakistan: pakistani
 Palestine: palestinian
@@ -173,8 +173,8 @@ Philippines: filipino
 Qatar: qatari
 Saudi Arabia: saudi
 Singapore: singaporean
-South Korea: south korean
-Sri Lanka: sri lankan
+South Korea: south%20korean
+Sri Lanka: sri%20lankan
 Syria: syrian
 Taiwan: taiwanese
 Tajikistan: tajik
@@ -192,11 +192,11 @@ Kiribati: i-kiribati
 Marshall Islands: marshallese
 Micronesia: micronesian
 Nauru: nauruan
-New Zealand: new zealander
+New Zealand: new%20zealander
 Palau: palauan
-Papua New Guinea: papua new guinean
+Papua New Guinea: papua%20new%20guinean
 Samoa: samoan
-Solomon Islands: solomon islander
+Solomon Islands: solomon%20islander
 Tonga: tongan
 Tuvalu: tuvaluan
 Vanuatu: ni-vanuatu

@@ -9,18 +9,18 @@ function fetchGenres() {
       if (!r.ok) throw new Error("Failed to fetch genres");
       return r.json();
     })
-    .then(genres => {
-      ["genreBtn1"].forEach((id, i) => {
-        const btn = document.getElementById(id); 
-        if (btn && genres[i]) {
-          btn.querySelector(".label").textContent = genres[i];
-          btn.dataset.genre = genres[i];
-          selectedGenre = genres[i];
-          btn.disabled = false;
-          btn.addEventListener("click", () => getRecomendations(genres[i]));
-        }
-      });
-    })
+      .then(data => {
+          const genre = data.genre; // <-- En enda sträng
+
+          const btn = document.getElementById("genreBtn1");
+          if (btn) {
+              btn.querySelector(".label").textContent = genre;
+              btn.dataset.genre = genre;
+              selectedGenre = genre;
+              btn.disabled = false;
+              btn.addEventListener("click", () => getRecomendations(genre));
+          }
+      })
     .catch(err => console.error(err));
 }
 

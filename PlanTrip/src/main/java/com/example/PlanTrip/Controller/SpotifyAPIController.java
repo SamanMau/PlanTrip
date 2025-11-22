@@ -18,6 +18,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Response;
 
 public class SpotifyAPIController {
+    private int duration;
+    private String access_token;
 
     public List<String> getMusicAndPodcastInformation(int duration, String accessToken, String genre){
         OkHttpClient client = new OkHttpClient(); //This object is used to send HTTP requests and receive responses.
@@ -33,6 +35,9 @@ public class SpotifyAPIController {
         if(songs > 100){
             songs = 100;
         }
+
+        this.duration = duration;
+        this.access_token = accessToken;
           
         String URL = "https://api.spotify.com/v1/search?q=" + genre + "&type=playlist&limit="+String.valueOf(songs);
                
@@ -69,6 +74,10 @@ public class SpotifyAPIController {
             JsonNode root = mapper.readTree(responseBody);
             JsonNode items = root.path("playlists").path("items");
 
+            if(items.size() == 0){
+                return getGeneralPlaylist();
+            }
+
             List<String> arr = new ArrayList<>();
 
             for (JsonNode n : items) {
@@ -91,7 +100,36 @@ public class SpotifyAPIController {
         }
 
         return null;
-
     }
-    
+
+    public List<String> getGeneralPlaylist(){
+        String genre = getGenre(ServerController.getDestination());
+        return getMusicAndPodcastInformation(duration, access_token, genre);
+    }
+
+    public String getGenre(String destination){
+        String genre_FileTxt = "";
+
+        try {
+            genre_FileTxt = Files.readString(Paths.get("countries_general_genre.txt"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String[] lines = genre_FileTxt.split("\\r?\\n");
+
+            for (String line : lines) {
+                String[] parts = line.split(":");
+                String general_genre = parts[0].trim();
+                String country = parts[1].trim();
+
+                if(country.contains(destination)){
+                    return general_genre;
+                }
+   
+            }
+
+        return null;    
+    }
+
 }
