@@ -1,6 +1,7 @@
 package com.example.PlanTrip.Controller;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class TmdbAPIController {
             response = client.newCall(request).execute();
 
             if(response.isSuccessful()){
-                String responseBody = response.body().string();
+                String responseBody = new String(response.body().bytes(), StandardCharsets.UTF_8);
                 list = manageJSONFile(responseBody);
                 return list;
             }
@@ -60,8 +61,6 @@ public class TmdbAPIController {
         try {
             root = mapper.readTree(responseBody);
             JsonNode items = root.path("results");
-            System.out.println(System.getProperty("file.encoding"));
-
 
             for(JsonNode n : items){
                 StringBuilder sb = new StringBuilder();
@@ -71,11 +70,11 @@ public class TmdbAPIController {
                 String date = n.path("release_date").asText();
                 String language = n.path("original_language").asText();
                 String genre = n.path("genre_ids").toString();
-                sb.append("Title| " + title);
-                sb.append(" Description| " + description);
-                sb.append(" Poster| " + poster_path);
-                sb.append(" Release Date| " + date);
-                sb.append(" Language| " + language);
+                sb.append(title + " | ");
+                sb.append(description + " | ");
+                sb.append("https://image.tmdb.org/t/p/w500/" + poster_path + " | ");
+                sb.append("Release Date| " + date + " | ");
+                sb.append("Language| " + language + " | ");
 
                 JsonNode genreNode = n.path("genre_ids");
                 StringBuilder genreNames = new StringBuilder();

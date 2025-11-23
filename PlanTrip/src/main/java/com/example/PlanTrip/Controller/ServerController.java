@@ -1,8 +1,11 @@
 package com.example.PlanTrip.Controller;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -124,11 +127,6 @@ public class ServerController {
         List<String> list = new ArrayList<>();
         
         list = tmdbAPIController.getMovieRecomendationsBasedOnGenre(genre, TMDBAPI_KEY, TMDB_READ_ACCESS_KEY);
-
-        for(String s : list){
-            System.out.println(s);
-            System.out.println("\n");
-        }
 
         if(list == null){
             throw new Exception("The recomendations list was null");
