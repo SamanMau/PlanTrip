@@ -36,12 +36,14 @@ public class ServerController {
     private String spotifyAccessToken;
     private static String destination;
     private String TMDBAPI_KEY;
+    private String TMDB_READ_ACCESS_KEY;
 
     public ServerController(){
         this.tokenManager = new TokenManager();
         this.spotifyClientID = getInfoFromENV("SPOTIFY_CLIENTID");
         this.spotifyClientSecret = getInfoFromENV("SPOTIFY_CLIENTSECRET");
         this.TMDBAPI_KEY = getInfoFromENV("TMDB_API_KEY");
+        this.TMDB_READ_ACCESS_KEY = getInfoFromENV("TMDB_READ_ACCESS_KEY");
         String spotifyToken = fetchAccessToken(spotifyClientID, spotifyClientSecret, "https://accounts.spotify.com/api/token");
         tokenManager.setAccessToken(spotifyToken);
     }
@@ -121,7 +123,12 @@ public class ServerController {
     public List<String> getMovieRecomendations(@RequestParam String genre) throws Exception {
         List<String> list = new ArrayList<>();
         
-        list = tmdbAPIController.getMovieRecomendationsBasedOnGenre(genre, TMDBAPI_KEY);
+        list = tmdbAPIController.getMovieRecomendationsBasedOnGenre(genre, TMDBAPI_KEY, TMDB_READ_ACCESS_KEY);
+
+        for(String s : list){
+            System.out.println(s);
+            System.out.println("\n");
+        }
 
         if(list == null){
             throw new Exception("The recomendations list was null");

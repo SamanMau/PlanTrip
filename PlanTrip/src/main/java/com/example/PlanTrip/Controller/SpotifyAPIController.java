@@ -33,7 +33,7 @@ public class SpotifyAPIController {
         }
 
         if(songs > 100){
-            songs = 100;
+            songs = 50;
         }
 
         this.duration = duration;

@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       // 🔹 Hämta filmer från Spring Boot API
-      const response = await fetch(`/api/getMovies?genre=${encodeURIComponent(genre)}`);
+      const response = await fetch(`http://127.0.0.1:8080/api/getMovies?genre=${encodeURIComponent(genre)}`);
       if (!response.ok) throw new Error("Failed to fetch movies");
 
       const movies = await response.json(); // förväntar sig en lista av strängar

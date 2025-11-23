@@ -57,7 +57,7 @@ function getRecomendations(genre) {
           a.href = url;
           a.target = "_blank";
           a.rel = "noopener";
-          a.textContent = "Öppna";
+          a.textContent = "Open";
           p.appendChild(a);
         }
 
