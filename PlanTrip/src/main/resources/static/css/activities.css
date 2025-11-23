@@ -236,3 +236,75 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+
+/* ------- 🗺️ ACTIVITIES SECTION ------- */
+
+.activities-section {
+  margin-top: 40px;
+  padding: 20px;
+}
+
+.filter-title {
+  text-align: center;
+  font-size: 22px;
+  margin-bottom: 35px;
+  color: #b8e0f2;
+  font-weight: 600;
+}
+
+.activity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 35px;
+  padding: 0 40px;
+}
+
+/* Activity card */
+.activity-card {
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  overflow: hidden;
+  backdrop-filter: blur(6px);
+  transition: transform 0.25s;
+}
+
+.activity-card:hover {
+  transform: scale(1.03);
+}
+
+/* Top image placeholder */
+.activity-image {
+  background: #0f4c75;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 600;
+  color: white;
+}
+
+/* Text content */
+.activity-content {
+  padding: 15px 18px;
+  text-align: center;
+}
+
+.activity-title {
+  margin: 10px 0 5px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.activity-desc {
+  font-size: 14px;
+  color: #d9faff;
+  margin-bottom: 10px;
+}
+
+.activity-address {
+  font-size: 13px;
+  color: #b8e0f2;
+}
+
