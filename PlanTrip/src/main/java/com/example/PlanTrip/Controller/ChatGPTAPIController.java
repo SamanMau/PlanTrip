@@ -40,23 +40,8 @@ public class ChatGPTAPIController {
         "5. Your entire response must follow exactly this format: from:XXX, to:YYY.\n" +
         "6. Do not add any extra text, explanation, or decoration outside the format above.\n\n" +
         "Example (if cityFrom = Sydney and cityTo = Barcelona): from:SYD, to:BCN.";
-
-        Map<String, Object> message = getMessageForJSONIput(chatGPTInput);
-
-        //This map contains the request body for the API call.
-        //It includes the model to use (gpt-3.5-turbo) and the messages to send.
-        //The messages key contains a list of messages to send to the model.
-        Map<String, Object> body = new HashMap<>();
-        body.put("model", "gpt-3.5-turbo");
-        body.put("messages", List.of(message));
-
-        String jsonBody = "";
-        try {
-            jsonBody = mapper.writeValueAsString(body);
-        } catch (JsonProcessingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        
+        String jsonBody = structureBasicFormat(chatGPTInput, mapper, false);
 
         try {
             String outputMessage = manageRequest(URL, key, jsonBody, client);
@@ -79,6 +64,79 @@ public class ChatGPTAPIController {
         }
         
         return iataCodes;
+    }
+
+    public Map<String, String> getActivitySuggestions(String destination, String key){
+        OkHttpClient client = new OkHttpClient(); 
+        ObjectMapper mapper = new ObjectMapper();
+        HashMap<String, String> activityResponse = new HashMap<>();
+        
+        String URL = "https://api.openai.com/v1/chat/completions";
+        String prompt = """
+            I will be traveling to %s. 
+            Give me a list of the most famous activities in that city.
+
+            Return the result using this JSON structure:
+
+            {
+            "activities": [
+                {
+                "title": "",
+                "description": "",
+                "category": []
+                }
+            ]
+            }
+
+            Rules:
+            - title: name of the activity
+            - description: 2–3 sentences
+            - category: one or more of these: "Sightseeing", "Adventure", "Relaxation", "Cultural"
+            - No text outside the JSON.
+            - Only valid JSON.
+            """.formatted(destination);
+
+        String jsonBody = structureBasicFormat(prompt, mapper, true);
+
+        try {
+            String outputMessage = manageRequest(URL, key, jsonBody, client);
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+
+
+
+
+        return null;
+    }
+
+    public String structureBasicFormat(String chatGPTInput, ObjectMapper mapper, boolean isActivity) {
+        Map<String, Object> message = getMessageForJSONIput(chatGPTInput);
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("model", "gpt-5-mini");
+
+        if(isActivity) {
+            Map<String, Object> responseFormat = new HashMap<>();
+            responseFormat.put("type", "json_object");
+            body.put("response_format", responseFormat);
+        }
+
+        body.put("messages", List.of(message));
+
+        String jsonBody = "";
+        try {
+            jsonBody = mapper.writeValueAsString(body);
+        } catch (JsonProcessingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return jsonBody;
+
     }
 
 
@@ -150,3 +208,5 @@ public class ChatGPTAPIController {
     }
     
 }
+
+

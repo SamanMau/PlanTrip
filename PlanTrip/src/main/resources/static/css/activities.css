@@ -37,6 +37,45 @@ body {
   margin-bottom: 0px;
 }
 
+/* --------- Filter-knappar --------- */
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.filter-button {
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1px solid #b8e0f2;
+  background: rgba(0, 0, 0, 0.35);
+  color: #b8e0f2;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Hover-effekt */
+.filter-button:hover {
+  background: linear-gradient(to right, #3282b8, #56cfe1);
+  color: #ffffff;
+  border-color: transparent;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+}
+
+/* Aktiv knapp – kan läggas till via JS */
+.filter-button.active {
+  background: linear-gradient(to right, #3282b8, #56cfe1);
+  color: #ffffff;
+  border-color: transparent;
+}
+
+
 .logo {
   font-weight: 700;
   font-size: 22px;

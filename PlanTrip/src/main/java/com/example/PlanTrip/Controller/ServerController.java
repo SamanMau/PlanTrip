@@ -137,6 +137,13 @@ public class ServerController {
 
     @GetMapping("/fetch-genre")
     public ResponseEntity<Map<String, String>> fetchGenre() {
+        Map<String, String> activities = chatGPTController.getActivitySuggestions(destination);       
+
+        return ResponseEntity.ok(activities);
+    }
+
+    @GetMapping("/fetch-activities")
+    public ResponseEntity<Map<String, String>> fetchActivities() {
         String countryGenre = getGenre(destination);        
         Map<String, String> response = new HashMap<>();
         response.put("genre", putSpaceForGenres(countryGenre));

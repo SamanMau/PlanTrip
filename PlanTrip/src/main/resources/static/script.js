@@ -97,6 +97,14 @@ form = document.getElementById("tripForm");
       document.getElementById("spotifyModal").style.display = "block";
     }
 
+    function openActivities(){
+      if(!tripChosen) {
+        alert("Please plan your trip first!");
+          return;
+        }
+      window.location.href = "activities.html";
+    }
+
     function closeSpotifyModal() {
       document.getElementById("spotifyModal").style.display = "none";
     }
