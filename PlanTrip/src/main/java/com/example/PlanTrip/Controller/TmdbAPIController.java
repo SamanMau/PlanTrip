@@ -69,7 +69,6 @@ public class TmdbAPIController {
                 String poster_path = n.path("poster_path").asText();
                 String date = n.path("release_date").asText();
                 String language = n.path("original_language").asText();
-                String genre = n.path("genre_ids").toString();
                 sb.append(title + " | ");
                 sb.append(description + " | ");
                 sb.append("https://image.tmdb.org/t/p/w500/" + poster_path + " | ");

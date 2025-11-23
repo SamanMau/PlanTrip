@@ -1,3 +1,6 @@
+resultContainer.innerHTML = `
+    <p class="placeholder">Choose a genre above to see movie recommendations...</p>
+`;
 document.addEventListener("DOMContentLoaded", () => {
   const dropdown = document.getElementById("genreDropdown");
   const resultContainer = document.getElementById("movieResult");
@@ -29,37 +32,49 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // 🔹 Skapa filmkort för varje film
-    resultContainer.innerHTML = ""; // rensa tidigare innehåll
+    resultContainer.innerHTML = ""; // töm tidigare resultat
 
     movies.forEach(movieString => {
-      const [backdropPath, title, overview] = movieString.split(" | ");
 
-      // Bygg kort
+      // 1️⃣ Splitta upp backend-strängen
+      const parts = movieString.split(" | ");
+
+      const title = parts[0] || "Unknown title";
+      const description = parts[1] || "No description";
+      const posterUrl = parts[2] || "pictures/default-movie.jpg";
+
+      // Eftersom backend skickar t.ex. "Release Date 2023-06-01"
+      const releaseDate = parts[3]?.replace("Release Date", "").trim() || "Unknown";
+
+      // Backend skickar "Language en"
+      const language = parts[4]?.replace("Language", "").trim() || "Unknown";
+
+      // Backend skickar "Genres Action, Thriller"
+      const genres = parts[5]?.replace("Genres", "").trim() || "Unknown";
+
+      // 2️⃣ Bygg filmkortet
       const card = document.createElement("div");
       card.classList.add("movie-card");
 
-      // Lägg till bild, titel och beskrivning
-      const img = document.createElement("img");
-      img.src = backdropPath && backdropPath.trim() !== "" ? backdropPath : "pictures/default-movie.jpg";
-      img.alt = title || "Movie Poster";
+      card.innerHTML = `
+        <div class="movie-poster">
+          <img src="${posterUrl}" alt="${title}">
+        </div>
 
-      const infoDiv = document.createElement("div");
-      infoDiv.classList.add("movie-info");
+        <div class="movie-main">
+          <h3 class="movie-title">${title}</h3>
+          <p class="movie-genres">Genres: ${genres}</p>
+          <p class="movie-description">${description}</p>
+        </div>
 
-      const titleElem = document.createElement("h3");
-      titleElem.textContent = title || "Unknown Title";
-
-      const overviewElem = document.createElement("p");
-      overviewElem.textContent = overview || "No description available.";
-
-      infoDiv.appendChild(titleElem);
-      infoDiv.appendChild(overviewElem);
-
-      card.appendChild(img);
-      card.appendChild(infoDiv);
+        <div class="movie-meta">
+          <span class="movie-release">Release date: ${releaseDate}</span>
+          <span class="movie-language">Language: ${language}</span>
+        </div>
+      `;
 
       resultContainer.appendChild(card);
     });
   }
+
 });
