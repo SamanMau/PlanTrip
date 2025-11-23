@@ -1,9 +1,9 @@
-resultContainer.innerHTML = `
-    <p class="placeholder">Choose a genre above to see movie recommendations...</p>
-`;
 document.addEventListener("DOMContentLoaded", () => {
   const dropdown = document.getElementById("genreDropdown");
   const resultContainer = document.getElementById("movieResult");
+  resultContainer.innerHTML = `
+    <p class="placeholder">Choose a genre above to see movie recommendations...</p>
+`;
 
   dropdown.addEventListener("change", async () => {
     const genre = dropdown.value;

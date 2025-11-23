@@ -1,0 +1,238 @@
+* {
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(to bottom right, #1b262c, #0f4c75);
+  color: white;
+  min-height: 100vh;
+}
+
+.overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: url("../pictures/travel-bg.jpg") center/cover no-repeat;
+  filter: brightness(40%);
+  z-index: -1;
+}
+
+.page {
+  max-width: 1700px;
+  margin: 0 auto;
+  padding: 30px;
+}
+
+/* 🌍 Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  margin-bottom: 0px;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 22px;
+  margin-left: 25px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+  margin-right: 25px;
+}
+
+.nav-links a {
+  color: #b8e0f2;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #ffffff;
+}
+
+/* 🏞️ Hero */
+.hero {
+  text-align: center;
+  padding: 60px 20px 50px;
+}
+
+.hero h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 17px;
+  color: #b8e0f2;
+  margin-bottom: 25px;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+}
+
+.hero-btn, .green-btn, .blue-btn {
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s;
+  padding: 12px 25px;
+  text-decoration: none;
+  color: white;
+}
+
+/* 🎧 Knappar */
+.green-btn {
+  background-color: #2ecc71;
+}
+
+.green-btn:hover {
+  background-color: #27ae60;
+}
+
+.hero-btn {
+  background: linear-gradient(to right, #3282b8, #56cfe1);
+}
+
+.hero-btn.secondary {
+  background: linear-gradient(to right, #4a4e69, #6c757d);
+}
+
+.inputs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #d9faff;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  background-color: #fff;
+  color: #333;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.6);
+}
+
+.modal-content {
+  background: linear-gradient(to bottom right, #1b262c, #0f4c75);
+  color: white;
+  margin: 10% auto;
+  padding: 40px 30px;
+  border-radius: 15px;
+  width: 340px;
+  text-align: center;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+}
+
+.close {
+  float: right;
+  font-size: 26px;
+  cursor: pointer;
+}
+
+.spotify-logo {
+  width: 110px;
+  margin: 0 auto 25px;
+  display: block;
+}
+
+.spotify-auth-btn {
+  padding: 12px 25px;
+  background-color: #1db954;
+  border: none;
+  border-radius: 30px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.spotify-auth-btn:hover {
+  background-color: #18a84b;
+  transform: scale(1.05);
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #b8e0f2;
+  font-size: 14px;
+  margin-top: 40px;
+  opacity: 0.8;
+}
+
+.side-visual {
+  position: absolute;
+  left: 0;
+  top: 200px;
+  width: 280px;
+  opacity: 0.25;
+  pointer-events: none;
+  filter: drop-shadow(0 8px 14px rgba(0,0,0,0.35));
+  z-index: 0; /* ändra från -1 till 0 */
+}
+
+/* Rubrik */
+.intro {
+  text-align: center;
+  padding: 24px 10px 18px;
+}
+
+.intro h1 {
+  font-size: 28px;
+  margin: 0;
+  font-weight: 700;
+}
+
+/* Responsivitet: stacka panelerna på mobil */
+@media (max-width: 900px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+  .panel {
+    min-height: auto;
+  }
+}
+
+/* Responsivt: stapla kolumner på små skärmar */
+@media (max-width: 950px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+}
