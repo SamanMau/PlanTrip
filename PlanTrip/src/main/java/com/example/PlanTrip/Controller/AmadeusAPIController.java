@@ -25,9 +25,9 @@ import okhttp3.Response;
 @Service
 public class AmadeusAPIController {
     private int shortestFlightDuration = 100000;
+    private final OkHttpClient client = new OkHttpClient(); //This object is used to send HTTP requests and receive responses.
 
     public ArrayList<String> getFlightInformation(String from, String to, String date, String budget, String adults, String children, String infants, String travelClass, String currency, String accessToken) {
-        OkHttpClient client = new OkHttpClient(); //This object is used to send HTTP requests and receive responses.
         ObjectMapper mapper = new ObjectMapper(); //This object is used to convert Java objects to JSON and vice versa.
         ArrayList<HashMap<String, Object>> flightList = new ArrayList<>(); //Create an ArrayList to store the flight information
         ArrayList<String> listOfFlights = new ArrayList<>(); //Create an ArrayList to store the flight information
@@ -43,7 +43,7 @@ public class AmadeusAPIController {
 
         Response response = null; //Initialize the response variable   
 
-       
+       System.out.println("hello! im here");
         try {
             response = client.newCall(request).execute();
 
