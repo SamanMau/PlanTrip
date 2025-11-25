@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import okhttp3.*;
@@ -67,39 +68,47 @@ public class ChatGPTAPIController {
     }
 
     public Map<String, String> getActivitySuggestions(String destination, String key){
-        OkHttpClient client = new OkHttpClient(); 
+        OkHttpClient client = new OkHttpClient.Builder()
+        .connectTimeout(30, TimeUnit.SECONDS)
+        .readTimeout(120, TimeUnit.SECONDS)
+        .writeTimeout(120, TimeUnit.SECONDS)
+        .build(); 
         ObjectMapper mapper = new ObjectMapper();
         HashMap<String, String> activityResponse = new HashMap<>();
         
         String URL = "https://api.openai.com/v1/chat/completions";
         String prompt = """
-            I will be traveling to %s. 
-            Give me a list of the most famous activities in that city.
+                    I am traveling to %s.
 
-            Return the result using this JSON structure:
+                    Give me exactly 6 typical tourist activities associated with the city.
+                    Do not research deeply. Use only widely-known, common-sense activities.
 
-            {
-            "activities": [
-                {
-                "title": "",
-                "description": "",
-                "category": []
-                }
-            ]
-            }
+                    Respond ONLY with this JSON:
+                    {
+                    "activities": [
+                        {
+                        "title": "",
+                        "description": "",
+                        "category": ""
+                        }
+                    ]
+                    }
 
-            Rules:
-            - title: name of the activity
-            - description: 2–3 sentences
-            - category: one or more of these: "Sightseeing", "Adventure", "Relaxation", "Cultural"
-            - No text outside the JSON.
-            - Only valid JSON.
+                    Rules:
+                    - description: one short sentence.
+                    - category: one of ["Sightseeing", "Adventure", "Relaxation", "Cultural"].
+                    - Only valid JSON.
+                    - No explanations.
+                    - No reasoning.
+                    - Be fast.
             """.formatted(destination);
 
         String jsonBody = structureBasicFormat(prompt, mapper, true);
 
         try {
+            System.out.println("precis innan managerequest");
             String outputMessage = manageRequest(URL, key, jsonBody, client);
+            System.out.println(outputMessage);
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -117,7 +126,7 @@ public class ChatGPTAPIController {
         Map<String, Object> message = getMessageForJSONIput(chatGPTInput);
 
         Map<String, Object> body = new HashMap<>();
-        body.put("model", "gpt-5-mini");
+        body.put("model", "gpt-5-nano");
 
         if(isActivity) {
             Map<String, Object> responseFormat = new HashMap<>();

@@ -8,7 +8,6 @@ function getActivities() {
     })
       .then(data => {
           const genre = data.genre; // <-- En enda sträng
-          getRecomendations(genre); // Hämta rekommendationer direkt för den genren
       })
     .catch(err => console.error(err));
 }
