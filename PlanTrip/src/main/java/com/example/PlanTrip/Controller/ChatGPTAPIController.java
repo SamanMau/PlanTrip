@@ -22,43 +22,63 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class ChatGPTAPIController {
+    private final OkHttpClient client = ServerController.getClient();
+    private final String URL = "https://api.openai.com/v1/chat/completions";
 
-    public HashMap<String, String> getIATACode(String cityFrom, String cityTo, String key){
-        OkHttpClient client = new OkHttpClient(); 
+    public HashMap<String, String> getIATACode(String cityFrom, String cityTo, String key, boolean bothIataCodes){
         ObjectMapper mapper = new ObjectMapper();
         HashMap<String, String> iataCodes = new HashMap<>(); // Skapa en ny HashMap för att lagra IATA-koderna
 
-        String URL = "https://api.openai.com/v1/chat/completions";
+        String chatGPTInput = "";
 
-        String chatGPTInput = "You will receive two variable names: 'cityFrom' and 'cityTo'.\n" +
-        "Insert their values into the following instruction:\n\n" +
-        "I want you to give me the IATA codes for the following cities: " + cityFrom + " and " + cityTo + ".\n\n" +
-        "RULES:\n" +
-        "1. The IATA code for 'cityFrom' should be labeled 'from' and the IATA code for 'cityTo' should be labeled 'to'.\n" +
-        "2. After 'from' and before the IATA code, and after 'to' and before the IATA code, use a colon ':' without any spaces.\n" +
-        "3. The IATA codes must be written in uppercase letters.\n" +
-        "4. Separate the two fields ('from' and 'to') with a comma and a single space ', '.\n" +
-        "5. Your entire response must follow exactly this format: from:XXX, to:YYY.\n" +
-        "6. Do not add any extra text, explanation, or decoration outside the format above.\n\n" +
-        "Example (if cityFrom = Sydney and cityTo = Barcelona): from:SYD, to:BCN.";
+        if(bothIataCodes){
+            chatGPTInput =
+                    "Return the IATA airport codes for the cities below in this exact format:\n" +
+                    "from:XXX, to:YYY\n\n" +
+                    "Cities:\n" +
+                    "from = " + cityFrom + "\n" +
+                    "to = " + cityTo + "\n\n" +
+                    "Rules:\n" +
+                    "- Uppercase IATA codes.\n" +
+                    "- No thinking.\n" +
+                    "- No explanation.\n" +
+                    "- Only output the final formatted line.";
+        } else if(cityFrom != null){
+            chatGPTInput = getInputForOneIataCodes(cityFrom);
+        } else if(cityTo != null){
+            chatGPTInput = getInputForOneIataCodes(cityTo);
+        }
         
         String jsonBody = structureBasicFormat(chatGPTInput, mapper, false);
 
         try {
             String outputMessage = manageRequest(URL, key, jsonBody, client);
+
+            if(bothIataCodes){
+                String[] parts = outputMessage.split(", ");
+                String from = parts[0].split(":")[1].trim(); // XXX
+                String to = parts[1].split(":")[1].trim(); // YYY
+
+                char toRemove = '.';
+                String resultFrom = from.replace(Character.toString(toRemove), "");
+                String resultTo = to.replace(Character.toString(toRemove), "");
+
+                iataCodes.put("from", resultFrom); // Lägg till IATA-koden för den första staden
+                iataCodes.put("to", resultTo); // Lägg till IATA-koden för den andra staden
+            } else{
+                String[] parts = outputMessage.split(":");
+                String codeIATA = parts[1];
+
+                String keyValue = "";
+                if(cityFrom != null){
+                    keyValue = "from";
+                } else{
+                    keyValue = "to";
+                }
+
+                iataCodes.put(keyValue, codeIATA); // Lägg till IATA-koden för den andra staden                
+            }
             
-            String[] parts = outputMessage.split(", ");
-            String from = parts[0].split(":")[1].trim(); // XXX
-            String to = parts[1].split(":")[1].trim(); // YYY
-
-            char toRemove = '.';
-            String resultFrom = from.replace(Character.toString(toRemove), "");
-            String resultTo = to.replace(Character.toString(toRemove), "");
-
-
-            iataCodes.put("from", resultFrom); // Lägg till IATA-koden för den första staden
-            iataCodes.put("to", resultTo); // Lägg till IATA-koden för den andra staden
-
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -67,12 +87,21 @@ public class ChatGPTAPIController {
         return iataCodes;
     }
 
+    public String getInputForOneIataCodes(String location){
+        String chatGPTInput =
+        "Return the IATA airport code for the city below in this exact format:\n" +
+        "code:XXX\n\n" +
+        "City:" + location + "\n" +
+        "Rules:\n" +
+        "- Uppercase IATA code.\n" +
+        "- No thinking.\n" +
+        "- No explanation.\n" +
+        "- Only output the final formatted line.";
+
+        return chatGPTInput;
+    }
+
     public Map<String, String> getActivitySuggestions(String destination, String key){
-        OkHttpClient client = new OkHttpClient.Builder()
-        .connectTimeout(30, TimeUnit.SECONDS)
-        .readTimeout(120, TimeUnit.SECONDS)
-        .writeTimeout(120, TimeUnit.SECONDS)
-        .build(); 
         ObjectMapper mapper = new ObjectMapper();
         HashMap<String, String> activityResponse = new HashMap<>();
         
@@ -106,7 +135,6 @@ public class ChatGPTAPIController {
         String jsonBody = structureBasicFormat(prompt, mapper, true);
 
         try {
-            System.out.println("precis innan managerequest");
             String outputMessage = manageRequest(URL, key, jsonBody, client);
             System.out.println(outputMessage);
 
@@ -114,10 +142,6 @@ public class ChatGPTAPIController {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
-
-
-
 
         return null;
     }
@@ -169,7 +193,6 @@ public class ChatGPTAPIController {
     try (Response response = client.newCall(request).execute()) {
         if (response.isSuccessful()) {
             String responseBody = response.body().string();
-
             outputMessage = extractContent(responseBody);
 
         } else {

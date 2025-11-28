@@ -32,7 +32,7 @@ public class AmadeusAPIController {
         ArrayList<HashMap<String, Object>> flightList = new ArrayList<>(); //Create an ArrayList to store the flight information
         ArrayList<String> listOfFlights = new ArrayList<>(); //Create an ArrayList to store the flight information
         ArrayList<String> displayedList = new ArrayList<>(); //Create an ArrayList to store the flight information
-
+        
         String URL = getSpecificURL(from, to, date, budget, adults, children, infants, travelClass, currency);
 
         okhttp3.Request request = new okhttp3.Request.Builder()
@@ -43,7 +43,6 @@ public class AmadeusAPIController {
 
         Response response = null; //Initialize the response variable   
 
-       System.out.println("hello! im here");
         try {
             response = client.newCall(request).execute();
 

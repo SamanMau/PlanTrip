@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +44,11 @@ public class ServerController {
     private static String destination;
     private String TMDBAPI_KEY;
     private String TMDB_READ_ACCESS_KEY;
+    private static final OkHttpClient httpClient = new OkHttpClient.Builder().connectTimeout(30, TimeUnit.SECONDS)
+        .readTimeout(120, TimeUnit.SECONDS).writeTimeout(120, TimeUnit.SECONDS).build();
+    
+    private ExecutorService executor = Executors.newSingleThreadExecutor();
+    
 
     public ServerController(){
         this.tokenManager = new TokenManager();
@@ -49,6 +58,10 @@ public class ServerController {
         this.TMDB_READ_ACCESS_KEY = getInfoFromENV("TMDB_READ_ACCESS_KEY");
         String spotifyToken = fetchAccessToken(spotifyClientID, spotifyClientSecret, "https://accounts.spotify.com/api/token");
         tokenManager.setAccessToken(spotifyToken);
+    }
+
+    public static OkHttpClient getClient(){
+        return httpClient;
     }
 
     @GetMapping("/trip")
@@ -70,19 +83,90 @@ public class ServerController {
         String amadeusApiSecret = getInfoFromENV("AMADEUS_API_SECRET");
         String chatGptApiKey = getInfoFromENV("CHAT_KEY");
 
-        HashMap<String, String> iataCodesList = chatGPTController.getIATACode(from, to, chatGptApiKey);
-        String fromIATA = iataCodesList.get("from");
-        String toIATA = iataCodesList.get("to");
+        String fromIATA = "";
+        String toIATA = "";
+
+        fromIATA = checkIfIataInFile(from);
+        toIATA = checkIfIataInFile(to);
+
+        HashMap<String, String> iataCodesList = null;
+
+        if(fromIATA.isEmpty() && toIATA.isEmpty()) {
+            iataCodesList = chatGPTController.getIATACode(from, to, chatGptApiKey, true);
+            fromIATA = iataCodesList.get("from");
+            toIATA = iataCodesList.get("to");
+            addIataToFile(from, fromIATA);
+            addIataToFile(to, toIATA);
+            final String fromIata = fromIATA;
+            final String toIata = toIATA;
+
+            executor.submit(() -> {
+                addIataToFile(to, toIata);
+                addIataToFile(from, fromIata);
+            });
+
+        } else if(fromIATA.isEmpty()){
+            iataCodesList = chatGPTController.getIATACode(from, null, chatGptApiKey, false);
+            fromIATA = iataCodesList.get("from");
+            addIataToFile(from, fromIATA);
+            final String fromIata = fromIATA;
+            executor.submit(() -> addIataToFile(from, fromIata));
+
+        } else if(toIATA.isEmpty()){
+            iataCodesList = chatGPTController.getIATACode(null, to, chatGptApiKey, false);
+            toIATA = iataCodesList.get("to");
+            final String toIata = toIATA;
+            executor.submit(() -> addIataToFile(to, toIata));
+        }
 
         String accessToken = fetchAccessToken(amadeusApiKey, amadeusApiSecret, "https://test.api.amadeus.com/v1/security/oauth2/token");
-
-        ArrayList<String> result = amadeusController.getFlightInformation(fromIATA, toIATA, date, maxPrice, adults, children, infants, travelClass, currency, accessToken);
-
+        ArrayList<String> result = amadeusController.getFlightInformation(fromIATA.trim(), toIATA.trim(), date, maxPrice, adults, children, infants, travelClass, currency, accessToken);
+        
         return result;
     }
 
     public static String getDestination(){
         return destination;
+    }
+
+    public String checkIfIataInFile(String location){
+        String code = "";
+
+        try {
+            List<String> lines; lines = Files.readAllLines(Path.of("IATA.txt"));
+            String[] array = lines.toArray(new String[0]);
+
+            for(int i = 0; i < array.length; i++){
+                String element = array[i];
+                String[] splitArray = element.split(":");
+                String country = splitArray[0];
+                code = splitArray[1];
+
+                if(location.equals(country)){
+                    return code;
+                }
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return code;
+    }
+
+    public void addIataToFile(String location, String IATA){
+        try {
+            String line = location + ":" + IATA;
+
+            Files.writeString(
+                Path.of("IATA.txt"),
+                line + "\n",
+                StandardOpenOption.APPEND
+            );
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     
@@ -146,7 +230,6 @@ public class ServerController {
 
     @GetMapping("/fetch-activities")
     public ResponseEntity<Map<String, String>> fetchActivities() {
-        System.out.println("hello");
         String chatGptApiKey = getInfoFromENV("CHAT_KEY");
          Map<String, String> activities = chatGPTController.getActivitySuggestions(destination, chatGptApiKey);
         

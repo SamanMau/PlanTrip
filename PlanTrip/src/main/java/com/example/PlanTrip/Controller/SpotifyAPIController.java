@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -20,9 +21,9 @@ import okhttp3.Response;
 public class SpotifyAPIController {
     private int duration;
     private String access_token;
+    private final OkHttpClient client = ServerController.getClient();
 
     public List<String> getMusicAndPodcastInformation(int duration, String accessToken, String genre){
-        OkHttpClient client = new OkHttpClient(); //This object is used to send HTTP requests and receive responses.
         int songs = 17; //As default, we should have 17 songs per hour of duration.
         List<String> playLists = new ArrayList();
 

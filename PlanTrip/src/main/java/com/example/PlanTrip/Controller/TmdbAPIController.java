@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import io.github.cdimascio.dotenv.Dotenv;
 
 
@@ -19,15 +21,16 @@ import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import okhttp3.OkHttpClient;
-
 public class TmdbAPIController {
+    private final OkHttpClient client = new OkHttpClient.Builder()
+        .connectTimeout(30, TimeUnit.SECONDS)
+        .readTimeout(120, TimeUnit.SECONDS)
+        .writeTimeout(120, TimeUnit.SECONDS)
+        .build();
 
     public List<String> getMovieRecomendationsBasedOnGenre(String genre, String apiKey, String TMDB_READ_ACCESS_KEY){
         String genreID = getGenreID(genre);
         List<String> list = new ArrayList<>();
-
-        OkHttpClient client = new OkHttpClient();
 
         okhttp3.Request request = new okhttp3.Request.Builder()
         .url("https://api.themoviedb.org/3/discover/movie?include_adult=true&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres="+genreID)
