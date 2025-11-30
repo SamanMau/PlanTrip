@@ -1,4 +1,4 @@
-package com.example.PlanTrip;
+package com.example.PlanTrip.Entity;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
