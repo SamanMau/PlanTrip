@@ -105,6 +105,7 @@ public class ChatGPTAPIController {
         ObjectMapper mapper = new ObjectMapper();
         HashMap<String, String> activityResponse = new HashMap<>();
         
+        System.out.println("im here");
         String URL = "https://api.openai.com/v1/chat/completions";
         
         String prompt = """
@@ -114,7 +115,7 @@ public class ChatGPTAPIController {
 
         Return them ONLY in this format (one line per activity):
 
-        Title - Description - Category
+        Title: text... - Description: text... - Category: text...
 
         Rules:
         - Description: one short sentence.
@@ -129,6 +130,7 @@ public class ChatGPTAPIController {
         try {
             String outputMessage = manageRequest(URL, key, jsonBody, client);
             System.out.println(outputMessage);
+            System.out.println("now ended");
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
