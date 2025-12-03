@@ -45,8 +45,9 @@ public class ServerController {
     private String spotifyClientID;
     private String spotifyClientSecret;
     private String spotifyAccessToken;
-    private static String destination;
+    private static String country;
     private String TMDBAPI_KEY;
+    private String destination;
     private String TMDB_READ_ACCESS_KEY;
     private static final OkHttpClient httpClient = new OkHttpClient.Builder().connectTimeout(30, TimeUnit.SECONDS)
         .readTimeout(120, TimeUnit.SECONDS).writeTimeout(120, TimeUnit.SECONDS).build();
@@ -78,7 +79,8 @@ public class ServerController {
         String currency = map.get("currency");
         
         String[] toArray = to.split(",");
-        destination = toArray[1].trim();
+        country = toArray[1].trim();
+        destination = to;
         
         String amadeusApiKey = getInfoFromENV("AMADEUS_API_KEY");
         String amadeusApiSecret = getInfoFromENV("AMADEUS_API_SECRET");
@@ -117,8 +119,8 @@ public class ServerController {
         return result;
     }
 
-    public static String getDestination(){
-        return destination;
+    public static String getCountry(){
+        return country;
     }
 
     @GetMapping("/callback")
@@ -171,7 +173,7 @@ public class ServerController {
 
     @GetMapping("/fetch-genre")
     public ResponseEntity<Map<String, String>> fetchGenre() {
-        String countryGenre = getGenre(destination);        
+        String countryGenre = getGenre(country);        
         Map<String, String> response = new HashMap<>();
         response.put("genre", putSpaceForGenres(countryGenre));
 

@@ -105,24 +105,19 @@ public class ChatGPTAPIController {
         ObjectMapper mapper = new ObjectMapper();
         HashMap<String, String> activityResponse = new HashMap<>();
         
-        System.out.println("im here");
         String URL = "https://api.openai.com/v1/chat/completions";
         
+        
         String prompt = """
-        I am traveling to %s.
+        I am traveling to %s. Give me 4 tourist activities for the city.
 
-        Give me exactly 6 typical tourist activities for the city.
+        Return them ONLY in this format (one line per activity): Title: text... - Description: text... - Category: text...
 
-        Return them ONLY in this format (one line per activity):
-
-        Title: text... - Description: text... - Category: text...
-
+        For example, it may look like this: Title: Visit the Eiffel Tower - Description: Experience the iconic symbol of Paris with breathtaking views of the city from its observation decks. - Category: Landmark
+        
         Rules:
-        - Description: one short sentence.
-        - Category must be one of: Sightseeing, Adventure, Relaxation, Cultural.
-        - No extra text.
-        - No lists.
-        - No JSON.
+        - No numbering or bullet points.
+        - Each activity must include a title, description, and category.
         """.formatted(destination);
 
         String jsonBody = structureBasicFormat(prompt, mapper, true);
@@ -130,7 +125,6 @@ public class ChatGPTAPIController {
         try {
             String outputMessage = manageRequest(URL, key, jsonBody, client);
             System.out.println(outputMessage);
-            System.out.println("now ended");
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -144,12 +138,11 @@ public class ChatGPTAPIController {
         Map<String, Object> message = getMessageForJSONIput(chatGPTInput);
 
         Map<String, Object> body = new HashMap<>();
-        body.put("model", "gpt-5-nano");
 
         if(isActivity) {
-            Map<String, Object> responseFormat = new HashMap<>();
-            responseFormat.put("type", "json_object");
-            body.put("response_format", responseFormat);
+            body.put("model", "gpt-5-mini");
+        } else{
+            body.put("model", "gpt-5-nano");
         }
 
         body.put("messages", List.of(message));

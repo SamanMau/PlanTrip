@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Wed Dec 03 21:32:45 CET 2025:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.16.1.1 - (1901046): instance a816c00e-019a-e5ea-d9f9-000002507ac0 
+Wed Dec 03 22:17:39 CET 2025:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.16.1.1 - (1901046): instance a816c00e-019a-e613-f7e0-000002533c08 
 on database directory C:\Users\Saman\OneDrive\Dokument\GitHub\PlanTrip\planTripDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@11a4022a 
 Loaded from file:/C:/Users/Saman/.m2/repository/org/apache/derby/derby/10.16.1.1/derby-10.16.1.1.jar
 java.vendor=Oracle Corporation

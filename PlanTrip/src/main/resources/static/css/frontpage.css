@@ -48,7 +48,7 @@ body {
   display: flex;
   gap: 25px;
   margin-right: 25px;
-  font-size: 20px;
+  font-size: 15px;
 }
 
 .nav-links a {
@@ -153,6 +153,7 @@ input, select {
   border: none;
   font-size: 14px;
   background-color: #0c1a30;
+  color: white;
 }
 
 input:-webkit-autofill,

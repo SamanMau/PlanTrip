@@ -114,7 +114,7 @@ public class SpotifyAPIController {
     }
 
     public List<String> getGeneralPlaylist(){
-        String genre = getGenre(ServerController.getDestination());
+        String genre = getGenre(ServerController.getCountry());
         return getMusicAndPodcastInformation(duration, access_token, genre);
     }
 
