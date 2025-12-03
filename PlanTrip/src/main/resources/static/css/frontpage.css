@@ -446,4 +446,29 @@ footer {
 }
 
 
+.panel {
+  padding: 15px 20px;
+}
+
+.panel h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.inputs {
+  gap: 12px;
+}
+
+input, select {
+  padding: 6px 8px;
+  font-size: 13px;
+}
+
+.results-panel {
+  padding: 15px 20px;
+}
+
+.results-panel .placeholder {
+  font-size: 14px;
+}
 
