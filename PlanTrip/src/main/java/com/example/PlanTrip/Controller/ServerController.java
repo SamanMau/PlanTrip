@@ -14,6 +14,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import org.springframework.boot.actuate.autoconfigure.metrics.MetricsProperties.Data;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.example.PlanTrip.Database.DatabaseController;
 import com.example.PlanTrip.Entity.TokenManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -38,6 +40,7 @@ public class ServerController {
     private ChatGPTAPIController chatGPTController = new ChatGPTAPIController();
     private SpotifyAPIController spotifyAPIController = new SpotifyAPIController();
     private TmdbAPIController tmdbAPIController = new TmdbAPIController();
+    private DatabaseController databaseController = new DatabaseController();
     private TokenManager tokenManager;
     private String spotifyClientID;
     private String spotifyClientSecret;
@@ -48,9 +51,6 @@ public class ServerController {
     private static final OkHttpClient httpClient = new OkHttpClient.Builder().connectTimeout(30, TimeUnit.SECONDS)
         .readTimeout(120, TimeUnit.SECONDS).writeTimeout(120, TimeUnit.SECONDS).build();
     
-    private ExecutorService executor = Executors.newSingleThreadExecutor();
-    
-
     public ServerController(){
         this.tokenManager = new TokenManager();
         this.spotifyClientID = getInfoFromENV("SPOTIFY_CLIENTID");
@@ -87,8 +87,8 @@ public class ServerController {
         String fromIATA = "";
         String toIATA = "";
 
-        fromIATA = checkIfIataInFile(from);
-        toIATA = checkIfIataInFile(to);
+        fromIATA = databaseController.checkIfIataInFile(from);
+        toIATA = databaseController.checkIfIataInFile(to);
 
         HashMap<String, String> iataCodesList = null;
 
@@ -96,28 +96,19 @@ public class ServerController {
             iataCodesList = chatGPTController.getIATACode(from, to, chatGptApiKey, true);
             fromIATA = iataCodesList.get("from");
             toIATA = iataCodesList.get("to");
-            addIataToFile(from, fromIATA);
-            addIataToFile(to, toIATA);
-            final String fromIata = fromIATA;
-            final String toIata = toIATA;
-
-            executor.submit(() -> {
-                addIataToFile(to, toIata);
-                addIataToFile(from, fromIata);
-            });
+            databaseController.addIataToFile(from, fromIATA);
+            databaseController.addIataToFile(to, toIATA);
 
         } else if(fromIATA.isEmpty()){
             iataCodesList = chatGPTController.getIATACode(from, null, chatGptApiKey, false);
             fromIATA = iataCodesList.get("from");
-            addIataToFile(from, fromIATA);
-            final String fromIata = fromIATA;
-            executor.submit(() -> addIataToFile(from, fromIata));
+            databaseController.addIataToFile(from, fromIATA);
+            
 
         } else if(toIATA.isEmpty()){
             iataCodesList = chatGPTController.getIATACode(null, to, chatGptApiKey, false);
             toIATA = iataCodesList.get("to");
-            final String toIata = toIATA;
-            executor.submit(() -> addIataToFile(to, toIata));
+            databaseController.addIataToFile(to, toIATA);
         }
 
         String accessToken = fetchAccessToken(amadeusApiKey, amadeusApiSecret, "https://test.api.amadeus.com/v1/security/oauth2/token");
@@ -129,48 +120,6 @@ public class ServerController {
     public static String getDestination(){
         return destination;
     }
-
-    public String checkIfIataInFile(String location){
-        String code = "";
-
-        try {
-            List<String> lines; lines = Files.readAllLines(Path.of("IATA.txt"));
-            String[] array = lines.toArray(new String[0]);
-
-            for(int i = 0; i < array.length; i++){
-                String element = array[i];
-                String[] splitArray = element.split(":");
-                String country = splitArray[0];
-                code = splitArray[1];
-
-                if(location.equals(country)){
-                    return code;
-                }
-            }
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        return code;
-    }
-
-    public void addIataToFile(String location, String IATA){
-        try {
-            String line = location + ":" + IATA;
-
-            Files.writeString(
-                Path.of("IATA.txt"),
-                line + "\n",
-                StandardOpenOption.APPEND
-            );
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    
 
     @GetMapping("/callback")
     public RedirectView handleSpotifyCallback(@RequestParam("code") String code) {

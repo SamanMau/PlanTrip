@@ -15,9 +15,16 @@ public class DerbyInit {
     */
     @PostConstruct
     public void init() {
-        try (Connection conn =
-                DriverManager.getConnection("jdbc:derby:planTripDB;create=true")) {
-            System.out.println("Ansluten till Java DB!");
+        try (Connection conn = DriverManager.getConnection("jdbc:derby:planTripDB;create=true");
+             Statement st = conn.createStatement()) {
+
+            String table1 = "CREATE TABLE Iata (" +
+                         "id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, " +
+                         "iataCode VARCHAR(10), " +
+                         "country VARCHAR(50))";
+
+            st.execute(table1);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
