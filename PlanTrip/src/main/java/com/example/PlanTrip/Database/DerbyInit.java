@@ -26,7 +26,9 @@ public class DerbyInit {
             st.execute(table1);
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (!"X0Y32".equals(e.getSQLState())) {
+                e.printStackTrace();  // skriv bara ut fel om det är något annat
+                }
         }
     }
 }
