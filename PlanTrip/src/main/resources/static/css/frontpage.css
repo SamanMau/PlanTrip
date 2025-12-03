@@ -48,6 +48,7 @@ body {
   display: flex;
   gap: 25px;
   margin-right: 25px;
+  font-size: 20px;
 }
 
 .nav-links a {
@@ -233,6 +234,18 @@ input, select {
   transition: transform 0.2s;
 }
 
+.flight-card p {
+  font-size: 19px;   /* Ändra till vilken storlek du vill */
+}
+
+.inputs.double-column label {
+  font-weight: 600;
+  margin-bottom: 4px;
+  display: block;
+  color: #d9faff;
+  font-size: 19px;
+}
+
 .flight-card:hover {
   transform: translateY(-3px);
 }
@@ -265,7 +278,7 @@ footer {
 }
 
 .intro h1 {
-  font-size: 28px;
+  font-size: 33px;
   margin: 0;
   font-weight: 700;
 }
@@ -378,20 +391,13 @@ footer {
   gap: 18px 24px;
 }
 
-.inputs.double-column label {
-  font-weight: 600;
-  margin-bottom: 4px;
-  display: block;
-  color: #d9faff;
-}
-
 .inputs.double-column input,
 .inputs.double-column select {
   width: 100%;
   padding: 10px;
   border-radius: 8px;
   border: none;
-  font-size: 14px;
+  font-size: 19px;
 }
 
 /* ✈️ Resultat – scrollbar */
