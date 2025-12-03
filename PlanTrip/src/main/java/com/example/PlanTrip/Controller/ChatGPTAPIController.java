@@ -106,31 +106,23 @@ public class ChatGPTAPIController {
         HashMap<String, String> activityResponse = new HashMap<>();
         
         String URL = "https://api.openai.com/v1/chat/completions";
+        
         String prompt = """
-                    I am traveling to %s.
+        I am traveling to %s.
 
-                    Give me exactly 6 typical tourist activities associated with the city.
-                    Do not research deeply. Use only widely-known, common-sense activities.
+        Give me exactly 6 typical tourist activities for the city.
 
-                    Respond ONLY with this JSON:
-                    {
-                    "activities": [
-                        {
-                        "title": "",
-                        "description": "",
-                        "category": ""
-                        }
-                    ]
-                    }
+        Return them ONLY in this format (one line per activity):
 
-                    Rules:
-                    - description: one short sentence.
-                    - category: one of ["Sightseeing", "Adventure", "Relaxation", "Cultural"].
-                    - Only valid JSON.
-                    - No explanations.
-                    - No reasoning.
-                    - Be fast.
-            """.formatted(destination);
+        Title - Description - Category
+
+        Rules:
+        - Description: one short sentence.
+        - Category must be one of: Sightseeing, Adventure, Relaxation, Cultural.
+        - No extra text.
+        - No lists.
+        - No JSON.
+        """.formatted(destination);
 
         String jsonBody = structureBasicFormat(prompt, mapper, true);
 
