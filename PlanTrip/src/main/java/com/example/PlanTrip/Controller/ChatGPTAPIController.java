@@ -137,6 +137,9 @@ public class ChatGPTAPIController {
 
         if(isActivity) {
             body.put("model", "gpt-5-mini");
+            body.put("max_completion_tokens", 1000);
+            body.put("temperature", 1);
+            body.put("top_p", 1.0);
         } else{
             body.put("model", "gpt-5-nano");
         }
@@ -176,7 +179,7 @@ public class ChatGPTAPIController {
         Response response = null;
 
         try{
-           response = client.newCall(request).execute()
+           response = client.newCall(request).execute();
            if(response.isSuccessful()){
             String responseBody = response.body().string();
             outputMessage = extractContent(responseBody);
@@ -188,8 +191,11 @@ public class ChatGPTAPIController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        if(response != null){
+            response.close();
+        }
         
-        response.close();
         return outputMessage;
     }
 

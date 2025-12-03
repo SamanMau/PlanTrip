@@ -27,6 +27,7 @@ import com.example.PlanTrip.Database.DatabaseController;
 import com.example.PlanTrip.Entity.TokenManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cdimascio.dotenv.Dotenv;
+import okhttp3.ConnectionPool;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
@@ -49,8 +50,11 @@ public class ServerController {
     private String TMDBAPI_KEY;
     private String destination;
     private String TMDB_READ_ACCESS_KEY;
-    private static final OkHttpClient httpClient = new OkHttpClient.Builder().connectTimeout(30, TimeUnit.SECONDS)
-        .readTimeout(120, TimeUnit.SECONDS).writeTimeout(120, TimeUnit.SECONDS).build();
+    
+    private static final OkHttpClient httpClient = new OkHttpClient.Builder()
+        .connectionPool(new ConnectionPool(10, 5, TimeUnit.MINUTES))
+        .retryOnConnectionFailure(true)
+        .build();
     
     public ServerController(){
         this.tokenManager = new TokenManager();
