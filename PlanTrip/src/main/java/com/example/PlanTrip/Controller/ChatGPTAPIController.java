@@ -111,13 +111,9 @@ public class ChatGPTAPIController {
         String prompt = """
         I am traveling to %s. Give me 4 tourist activities for the city.
 
-        Return them ONLY in this format (one line per activity): Title: text... - Description: text... - Category: text...
+        Return them ONLY in this format (one line per activity): Title: text... - Description: text...
 
-        For example, it may look like this: Title: Visit the Eiffel Tower - Description: Experience the iconic symbol of Paris with breathtaking views of the city from its observation decks. - Category: Landmark
-        
-        Rules:
-        - No numbering or bullet points.
-        - Each activity must include a title, description, and category.
+        For example, it may look like this: Title: Visit the Eiffel Tower - Description: Experience the iconic symbol of Paris with breathtaking views of the city from its observation decks.
         """.formatted(destination);
 
         String jsonBody = structureBasicFormat(prompt, mapper, true);
@@ -176,18 +172,25 @@ public class ChatGPTAPIController {
         .build();
 
         String outputMessage = "";
- 
-    try (Response response = client.newCall(request).execute()) {
-        if (response.isSuccessful()) {
+
+        Response response = null;
+
+        try{
+           response = client.newCall(request).execute()
+           if(response.isSuccessful()){
             String responseBody = response.body().string();
             outputMessage = extractContent(responseBody);
 
         } else {
             System.err.println("Fel: " + response.code() + " - " + response.body().string());
         }
-    }
 
-    return outputMessage;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        response.close();
+        return outputMessage;
     }
 
     public String extractContent(String json) throws IOException {

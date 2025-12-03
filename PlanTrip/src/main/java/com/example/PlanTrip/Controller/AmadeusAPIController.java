@@ -56,6 +56,7 @@ public class AmadeusAPIController {
                 String count = meta.get("count").toString();
 
                 if(count.equals("0")) {
+                    response.close();
                     return null; //Return null if no flights are found
                 }
 
@@ -96,12 +97,15 @@ public class AmadeusAPIController {
             }
 
             displayedList = addFlightDurationAndPricingToList(listOfFlights, flightDurationList, travelerPricingList, convertedCount, children, infants);
-
+            response.close();
         return displayedList;           
     }
     } catch (IOException e){
-
+        response.close();
+        e.printStackTrace();
     }
+
+    response.close();
     
     return displayedList;
 
