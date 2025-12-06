@@ -50,11 +50,12 @@ public class ServerController {
     private String TMDBAPI_KEY;
     private String destination;
     private String TMDB_READ_ACCESS_KEY;
+    private Map<String, String> activities;
     
     private static final OkHttpClient httpClient = new OkHttpClient.Builder()
-        .connectionPool(new ConnectionPool(10, 5, TimeUnit.MINUTES))
-        .retryOnConnectionFailure(true)
-        .build();
+            .connectTimeout(10, TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS).connectionPool(new ConnectionPool(10, 5, TimeUnit.MINUTES))
+            .retryOnConnectionFailure(true).build();
     
     public ServerController(){
         this.tokenManager = new TokenManager();
@@ -119,12 +120,27 @@ public class ServerController {
 
         String accessToken = fetchAccessToken(amadeusApiKey, amadeusApiSecret, "https://test.api.amadeus.com/v1/security/oauth2/token");
         ArrayList<String> result = amadeusController.getFlightInformation(fromIATA.trim(), toIATA.trim(), date, maxPrice, adults, children, infants, travelClass, currency, accessToken);
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.submit(() -> {
+                activities = chatGPTController.getActivitySuggestions(destination, chatGptApiKey);
+                setActivities(activities);
+        });
+        executor.shutdown();
         
         return result;
     }
 
     public static String getCountry(){
         return country;
+    }
+
+    public void setActivities(Map<String, String> activities){
+        this.activities = activities;
+    }
+
+    public Map<String, String> getActivities(){
+        return activities;
     }
 
     @GetMapping("/callback")
@@ -186,8 +202,7 @@ public class ServerController {
 
     @GetMapping("/fetch-activities")
     public ResponseEntity<Map<String, String>> fetchActivities() {
-        String chatGptApiKey = getInfoFromENV("CHAT_KEY");
-         Map<String, String> activities = chatGPTController.getActivitySuggestions(destination, chatGptApiKey);
+         activities = getActivities();
         
         return ResponseEntity.ok(activities);
     }

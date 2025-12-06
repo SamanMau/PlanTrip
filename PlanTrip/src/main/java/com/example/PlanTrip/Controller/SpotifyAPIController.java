@@ -70,8 +70,11 @@ public class SpotifyAPIController {
             }
 
         } catch(IOException e){
+            response.close();
             e.printStackTrace();
         }
+
+        response.close();
 
         return null;
     } 

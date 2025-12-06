@@ -1,11 +1,11 @@
 ----------------------------------------------------------------
-Wed Dec 03 23:43:10 CET 2025:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.16.1.1 - (1901046): instance a816c00e-019a-e662-407c-000002329d38 
-on database directory C:\Users\Samsan\OneDrive\GitHub\PlanTrip\planTripDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@33909752 
-Loaded from file:/C:/Users/Samsan/.m2/repository/org/apache/derby/derby/10.16.1.1/derby-10.16.1.1.jar
+Sat Dec 06 14:18:06 CET 2025:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.16.1.1 - (1901046): instance a816c00e-019a-f3cf-ff28-0000024ac988 
+on database directory C:\Users\Saman\OneDrive\Dokument\GitHub\PlanTrip\planTripDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@11a4022a 
+Loaded from file:/C:/Users/Saman/.m2/repository/org/apache/derby/derby/10.16.1.1/derby-10.16.1.1.jar
 java.vendor=Oracle Corporation
-java.runtime.version=21+35-LTS-2513
-user.dir=C:\Users\Samsan\OneDrive\GitHub\PlanTrip
+java.runtime.version=24+36-3646
+user.dir=C:\Users\Saman\OneDrive\Dokument\GitHub\PlanTrip
 os.name=Windows 11
 os.arch=amd64
 os.version=10.0
