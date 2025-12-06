@@ -125,6 +125,7 @@ public class ServerController {
         executor.submit(() -> {
                 activities = chatGPTController.getActivitySuggestions(destination, chatGptApiKey);
                 setActivities(activities);
+                //https://api.pexels.com/v1/
         });
         executor.shutdown();
         
