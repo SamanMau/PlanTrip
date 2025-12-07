@@ -42,6 +42,7 @@ public class ServerController {
     private SpotifyAPIController spotifyAPIController = new SpotifyAPIController();
     private TmdbAPIController tmdbAPIController = new TmdbAPIController();
     private DatabaseController databaseController = new DatabaseController();
+    private PexelsAPIController pexelsAPIController = new PexelsAPIController();
     private TokenManager tokenManager;
     private String spotifyClientID;
     private String spotifyClientSecret;
@@ -50,7 +51,8 @@ public class ServerController {
     private String TMDBAPI_KEY;
     private String destination;
     private String TMDB_READ_ACCESS_KEY;
-    private Map<String, String> activities;
+    private String Pexels_API_KEY;
+    private ArrayList<HashMap<String, String>> activities;
     
     private static final OkHttpClient httpClient = new OkHttpClient.Builder()
             .connectTimeout(10, TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS)
@@ -63,6 +65,7 @@ public class ServerController {
         this.spotifyClientSecret = getInfoFromENV("SPOTIFY_CLIENTSECRET");
         this.TMDBAPI_KEY = getInfoFromENV("TMDB_API_KEY");
         this.TMDB_READ_ACCESS_KEY = getInfoFromENV("TMDB_READ_ACCESS_KEY");
+        this.Pexels_API_KEY = getInfoFromENV("PEXELS_API_KEY");
         String spotifyToken = fetchAccessToken(spotifyClientID, spotifyClientSecret, "https://accounts.spotify.com/api/token");
         tokenManager.setAccessToken(spotifyToken);
     }
@@ -123,9 +126,8 @@ public class ServerController {
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.submit(() -> {
-                activities = chatGPTController.getActivitySuggestions(destination, chatGptApiKey);
+                activities = chatGPTController.getActivitySuggestions(destination, chatGptApiKey, pexelsAPIController, Pexels_API_KEY);
                 setActivities(activities);
-                //https://api.pexels.com/v1/
         });
         executor.shutdown();
         
@@ -136,11 +138,11 @@ public class ServerController {
         return country;
     }
 
-    public void setActivities(Map<String, String> activities){
+    public void setActivities(ArrayList<HashMap<String, String>> activities){
         this.activities = activities;
     }
 
-    public Map<String, String> getActivities(){
+    public ArrayList<HashMap<String, String>> getActivities(){
         return activities;
     }
 
@@ -202,9 +204,9 @@ public class ServerController {
     }
 
     @GetMapping("/fetch-activities")
-    public ResponseEntity<Map<String, String>> fetchActivities() {
-         activities = getActivities();
-        
+    public ResponseEntity<ArrayList<HashMap<String, String>>> fetchActivities() {
+        activities = getActivities();
+
         return ResponseEntity.ok(activities);
     }
 

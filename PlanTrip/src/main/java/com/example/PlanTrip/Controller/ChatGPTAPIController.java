@@ -101,9 +101,9 @@ public class ChatGPTAPIController {
         return chatGPTInput;
     }
 
-    public Map<String, String> getActivitySuggestions(String destination, String key){
+    public ArrayList<HashMap<String, String>> getActivitySuggestions(String destination, String key, PexelsAPIController pexelsAPIController, String Pexels_API_KEY){
         ObjectMapper mapper = new ObjectMapper();
-        HashMap<String, String> activityResponse = new HashMap<>();
+        ArrayList<HashMap<String, String>> activityResponse = new ArrayList<>();
         
         String URL = "https://api.openai.com/v1/chat/completions";
         
@@ -120,14 +120,33 @@ public class ChatGPTAPIController {
 
         try {
             String outputMessage = manageRequest(URL, key, jsonBody, client);
-            System.out.println(outputMessage);
+            activityResponse = turnStringToArray(outputMessage, pexelsAPIController, Pexels_API_KEY);
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
-        return null;
+        return activityResponse;
+    }
+
+    public ArrayList<HashMap<String, String>> turnStringToArray(String message, PexelsAPIController pexelsAPIController, String Pexels_API_KEY){
+        String[] lines = message.split("\n");
+        ArrayList<HashMap<String, String>> activities = new ArrayList<>();
+
+        for(String line : lines){
+            HashMap<String, String> activity = new HashMap<>();
+            String[] lineArr = line.split(":");
+            String title = lineArr[0].trim();
+            String description = lineArr[1].trim();
+            String picture = pexelsAPIController.getPictures(title, Pexels_API_KEY);
+            activity.put("title", title);
+            activity.put("description", description);
+            activity.put("picture", picture);
+            activities.add(activity);
+        }
+
+        return activities;
     }
 
     public String structureBasicFormat(String chatGPTInput, ObjectMapper mapper, boolean isActivity) {

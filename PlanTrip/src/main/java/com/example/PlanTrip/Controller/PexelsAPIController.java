@@ -16,9 +16,9 @@ public class PexelsAPIController {
     private String apiKey;
     private final OkHttpClient client = ServerController.getClient();
 
-    public void getPictures(String apiKey, String query){
+    public String getPictures(String apiKey, String query){
         this.apiKey = apiKey;
-        List<String> pictures = new ArrayList<>();
+        String picture = "";
 
         String URL = HttpUrl.parse("https://api.pexels.com/v1/search")
         .newBuilder()
@@ -40,7 +40,7 @@ public class PexelsAPIController {
 
             if(response.isSuccessful()){
                 String responseBody = response.body().string();
-                pictures = manageJSONFile(responseBody);
+                picture = manageJSONFile(responseBody);
             } else{
                 System.out.println("response blev inte sucess");
             }
@@ -51,9 +51,10 @@ public class PexelsAPIController {
         }
 
         response.close();
+        return picture;
     }
     
-    public List<String> manageJSONFile(String responseBody){
+    public String manageJSONFile(String responseBody){
         ObjectMapper mapper = new ObjectMapper();
 
         try {
@@ -69,7 +70,7 @@ public class PexelsAPIController {
                 }
             }
 
-            return arr;
+            return arr.get(0);
 
         } catch (JsonProcessingException e) {
             e.printStackTrace();
