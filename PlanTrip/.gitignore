@@ -21,8 +21,7 @@ target/
 
 .env
 
-src/main/resources/application.properties
-
+PlanTrip/src/main/resources/application.properties
 
 
 ### NetBeans ###
