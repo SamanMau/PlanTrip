@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smart-reseguide-backend
+  labels:
+    app: smart-reseguide-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smart-reseguide-backend
+  template:
+    metadata:
+      labels:
+        app: smart-reseguide-backend
+    spec:
+      containers:
+        - name: backend
+          image: smart-reseguide-backend:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: prod
+

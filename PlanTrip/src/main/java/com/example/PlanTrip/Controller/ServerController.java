@@ -156,9 +156,7 @@ public class ServerController {
 
     public String getInfoFromENV(String input){
         Dotenv dotenv = Dotenv.configure()
-        .directory(System.getProperty("user.dir"))
-        .filename("PlanTrip\\.env")
-        .load();
+            .filename(".env").load();
 
     String info = dotenv.get(input);
     return info;
