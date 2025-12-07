@@ -21,7 +21,8 @@ target/
 
 .env
 
-*.properties
+src/main/resources/application.properties
+
 
 
 ### NetBeans ###
