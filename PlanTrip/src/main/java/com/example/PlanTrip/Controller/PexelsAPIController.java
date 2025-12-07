@@ -58,13 +58,13 @@ public class PexelsAPIController {
 
         try {
             JsonNode root = mapper.readTree(responseBody);
-            JsonNode items = root.path("src");
+            JsonNode items = root.path("photos");
 
             List<String> arr = new ArrayList<>();
 
             for (JsonNode n : items) {
                 if (!n.isNull()) {
-                    String original = n.path("original").asText();
+                    String original = n.path("src").path("original").asText();
                     arr.add(original);
                 }
             }
