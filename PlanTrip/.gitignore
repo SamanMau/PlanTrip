@@ -21,6 +21,7 @@ target/
 
 .env
 
+*.properties
 
 
 ### NetBeans ###

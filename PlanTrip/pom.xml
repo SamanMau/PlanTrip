@@ -45,6 +45,13 @@
 			</dependency>
 
 			<dependency>
+				<groupId>org.postgresql</groupId>
+				<artifactId>postgresql</artifactId>
+				<scope>runtime</scope>
+			</dependency>
+
+
+			<dependency>
 		<groupId>org.apache.derby</groupId>
 		<artifactId>derby</artifactId>
 		<version>10.16.1.1</version>
