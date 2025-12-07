@@ -111,9 +111,9 @@ public class ChatGPTAPIController {
         String prompt = """
         I am traveling to %s. Give me 4 tourist activities for the city.
 
-        Return them ONLY in this format (one line per activity): Title: text... - Description: text...
+        Return them ONLY in this format (one line per activity): Title: text... : text...
 
-        For example, it may look like this: Title: Visit the Eiffel Tower - Description: Experience the iconic symbol of Paris with breathtaking views of the city from its observation decks.
+        For example, it may look like this: Title: Eiffel Tower : Experience the iconic symbol of Paris with breathtaking views of the city from its observation decks.
         """.formatted(destination);
 
         String jsonBody = structureBasicFormat(prompt, mapper, true);
@@ -137,14 +137,16 @@ public class ChatGPTAPIController {
         for(String line : lines){
             HashMap<String, String> activity = new HashMap<>();
             String[] lineArr = line.split(":");
-            String title = lineArr[0].trim();
-            String description = lineArr[1].trim();
+            String title = lineArr[1].trim();
+            String description = lineArr[2].trim();
             String picture = pexelsAPIController.getPictures(title, Pexels_API_KEY);
             activity.put("title", title);
             activity.put("description", description);
             activity.put("picture", picture);
             activities.add(activity);
+            System.out.println(title);
         }
+        System.out.println("klart och returnerat");
 
         return activities;
     }

@@ -16,7 +16,7 @@ public class PexelsAPIController {
     private String apiKey;
     private final OkHttpClient client = ServerController.getClient();
 
-    public String getPictures(String apiKey, String query){
+    public String getPictures(String query, String apiKey){
         this.apiKey = apiKey;
         String picture = "";
 

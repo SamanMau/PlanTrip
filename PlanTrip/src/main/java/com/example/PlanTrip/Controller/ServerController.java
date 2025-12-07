@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.example.PlanTrip.Database.DatabaseController;
+import com.example.PlanTrip.Database.IataService;
 import com.example.PlanTrip.Entity.TokenManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -41,7 +41,6 @@ public class ServerController {
     private ChatGPTAPIController chatGPTController = new ChatGPTAPIController();
     private SpotifyAPIController spotifyAPIController = new SpotifyAPIController();
     private TmdbAPIController tmdbAPIController = new TmdbAPIController();
-    private DatabaseController databaseController = new DatabaseController();
     private PexelsAPIController pexelsAPIController = new PexelsAPIController();
     private TokenManager tokenManager;
     private String spotifyClientID;
@@ -53,13 +52,14 @@ public class ServerController {
     private String TMDB_READ_ACCESS_KEY;
     private String Pexels_API_KEY;
     private ArrayList<HashMap<String, String>> activities;
+    private final IataService service;
     
     private static final OkHttpClient httpClient = new OkHttpClient.Builder()
             .connectTimeout(10, TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS).connectionPool(new ConnectionPool(10, 5, TimeUnit.MINUTES))
             .retryOnConnectionFailure(true).build();
     
-    public ServerController(){
+    public ServerController(IataService service){
         this.tokenManager = new TokenManager();
         this.spotifyClientID = getInfoFromENV("SPOTIFY_CLIENTID");
         this.spotifyClientSecret = getInfoFromENV("SPOTIFY_CLIENTSECRET");
@@ -68,6 +68,7 @@ public class ServerController {
         this.Pexels_API_KEY = getInfoFromENV("PEXELS_API_KEY");
         String spotifyToken = fetchAccessToken(spotifyClientID, spotifyClientSecret, "https://accounts.spotify.com/api/token");
         tokenManager.setAccessToken(spotifyToken);
+        this.service = service;
     }
 
     public static OkHttpClient getClient(){
@@ -97,8 +98,8 @@ public class ServerController {
         String fromIATA = "";
         String toIATA = "";
 
-        fromIATA = databaseController.checkIfIataInFile(from);
-        toIATA = databaseController.checkIfIataInFile(to);
+        fromIATA = service.checkIfIataCodeExists(from);
+        toIATA = service.checkIfIataCodeExists(to);
 
         HashMap<String, String> iataCodesList = null;
 
@@ -106,19 +107,19 @@ public class ServerController {
             iataCodesList = chatGPTController.getIATACode(from, to, chatGptApiKey, true);
             fromIATA = iataCodesList.get("from");
             toIATA = iataCodesList.get("to");
-            databaseController.addIataToFile(from, fromIATA);
-            databaseController.addIataToFile(to, toIATA);
+            service.saveIata(from, fromIATA);
+            service.saveIata(to, toIATA);
 
         } else if(fromIATA.isEmpty()){
             iataCodesList = chatGPTController.getIATACode(from, null, chatGptApiKey, false);
             fromIATA = iataCodesList.get("from");
-            databaseController.addIataToFile(from, fromIATA);
+            service.saveIata(from, fromIATA);
             
 
         } else if(toIATA.isEmpty()){
             iataCodesList = chatGPTController.getIATACode(null, to, chatGptApiKey, false);
             toIATA = iataCodesList.get("to");
-            databaseController.addIataToFile(to, toIATA);
+            service.saveIata(to, toIATA);
         }
 
         String accessToken = fetchAccessToken(amadeusApiKey, amadeusApiSecret, "https://test.api.amadeus.com/v1/security/oauth2/token");
