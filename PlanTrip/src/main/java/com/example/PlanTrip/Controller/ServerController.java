@@ -156,7 +156,8 @@ public class ServerController {
 
     public String getInfoFromENV(String input){
         Dotenv dotenv = Dotenv.configure()
-            .filename(".env").load();
+        .ignoreIfMissing()
+        .load();
 
     String info = dotenv.get(input);
     return info;
