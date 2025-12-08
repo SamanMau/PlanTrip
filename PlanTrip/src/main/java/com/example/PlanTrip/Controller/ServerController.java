@@ -66,8 +66,6 @@ public class ServerController {
         this.TMDBAPI_KEY = getInfoFromENV("TMDB_API_KEY");
         this.TMDB_READ_ACCESS_KEY = getInfoFromENV("TMDB_READ_ACCESS_KEY");
         this.Pexels_API_KEY = getInfoFromENV("PEXELS_API_KEY");
-        String spotifyToken = fetchAccessToken(spotifyClientID, spotifyClientSecret, "https://accounts.spotify.com/api/token");
-        tokenManager.setAccessToken(spotifyToken);
         this.service = service;
     }
 
