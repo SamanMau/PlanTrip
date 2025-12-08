@@ -1,149 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PlanTrip – Smart Travel Planner</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/frontpage.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PlanTrip – Smart Travel Planner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/frontpage.css" />
 </head>
+
 <body>
-  <div class="overlay"></div>
+    <div class="overlay"></div>
 
-  <div class="page">
-
-    <!-- 🌍 Navbar -->
-    <nav class="navbar">
-      <div class="logo">✈️ PlanTrip</div>
-      <ul class="nav-links">
-        <li><a href="#" onclick="openSpotifyModal()">🎧 Music Recommendations</a></li>
-        <li><a href="movies.html">🎬 Movie Recommendations</a></li>
-        <li><a href="#" onclick="openActivities()">🗺️ Activities</a></li>
-
-      </ul>
+    <nav class="navbar glass">
+        <div class="logo">✈️ PlanTrip</div>
+        <ul class="nav-links">
+            <li><a href="#" onclick="openSpotifyModal()">🎧 Music</a></li>
+            <li><a href="movies.html">🎬 Movies</a></li>
+            <li><a href="#" onclick="openActivities()">🗺 Activities</a></li>
+        </ul>
     </nav>
 
-    <!-- Rubrik -->
-    <section class="intro">
-      <h1>One plan. One trip. Endless experiences.</h1>
+    <!-- HERO SECTION -->
+    <header class="hero">
+        <h1>One plan. One trip. Endless experiences.</h1>
+        <p>Plan your trip, compare flights, and get AI-powered music, movie and activity suggestions.</p>
+
+        <button class="cta-btn" onclick="document.getElementById('tripForm').scrollIntoView({behavior:'smooth'})">
+            Start Planning →
+        </button>
+    </header>
+
+    <!-- STEPS / HIGHLIGHTS -->
+    <section class="steps">
+        <div class="step-card">
+            <div class="icon">✈️</div>
+            <h3>Plan Your Flight</h3>
+            <p>Choose your route, date and preferences.</p>
+        </div>
+
+        <div class="step-card">
+            <div class="icon">🎧</div>
+            <h3>Get Music</h3>
+            <p>AI-selected playlists matching your destination.</p>
+        </div>
+
+        <div class="step-card">
+            <div class="icon">🎬</div>
+            <h3>Watch Movies</h3>
+            <p>Destination-themed movies to enjoy on your trip.</p>
+        </div>
+
+        <div class="step-card">
+            <div class="icon">🗺️</div>
+            <h3>Find Activities</h3>
+            <p>Discover attractions based on your preferences.</p>
+        </div>
     </section>
 
-    <!-- 📦 Två breda kolumner sida vid sida -->
+    <!-- DASHBOARD: FORM + RESULTS -->
     <section class="dashboard">
-      <!-- Vänster: Travel preferences -->
-      <div class="panel">
-        <h2 class="travelPreferences">📝 Travel Preferences</h2>
 
-        <form id="tripForm" class="wide-form">
-          <div class="inputs double-column">
-            <div>
-              <label for="fromCity">From:</label>
-              <input type="text" id="fromCity" required placeholder="City, Country" />
-            </div>
+        <!-- LEFT PANEL – FORM -->
+        <div class="panel form-panel glass">
+            <h2>📝 Travel Preferences</h2>
 
-            <div>
-              <label for="toCity">To:</label>
-              <input type="text" id="toCity" required placeholder="City, Country" />
-            </div>
+            <form id="tripForm">
+                <div class="form-grid">
 
-            <div>
-              <label for="departureDate">Departure Date:</label>
-              <input type="date" id="departureDate" required />
-            </div>
+                    <div class="field">
+                        <label for="fromCity">From</label>
+                        <input type="text" id="fromCity" placeholder="City, Country" required>
+                    </div>
 
-            <div>
-              <label for="adults">Adults (12+):</label>
-              <input type="number" id="adults" min="1" value="1" required />
-            </div>
+                    <div class="field">
+                        <label for="toCity">To</label>
+                        <input type="text" id="toCity" placeholder="City, Country" required>
+                    </div>
 
-            <div>
-              <label for="children">Children (2–11):</label>
-              <input type="number" id="children" min="0" value="0" />
-            </div>
+                    <div class="field">
+                        <label for="departureDate">Departure Date</label>
+                        <input type="date" id="departureDate" required>
+                    </div>
 
-            <div>
-              <label for="infants">Infants (&lt;2):</label>
-              <input type="number" id="infants" min="0" value="0" />
-            </div>
+                    <div class="field">
+                        <label for="adults">Adults</label>
+                        <input type="number" id="adults" value="1" min="1">
+                    </div>
 
-            <div>
-              <label for="travelClass">Class:</label>
-              <select id="travelClass">
-                <option value="ECONOMY">Economy</option>
-                <option value="PREMIUM_ECONOMY">Premium Economy</option>
-                <option value="BUSINESS">Business</option>
-                <option value="FIRST">First</option>
-              </select>
-            </div>
+                    <div class="field">
+                        <label for="children">Children</label>
+                        <input type="number" id="children" value="0" min="0">
+                    </div>
 
-            <div>
-              <label for="maxPrice">Max Price (per traveler):</label>
-              <input type="number" id="maxPrice" min="0" />
-            </div>
+                    <div class="field">
+                        <label for="infants">Infants</label>
+                        <input type="number" id="infants" value="0" min="0">
+                    </div>
 
-            <div>
-              <label for="currency">Currency:</label>
-              <select id="currency">
-                <option value="EUR">Euro (EUR)</option>
-                <option value="USD">US Dollar (USD)</option>
-                <option value="GBP">British Pound (GBP)</option>
-                <option value="SEK">Swedish Krona (SEK)</option>
-                <option value="AUD">Australian Dollar (AUD)</option>
-                <option value="CAD">Canadian Dollar (CAD)</option>
-                <option value="JPY">Japanese Yen (JPY)</option>
-                <option value="CNY">Chinese Yuan (CNY)</option>
-                <option value="CHF">Swiss Franc (CHF)</option>
-                <option value="NZD">New Zealand Dollar (NZD)</option>
-                <option value="NOK">Norwegian Krone (NOK)</option>
-                <option value="DKK">Danish Krone (DKK)</option>
-                <option value="HKD">Hong Kong Dollar (HKD)</option>
-                <option value="SGD">Singapore Dollar (SGD)</option>
-                <option value="KRW">South Korean Won (KRW)</option>
-                <option value="INR">Indian Rupee (INR)</option>
-                <option value="BRL">Brazilian Real (BRL)</option>
-                <option value="ZAR">South African Rand (ZAR)</option>
-                <option value="RUB">Russian Ruble (RUB)</option>
-                <option value="MXN">Mexican Peso (MXN)</option>
-                <option value="TRY">Turkish Lira (TRY)</option>
-                <option value="PLN">Polish Zloty (PLN)</option>
-                <option value="THB">Thai Baht (THB)</option>
-                <option value="IDR">Indonesian Rupiah (IDR)</option>
-                <option value="TWD">New Taiwan Dollar (TWD)</option>
-                <option value="MYR">Malaysian Ringgit (MYR)</option>
-                <option value="CZK">Czech Koruna (CZK)</option>
-                <option value="HUF">Hungarian Forint (HUF)</option>
-                <option value="ILS">Israeli New Shekel (ILS)</option>
-                <option value="SAR">Saudi Riyal (SAR)</option>
-              </select>
-            </div>
-          </div>
+                    <div class="field">
+                        <label for="travelClass">Class</label>
+                        <select id="travelClass">
+                            <option value="ECONOMY">Economy</option>
+                            <option value="PREMIUM_ECONOMY">Premium Economy</option>
+                            <option value="BUSINESS">Business</option>
+                            <option value="FIRST">First</option>
+                        </select>
+                    </div>
 
-          <button type="submit" class="main-btn">Search Flights</button>
-        </form>
-      </div>
+                    <div class="field">
+                        <label for="maxPrice">Max Price</label>
+                        <input type="number" id="maxPrice">
+                    </div>
 
-      <!-- Höger: Flight Results -->
-      <section id="results" class="panel results-panel">
-        <h2>✈️ Flight Results</h2>
-        <p class="placeholder">Your flight results will appear here...</p>
-      </section>
+                    <div class="field">
+                        <label for="currency">Currency</label>
+                        <select id="currency">
+                            <option value="EUR">Euro</option>
+                            <option value="USD">USD</option>
+                            <option value="SEK">SEK</option>
+                            <option value="GBP">GBP</option>
+                            <option value="JPY">JPY</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <button class="submit-btn">Search Flights</button>
+            </form>
+        </div>
+
+        <!-- RIGHT PANEL – RESULTS -->
+        <div class="panel results-panel glass" id="results">
+            <h2>✈️ Flight Results</h2>
+            <p class="placeholder">Your results will appear here...</p>
+        </div>
     </section>
 
-    <!-- 🎵 Spotify Modal -->
+    <!-- SPOTIFY MODAL -->
     <div id="spotifyModal" class="modal">
-      <div class="modal-content">
-        <span class="close" onclick="closeSpotifyModal()">&times;</span>
-        <img src="pictures/spotifyLogo.png" alt="Spotify Logo" class="spotify-logo"/>
-        <button onclick="authenticateSpotify()" class="spotify-auth-btn">Connect Spotify</button>
-      </div>
+        <div class="modal-content glass">
+            <span class="close" onclick="closeSpotifyModal()">&times;</span>
+            <img src="pictures/spotifyLogo.png" class="spotify-logo">
+            <button onclick="authenticateSpotify()" class="spotify-auth-btn">Connect Spotify</button>
+        </div>
     </div>
 
-    <!-- ⚓ Footer -->
     <footer>
-      <p>© 2025 PlanTrip. Designed for smarter journeys ✈️</p>
+        <p>© 2025 PlanTrip. Designed for smarter journeys ✈️</p>
     </footer>
-  </div>
 
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

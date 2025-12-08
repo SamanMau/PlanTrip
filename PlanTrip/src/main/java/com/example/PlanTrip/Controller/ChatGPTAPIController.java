@@ -109,7 +109,7 @@ public class ChatGPTAPIController {
         
         
         String prompt = """
-        I am traveling to %s. Give me 4 tourist activities for the city.
+        I am traveling to %s. Give me 6 tourist activities for the city.
 
         Return them ONLY in this format (one line per activity): Title: text... : text...
 

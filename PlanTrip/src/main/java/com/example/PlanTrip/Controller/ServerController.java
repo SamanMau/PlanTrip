@@ -92,7 +92,6 @@ public class ServerController {
         String amadeusApiKey = getInfoFromENV("AMADEUS_API_KEY");
         String amadeusApiSecret = getInfoFromENV("AMADEUS_API_SECRET");
         String chatGptApiKey = getInfoFromENV("CHAT_KEY");
-
         String fromIATA = "";
         String toIATA = "";
 
@@ -153,7 +152,7 @@ public class ServerController {
     }
 
     public String getInfoFromENV(String input){
-        Dotenv dotenv = Dotenv.configure()
+        Dotenv dotenv = Dotenv.configure().directory("PlanTrip")
         .ignoreIfMissing()
         .load();
 

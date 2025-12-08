@@ -5,219 +5,272 @@
 
 body {
   margin: 0;
-  background: linear-gradient(to bottom right, #1b262c, #0f4c75);
+  background: linear-gradient(to bottom right, #0f1e2f, #0b3c59);
   color: white;
-  min-height: 100vh;
 }
 
+/* Overlay background */
 .overlay {
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
   background: url("../pictures/travel-bg.jpg") center/cover no-repeat;
-  filter: brightness(40%);
+  filter: brightness(35%);
   z-index: -1;
 }
 
-.page {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 30px;
+/* GLASS EFFECT */
+.glass {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 14px;
 }
 
-/* 🌍 Navbar */
+/* Navbar */
 .navbar {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 12px 0;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(8px);
-  border-radius: 12px;
-  margin-bottom: 0px;
+  padding: 18px 28px;
+  margin: 15px;
 }
 
-.logo {
-  font-weight: 700;
-  font-size: 22px;
-  margin-left: 25px;
-}
+.logo { font-size: 24px; font-weight: 700; }
 
 .nav-links {
-  list-style: none;
   display: flex;
-  gap: 25px;
-  margin-right: 25px;
-  font-size: 15px;
+  gap: 22px;
 }
 
 .nav-links a {
-  color: #b8e0f2;
+  color: #bfe8ff;
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.3s;
 }
 
-.nav-links a:hover {
-  color: #ffffff;
-}
+.nav-links a:hover { color: white; }
 
-/* 🏞️ Hero */
+/***********************
+      HERO SECTION
+************************/
 .hero {
   text-align: center;
-  padding: 60px 20px 50px;
+  padding: 45px 20px 35px;
 }
 
 .hero h1 {
-  font-size: 36px;
+  font-size: 48px;
   font-weight: 700;
   margin-bottom: 10px;
 }
 
 .hero p {
-  font-size: 17px;
-  color: #b8e0f2;
+  font-size: 18px;
+  opacity: 0.85;
   margin-bottom: 25px;
 }
 
-.hero-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 15px;
-}
-
-.hero-btn, .green-btn, .blue-btn {
-  border: none;
-  border-radius: 10px;
-  font-weight: 600;
-  font-size: 15px;
-  cursor: pointer;
-  transition: all 0.3s;
-  padding: 12px 25px;
-  text-decoration: none;
-  color: white;
-}
-
-/* 🎧 Knappar */
-.green-btn {
-  background-color: #2ecc71;
-}
-
-.green-btn:hover {
-  background-color: #27ae60;
-}
-
-.blue-btn {
-  background-color: #3498db;
-}
-
-.blue-btn:hover {
-  background-color: #2980b9;
-}
-
-.hero-btn {
+.cta-btn {
+  padding: 14px 28px;
+  font-size: 17px;
+  border-radius: 12px;
   background: linear-gradient(to right, #3282b8, #56cfe1);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-.hero-btn.secondary {
-  background: linear-gradient(to right, #4a4e69, #6c757d);
+.cta-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 14px rgba(50,130,184,0.4);
 }
 
-/* ✈️ Sektioner */
-.form-section, .results-section {
-  background-color: rgba(255, 255, 255, 0.08);
-  border-radius: 15px;
-  padding: 25px;
-  margin-bottom: 30px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-}
-
-.inputs {
+/***********************
+       STEPS
+************************/
+.steps {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 3fr));
+  gap: 25px;
+  padding: 0 40px;
+  margin-bottom: 50px;
 }
 
-label {
+.step-card {
+  padding: 20px;
+  text-align: center;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  transition: 0.25s;
+}
+
+.step-card:hover {
+  transform: translateY(-5px);
+}
+
+.icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+}
+
+/***********************
+    DASHBOARD LAYOUT
+************************/
+.dashboard {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 30px;
+  padding: 0 40px 60px;
+}
+
+.panel {
+  padding: 28px;
+  border-radius: 14px;
+}
+
+/***********************
+    FORM PANEL
+************************/
+.form-grid {
+  display: grid;
+  gap: 18px 22px;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.field label {
   display: block;
-  font-weight: 600;
-  margin-bottom: 6px;
-  color: #d9faff;
+  font-size: 14px;
+  opacity: 0.9;
+  margin-bottom: 5px;
 }
 
 input, select {
   width: 100%;
   padding: 10px;
-  border-radius: 8px;
+  border-radius: 10px;
   border: none;
-  font-size: 14px;
-  background-color: #0c1a30;
+  background: rgba(255,255,255,0.12);
   color: white;
 }
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-select:-webkit-autofill {
-    background-color: #ffffff !important;
-    -webkit-box-shadow: 0 0 0 1000px #0c1a30 inset !important;
-    -webkit-text-fill-color: #ffffff !important;
-    color: #ffffff !important;
+input:focus, select:focus {
+  outline: none;
+  background: rgba(255,255,255,0.18);
+  box-shadow: 0 0 6px #56cfe1;
 }
 
-/* Main button */
-.main-btn {
+.submit-btn {
+  width: 100%;
   margin-top: 25px;
-  background: linear-gradient(to right, #3282b8, #56cfe1);
-  border: none;
-  padding: 14px 30px;
-  font-size: 16px;
+  padding: 13px;
   border-radius: 12px;
+  border: none;
+  background: linear-gradient(to right, #3282b8, #56cfe1);
+  color: white;
   font-weight: 600;
   cursor: pointer;
-  color: white;
-  transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.main-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(50, 130, 184, 0.4);
+.submit-btn:hover {
+  opacity: 0.9;
 }
 
-/* Modal */
+/***********************
+     RESULTS PANEL
+************************/
+.results-panel {
+  max-height: 78vh;
+  overflow-y: auto;
+}
+
+.results-panel::-webkit-scrollbar { width: 10px; }
+.results-panel::-webkit-scrollbar-thumb {
+  background-color: #56cfe1;
+  border-radius: 10px;
+}
+
+/***********************
+     FLIGHT CARD
+************************/
+.flight-card {
+  padding: 16px;
+  margin-bottom: 15px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.08);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.flight-card p { margin: 5px 0; }
+
+/***********************
+       FOOTER
+************************/
+footer {
+  text-align: center;
+  padding: 25px;
+  opacity: 0.7;
+}
+
+/* === SPOTIFY MODAL – FULL FIX === */
+
 .modal {
-  display: none;
+  display: none;                /* hidden by default */
   position: fixed;
   z-index: 1000;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  background-color: rgba(0,0,0,0.6);
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.65); /* dark overlay */
+  justify-content: center;
+  align-items: center;          /* center modal vertically */
 }
 
 .modal-content {
-  background: linear-gradient(to bottom right, #1b262c, #0f4c75);
+  background: rgba(255,255,255,0.10);
+  backdrop-filter: blur(14px);   /* glass effect */
+  border: 1px solid rgba(255,255,255,0.15);
   color: white;
-  margin: 10% auto;
-  padding: 40px 30px;
-  border-radius: 15px;
+  padding: 35px 30px;
+  border-radius: 18px;
   width: 340px;
   text-align: center;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.55);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;                     /* spacing between elements */
+  position: relative;            /* needed for close button */
 }
 
+/* X button in the corner */
 .close {
-  float: right;
+  position: absolute;
+  top: 12px;
+  right: 14px;
   font-size: 26px;
   cursor: pointer;
+  color: #e0e0e0;
+  transition: 0.2s;
 }
 
+.close:hover {
+  color: white;
+  transform: scale(1.15);
+}
+
+/* Spotify logo */
 .spotify-logo {
-  width: 110px;
-  margin: 0 auto 25px;
+  width: 70px;        /* adjusted size */
+  height: auto;
+  margin-top: 10px;
   display: block;
 }
 
+/* Connect button */
 .spotify-auth-btn {
   padding: 12px 25px;
   background-color: #1db954;
@@ -226,220 +279,12 @@ select:-webkit-autofill {
   color: white;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.25s ease;
+  width: 80%;
 }
 
 .spotify-auth-btn:hover {
   background-color: #18a84b;
-  transform: scale(1.05);
+  transform: translateY(-2px);
 }
-
-/* Flight result cards */
-.flight-card {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  padding: 15px;
-  margin: 15px 0;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-  transition: transform 0.2s;
-}
-
-.flight-card p {
-  font-size: 15px;   /* Ändra till vilken storlek du vill */
-}
-
-.inputs.double-column label {
-  font-weight: 600;
-  margin-bottom: 4px;
-  display: block;
-  color: #d9faff;
-  font-size: 15px;
-}
-
-.flight-card:hover {
-  transform: translateY(-3px);
-}
-
-/* Footer */
-footer {
-  text-align: center;
-  padding: 20px;
-  color: #b8e0f2;
-  font-size: 14px;
-  margin-top: 40px;
-  opacity: 0.8;
-}
-
-.side-visual {
-  position: absolute;
-  left: 0;
-  top: 200px;
-  width: 280px;
-  opacity: 0.25;
-  pointer-events: none;
-  filter: drop-shadow(0 8px 14px rgba(0,0,0,0.35));
-  z-index: 0; /* ändra från -1 till 0 */
-}
-
-/* Rubrik */
-.intro {
-  text-align: center;
-  padding: 24px 10px 18px;
-}
-
-.intro h1 {
-  font-size: 30px;
-  margin: 0;
-  font-weight: 700;
-}
-
-
-.panel {
-  background-color: rgba(0, 0, 0, 0.45);
-  border: 1.5px solid;
-  border-radius: 10px;
-  padding: 20px 24px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.35);
-  display: flex;
-  flex-direction: column;
-}
-
-.panel h2 {
-  text-align: center;
-  font-size: 16px;
-  font-weight: 600;
-  margin: 0 0 12px 0;
-}
-
-/* Gör formuläret smalt och långt (en kolumn) */
-.tall-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  height: 100%;
-}
-
-.inputs.single-column {
-  display: grid;
-  grid-template-columns: 1fr; /* EN kolumn – smal men lång */
-  gap: 14px;
-}
-
-/* Resultatpanelen ska skrolla när det blir många kort */
-.results-panel {
-  overflow-y: auto;           /* scrollbar i hela panelen */
-  padding-right: 10px;
-}
-
-/* Scrollbar-stil i mörkt tema */
-.results-panel::-webkit-scrollbar { width: 10px; }
-.results-panel::-webkit-scrollbar-thumb {
-  background-color: #3282b8;
-  border-radius: 12px;
-}
-.results-panel::-webkit-scrollbar-thumb:hover { background-color: #56cfe1; }
-
-/* Flygkorten får plats i smal kolumn */
-.flight-card {
-  background-color: rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
-  padding: 12px;
-  margin: 10px 0;
-}
-
-/* Responsivitet: stacka panelerna på mobil */
-@media (max-width: 900px) {
-  .dashboard {
-    grid-template-columns: 1fr;
-  }
-  .panel {
-    min-height: auto;
-  }
-}
-
-/* Layout: två breda kolumner */
-.dashboard {
-  display: grid;
-  grid-template-columns: 1.3fr 1fr;  /* vänster något bredare */
-  gap: 28px;
-  margin-top: 25px;
-}
-
-.panel {
-  background-color: rgba(0, 0, 0, 0.45);
-  border: 1.5px solid;
-  border-radius: 10px;
-  padding: 20px 24px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.35);
-  display: flex;
-  flex-direction: column;
-}
-
-.panel h2 {
-  text-align: center;
-  font-size: 18px;
-  margin-bottom: 15px;
-}
-
-/* 📝 Formulär – två fält per rad */
-.inputs.double-column {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 18px 24px;
-}
-
-.inputs.double-column input,
-.inputs.double-column select {
-  width: 100%;
-  padding: 8px;
-  border-radius: 8px;
-  border: none;
-  font-size: 15px;
-}
-
-/* ✈️ Resultat – scrollbar */
-.results-panel {
-  overflow-y: auto;
-  padding-right: 10px;
-}
-
-.results-panel::-webkit-scrollbar {
-  width: 10px;
-}
-
-.results-panel::-webkit-scrollbar-thumb {
-  background-color: #3282b8;
-  border-radius: 10px;
-}
-
-.results-panel::-webkit-scrollbar-thumb:hover {
-  background-color: #56cfe1;
-}
-
-/* Responsivt: stapla kolumner på små skärmar */
-@media (max-width: 950px) {
-  .dashboard {
-    grid-template-columns: 1fr;
-  }
-}
-
-.results-panel {
-  max-height: 78vh;          /* aldrig högre än 78% av skärmen */
-  overflow-y: auto;          /* scrolla inuti rutan */
-  padding-right: 10px;
-}
-
-.results-panel::-webkit-scrollbar {
-  width: 10px;
-}
-
-.results-panel::-webkit-scrollbar-thumb {
-  background-color: #3282b8;
-  border-radius: 10px;
-}
-
-.results-panel::-webkit-scrollbar-thumb:hover {
-  background-color: #56cfe1;
-}
-
 

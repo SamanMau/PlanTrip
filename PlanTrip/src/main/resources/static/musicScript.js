@@ -38,47 +38,38 @@ function getRecomendations(genre) {
 
       // Visa varje sträng på egen rad
       for (const item of data) {
-        // Om du bygger strängarna som "name | url | img", splitta:
         const [name, url, img] = String(item).split(" | ");
 
-        const p = document.createElement("p");
+        const card = document.createElement("div");
+        card.className = "music-card";
 
-        // Namn
-        if (name) {
-          const strong = document.createElement("strong");
-          strong.textContent = name;
-          p.appendChild(strong);
-        }
-
-        // Länk (om finns)
-        if (url && url.startsWith("http")) {
-          p.appendChild(document.createTextNode(" – "));
-          const a = document.createElement("a");
-          a.href = url;
-          a.target = "_blank";
-          a.rel = "noopener";
-          a.textContent = "Open";
-          p.appendChild(a);
-        }
-
-        // Bild (om finns)
+        // Bild
         if (img && img.startsWith("http")) {
-          p.appendChild(document.createTextNode(" "));
           const image = document.createElement("img");
           image.src = img;
           image.alt = name || "playlist cover";
-          image.style.maxHeight = "36px";
-          image.style.marginLeft = "8px";
-          p.appendChild(image);
+          card.appendChild(image);
         }
 
-        // Om strängen inte följer "name | url | img", visa rakt av:
-        if (!name && !url && !img) {
-          p.textContent = String(item);
+        // Titel
+        const title = document.createElement("div");
+        title.className = "music-card-title";
+        title.textContent = name || "Unknown title";
+        card.appendChild(title);
+
+        // Spotify-knapp
+        if (url && url.startsWith("http")) {
+          const link = document.createElement("a");
+          link.href = url;
+          link.target = "_blank";
+          link.rel = "noopener";
+          link.textContent = "Open in Spotify";
+          card.appendChild(link);
         }
 
-        resultDiv.appendChild(p);
+        resultDiv.appendChild(card);
       }
+
     })
     .catch((err) => console.error("Error:", err));
 }
