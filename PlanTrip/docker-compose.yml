@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:16
+    container_name: plantrip-db
+    environment:
+      POSTGRES_DB: plantrip
+      POSTGRES_USER: plantrip
+      POSTGRES_PASSWORD: plantrip
+    ports:
+      - "5432:5432"
+    volumes:
+      - plantrip-db-data:/var/lib/postgresql/data
+
+  app:
+    image: plantrip
+    container_name: plantrip-app
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/plantrip
+      SPRING_DATASOURCE_USERNAME: plantrip
+      SPRING_DATASOURCE_PASSWORD: plantrip
+
+volumes:
+  plantrip-db-data:
